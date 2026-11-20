@@ -1,0 +1,51 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-11-20T16:30:00Z"},
+  "title": "AppElent — Public site",
+  "launch": {"view": "canvas", "page": "app-480"},
+  "pages": [
+    {"id": "brief", "name": "Brief"},
+    {"id": "app-480", "name": "APP-480 Public site"},
+    {"id": "history", "name": "History"}
+  ],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 2900, "title": "Round 2 · Home · NL · light · desktop (interactive)", "page": "app-480", "expand": "fill", "is_interactive": true},
+    "HomeEnDark.dc.html": {"x": 1360, "y": 0, "w": 1280, "h": 2900, "title": "Round 2 · Home · EN · dark · desktop", "page": "app-480"},
+    "HomeNlPhoneLight.dc.html": {"x": 0, "y": 3280, "w": 390, "h": 4400, "title": "Home · NL · light · phone", "page": "app-480"},
+    "HomeNlPhoneDark.dc.html": {"x": 470, "y": 3280, "w": 390, "h": 4400, "title": "Home · NL · dark · phone", "page": "app-480"},
+    "HomeEnPhoneLight.dc.html": {"x": 940, "y": 3280, "w": 390, "h": 4400, "title": "Home · EN · light · phone", "page": "app-480"},
+    "PrivacyNlPhone.dc.html": {"x": 1410, "y": 3280, "w": 390, "h": 2700, "title": "Shared privacy policy · NL · light · phone", "page": "app-480"},
+    "SupportNlPhoneDark.dc.html": {"x": 1880, "y": 3280, "w": 390, "h": 1900, "title": "Support · NL · dark · phone", "page": "app-480"},
+    "NotFoundNlPhone.dc.html": {"x": 2350, "y": 3280, "w": 390, "h": 844, "title": "404 · NL · light · phone", "page": "app-480"},
+    "PrivacyNlDesktop.dc.html": {"x": 0, "y": 8060, "w": 1280, "h": 1900, "title": "Shared privacy policy · NL · light · desktop", "page": "app-480"},
+    "SupportEnDesktopDark.dc.html": {"x": 1360, "y": 8060, "w": 1280, "h": 1380, "title": "Support · EN · dark · desktop", "page": "app-480"},
+    "Round1Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1960, "title": "Round 1 · Home (superseded 20 Nov: no personal showcase, privacy per app)", "page": "history", "is_interactive": true}
+  },
+  "order": [
+    "Main.dc.html",
+    "HomeEnDark.dc.html",
+    "HomeNlPhoneLight.dc.html",
+    "HomeNlPhoneDark.dc.html",
+    "HomeEnPhoneLight.dc.html",
+    "PrivacyNlPhone.dc.html",
+    "SupportNlPhoneDark.dc.html",
+    "NotFoundNlPhone.dc.html",
+    "PrivacyNlDesktop.dc.html",
+    "SupportEnDesktopDark.dc.html",
+    "Round1Main.dc.html"
+  ],
+  "notes": {
+    "rowDesktop": {"x": 0, "y": -300, "text": "Round 2 · Home as personal showcase, desktop (1280)", "kind": "title1", "maxW": 2640, "page": "app-480"},
+    "rowPhone": {"x": 0, "y": 2980, "text": "Phone (390): home, shared privacy, support, 404", "kind": "title1", "maxW": 2740, "page": "app-480"},
+    "rowPages": {"x": 0, "y": 7760, "text": "Shared privacy policy and support, desktop", "kind": "title1", "maxW": 2640, "page": "app-480"},
+    "howto": {"x": 2720, "y": 0, "w": 420, "size": "m", "fill": "teal", "page": "app-480", "text": "Play the first artboard: the header links switch between Home, Privacy and Support, and NL / EN switches the language. Every other artboard is the same component with fixed props (screen, lang, theme, size), so a change to Main shows everywhere.\n\nDashed outlines and [brackets] mark content Eric still has to supply."},
+    "historyTitle": {"x": 0, "y": -300, "text": "History", "kind": "title1", "maxW": 1280, "page": "history"},
+    "briefTitle": {"x": 0, "y": -300, "text": "APP-480 · appelent.nl public site", "kind": "title1", "maxW": 2000, "page": "brief"},
+    "brief": {"x": 0, "y": 0, "w": 620, "size": "m", "fill": "gray", "page": "brief", "text": "BRIEF (round 2)\n\nWho: people who want to know who Eric is and what he makes, people who arrive from an app, the App Store or a privacy link, and Apple review.\nOutcome: in ten seconds they know who Eric is, what he does and makes, and reach an app, the shared privacy policy, support, the account or a way to contact him.\nPlatforms: web only (static site on appelent.nl, www redirects to the apex). Dutch first, English second, light and dark following the OS.\n\nPages: / (personal showcase + apps), /privacy (one policy for all apps), /support (shared), /account (redirect to account.appelent.nl), 404. English under /en/…\n\nOut of scope: the account portal itself (APP-481)."},
+    "decisions": {"x": 700, "y": 0, "w": 620, "size": "m", "fill": "teal", "page": "brief", "text": "DESIGN CHOICES\n\n1. New AppElent design system from the icon: slate tile, chalk A, teal dot. Bricolage Grotesque + Inter.\n2. Round 2 (Eric, 20 Nov): the home page is a personal showcase. Order: hero (photo, name, who you are) → What I do → What I make (the four apps) → one-account band → What I build with → Contact.\n3. Round 2 (Eric, 20 Nov): one shared privacy policy on appelent.nl/privacy with a section per app (#app-gather etc.). The apps' own /privacy pages redirect there; support is shared too.\n4. Each app keeps its own colour in its icon only; cards stay neutral.\n5. App Store badge per app; not-yet-public apps show a dashed 'Binnenkort' badge.\n6. NL / EN switch in the header; / follows Accept-Language on first visit.\n7. Old repo appelent-homepage holds only a README: nothing to keep."},
+    "open": {"x": 1400, "y": 0, "w": 600, "size": "m", "fill": "orange", "page": "brief", "text": "WHAT ERIC STILL SUPPLIES\n\nA. A photo (square, at least 400 px).\nB. One or two sentences about yourself (hero).\nC. Your work: what you do by day or next to AppElent (third card).\nD. Contact: which email address on the site, and LinkedIn or other links (or none).\nE. App Store status at launch per app (drawn: Arcade Club 'Binnenkort').\nF. Privacy: the final text is merged from the four app policies at build time; Eric approves it in the PR."}
+  },
+  "designSystems": [
+    {"title": "AppElent", "namespace": "appelent", "artifact": "https://claude.ai/artifact/PBhrWSBiiAaCm9q1h5rPFo", "version": "1795191839-7784", "copiedAt": "2026-11-20T16:30:00Z"}
+  ]
+}
