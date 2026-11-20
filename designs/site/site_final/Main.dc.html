@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>appelent.nl</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{opacity:.85}
+</style>
+</helmet>
+<div lang="{{lang}}" style="min-height: 100vh; background: {{c.surface}}; color: {{c.ink}}; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column;">
+
+<header style="width: 100%; max-width: 1184px; margin: 0 auto; box-sizing: border-box; height: 64px; padding: 0 {{l.gutter}}; display: flex; align-items: center; gap: 24px;">
+<a href="#top" onClick="{{goHome}}" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: {{c.ink}}; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.01em;">
+<img src="/_blob/a728a9cd56626e62ec9467e7335bcf87" alt="" style="width: 32px; height: 32px; display: block;">
+<span>AppElent</span>
+</a>
+<nav aria-label="{{t.navLabel}}" style="display: {{l.navDisplay}}; gap: 24px; margin-left: auto; font-size: 15px; font-weight: 500;">
+<a href="#about" onClick="{{goHome}}" style="text-decoration: none; color: {{nav.home}};">{{t.navAbout}}</a>
+<a href="#apps" onClick="{{goHome}}" style="text-decoration: none; color: {{nav.home}};">Apps</a>
+<a href="#privacy" onClick="{{goPrivacy}}" style="text-decoration: none; color: {{nav.privacy}};">Privacy</a>
+<a href="#support" onClick="{{goSupport}}" style="text-decoration: none; color: {{nav.support}};">Support</a>
+</nav>
+<nav aria-label="{{t.langLabel}}" style="margin-left: {{l.langMargin}}; display: inline-flex; padding: 2px; border: 1px solid {{c.line}}; border-radius: 8px; font-size: 13px; font-weight: 600; line-height: 20px;">
+<a href="#nl" lang="nl" aria-current="{{langNl.current}}" onClick="{{toNl}}" style="padding: 4px 10px; border-radius: 6px; text-decoration: none; background: {{langNl.bg}}; color: {{langNl.fg}};">NL</a>
+<a href="#en" lang="en" aria-current="{{langEn.current}}" onClick="{{toEn}}" style="padding: 4px 10px; border-radius: 6px; text-decoration: none; background: {{langEn.bg}}; color: {{langEn.fg}};">EN</a>
+</nav>
+</header>
+
+<main style="flex: 1 0 auto; width: 100%; max-width: 1184px; margin: 0 auto; box-sizing: border-box; padding: 8px {{l.gutter}} 0;">
+
+<sc-if value="{{isHome}}" hint-placeholder-val="{{ true }}">
+<section style="border-radius: 22px; background: linear-gradient(135deg, #3b4a6b 0%, #1c2333 100%); color: #f4f6fb; padding: {{l.heroPad}}; display: flex; flex-direction: {{l.heroDir}}; gap: {{l.heroGap}}; align-items: {{l.heroAlign}}; overflow: hidden;">
+<div id="about" style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<div role="img" aria-label="{{t.photoLabel}}" style="flex: none; width: {{l.photoSize}}; height: {{l.photoSize}}; border-radius: 50%; background: rgba(127,209,200,0.16); border: 2px dashed rgba(127,209,200,0.6); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #7fd1c8; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 28px; line-height: 32px;">EJ<span style="font-family: Inter, sans-serif; font-size: 11px; line-height: 14px; font-weight: 500;">{{t.photoHint}}</span></div>
+<p style="margin: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600; font-size: 18px; line-height: 24px;">Eric Jansen</span><span style="display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #7fd1c8;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #7fd1c8;"></span>{{t.heroEyebrow}}</span></p>
+</div>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{l.h1Size}}; line-height: {{l.h1Line}}; letter-spacing: -0.02em; max-width: 640px;">{{t.heroTitle}}</h1>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: #d3d9e6; max-width: 520px;">{{t.heroBody}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+<a href="#apps" style="display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: 14px; background: #f4f6fb; color: #1c2333; font-weight: 600; text-decoration: none;">{{t.heroCta}}</a>
+<a href="#contact" style="display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: 14px; border: 1px solid rgba(244,246,251,0.35); color: #f4f6fb; font-weight: 600; text-decoration: none;">{{t.heroContact}}</a>
+</div>
+</div>
+<div aria-hidden="true" style="flex: none; display: grid; grid-template-columns: repeat({{l.iconCols}}, minmax(0, 1fr)); gap: {{l.iconGap}}; position: relative;">
+<sc-for list="{{apps}}" as="app" hint-placeholder-count="4">
+<img src="{{app.icon}}" alt="" style="width: {{l.iconSize}}; height: {{l.iconSize}}; border-radius: 22%; display: block; box-shadow: 0 8px 24px rgba(0,0,0,0.25);">
+</sc-for>
+</div>
+</section>
+
+<section aria-labelledby="doTitle" style="padding: {{l.sectionPad}} 0 0; display: flex; flex-direction: column; gap: 24px;">
+<h2 id="doTitle" style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{l.h2Size}}; line-height: {{l.h2Line}}; letter-spacing: -0.02em;">{{t.doTitle}}</h2>
+<div style="display: grid; grid-template-columns: {{l.doCols}}; gap: 24px;">
+<sc-for list="{{does}}" as="d" hint-placeholder-count="3">
+<article style="display: flex; flex-direction: column; gap: 12px; padding: 24px; border-radius: 22px; background: {{c.raised}}; border: {{d.border}};">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 12px; background: {{c.tealSoft}}; display: flex; align-items: center; justify-content: center;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #7fd1c8;"></span></span>
+<h3 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600;">{{d.title}}</h3>
+<p style="margin: 0; color: {{c.muted}};">{{d.body}}</p>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section id="apps" style="padding: {{l.sectionPad}} 0 0; display: flex; flex-direction: column; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{l.h2Size}}; line-height: {{l.h2Line}}; letter-spacing: -0.02em;">{{t.appsTitle}}</h2>
+<p style="margin: 0; color: {{c.muted}}; max-width: 620px;">{{t.appsBody}}</p>
+</div>
+<div style="display: grid; grid-template-columns: {{l.appCols}}; gap: 24px;">
+<sc-for list="{{apps}}" as="app" hint-placeholder-count="4">
+<article style="display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: 22px; background: {{c.raised}}; border: 1px solid {{c.line}}; box-shadow: {{c.shadow}};">
+<div style="display: flex; align-items: center; gap: 16px;">
+<img src="{{app.icon}}" alt="" style="width: 64px; height: 64px; border-radius: 22%; flex: none; display: block;">
+<div>
+<p style="margin: 0; font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{c.muted}};">{{app.kind}}</p>
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 28px; line-height: 34px; letter-spacing: -0.01em;">{{app.name}}</h3>
+</div>
+</div>
+<p style="margin: 0; color: {{c.muted}};">{{app.body}}</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: auto;">
+<sc-if value="{{app.live}}" hint-placeholder-val="{{ true }}">
+<a href="{{app.store}}" aria-label="{{app.storeLabel}}" style="display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 16px 0 12px; border-radius: 14px; background: #000000; color: #ffffff; text-decoration: none; border: 1px solid {{c.badgeBorder}};">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px; fill: #ffffff;"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"></path></svg>
+<span style="display: flex; flex-direction: column;"><span style="font-size: 10px; line-height: 12px; opacity: 0.85;">{{t.storeSmall}}</span><span style="font-size: 17px; line-height: 20px; font-weight: 600;">App Store</span></span>
+</a>
+</sc-if>
+<sc-if value="{{app.soon}}" hint-placeholder-val="{{ false }}">
+<span style="display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 16px 0 12px; border-radius: 14px; border: 1px dashed {{c.lineStrong}}; color: {{c.muted}};">
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px; fill: {{c.muted}};"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"></path></svg>
+<span style="display: flex; flex-direction: column;"><span style="font-size: 10px; line-height: 12px;">App Store</span><span style="font-size: 17px; line-height: 20px; font-weight: 600;">{{t.soon}}</span></span>
+</span>
+</sc-if>
+<a href="{{app.web}}" style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 20px; border-radius: 14px; border: 1px solid {{c.line}}; color: {{c.ink}}; font-weight: 600; text-decoration: none;">{{t.openWeb}}
+<svg viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+</a>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="margin-top: {{l.sectionPad}}; padding: {{l.bandPad}}; border-radius: 22px; background: {{c.tealSoft}}; display: flex; flex-direction: {{l.bandDir}}; gap: 24px; align-items: {{l.bandAlign}};">
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 28px; line-height: 34px; letter-spacing: -0.01em; color: {{c.ink}};">{{t.accountTitle}}</h2>
+<p style="margin: 0; color: {{c.inkSoft}}; max-width: 620px;">{{t.accountBody}}</p>
+</div>
+<a href="https://account.appelent.nl" style="flex: none; display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; font-weight: 600; text-decoration: none; align-self: {{l.bandBtnAlign}};">{{t.accountCta}}</a>
+</section>
+
+<section aria-labelledby="stackTitle" style="padding: {{l.sectionPad}} 0 0; display: flex; flex-direction: column; gap: 16px;">
+<h2 id="stackTitle" style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 28px; line-height: 34px; letter-spacing: -0.01em;">{{t.stackTitle}}</h2>
+<p style="margin: 0; color: {{c.muted}}; max-width: 620px;">{{t.stackBody}}</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{stack}}" as="s" hint-placeholder-count="7">
+<li style="display: inline-flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid {{c.line}}; background: {{c.raised}}; font-size: 14px; font-weight: 500;">{{s}}</li>
+</sc-for>
+</ul>
+</section>
+
+<section id="contact" style="margin-top: {{l.sectionPad}}; padding: {{l.bandPad}}; border-radius: 22px; background: linear-gradient(135deg, #3b4a6b 0%, #1c2333 100%); color: #f4f6fb; display: flex; flex-direction: {{l.bandDir}}; gap: 24px; align-items: {{l.bandAlign}};">
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{l.h2Size}}; line-height: {{l.h2Line}}; letter-spacing: -0.02em;">Contact</h2>
+<p style="margin: 0; color: #d3d9e6; max-width: 560px;">{{t.contactBody}}</p>
+</div>
+<div style="flex: none; display: flex; flex-wrap: wrap; gap: 12px;">
+<a href="mailto:privacy@appelent.nl" style="display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: 14px; background: #f4f6fb; color: #1c2333; font-weight: 600; text-decoration: none;">{{t.contactMail}}</a>
+<a href="https://github.com/AppElent" style="display: inline-flex; align-items: center; height: 48px; padding: 0 20px; border-radius: 14px; border: 1px solid rgba(244,246,251,0.35); color: #f4f6fb; font-weight: 600; text-decoration: none;">GitHub</a>
+<a href="#contact" style="display: inline-flex; align-items: center; height: 48px; padding: 0 20px; border-radius: 14px; border: 1px dashed rgba(127,209,200,0.6); color: #7fd1c8; font-weight: 600; text-decoration: none;">[LinkedIn?]</a>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isPrivacy}}" hint-placeholder-val="{{ false }}">
+<section style="padding: {{l.pagePad}} 0 0; display: flex; flex-direction: column; gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{l.h2Size}}; line-height: {{l.h2Line}}; letter-spacing: -0.02em;">{{t.privacyTitle}}</h1>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: {{c.muted}};">{{t.privacyLead}}</p>
+<p style="margin: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 14px; line-height: 20px; color: {{c.muted}};"><span style="display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: {{c.tealSoft}}; color: {{c.tealInk}}; font-weight: 600; font-size: 12px;">{{t.privacyScope}}</span>{{t.privacyUpdated}}</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start;">
+<nav aria-label="{{t.tocLabel}}" style="flex: 1 1 220px; max-width: {{l.tocMax}}; display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 22px; border: 1px solid {{c.line}}; background: {{c.raised}}; font-size: 14px; line-height: 20px;">
+<span style="font-weight: 600; padding: 4px 8px;">{{t.tocLabel}}</span>
+<sc-for list="{{policy}}" as="s" hint-placeholder-count="6">
+<a href="#{{s.id}}" style="padding: 8px; border-radius: 8px; color: {{c.muted}}; text-decoration: none;">{{s.n}}. {{s.title}}</a>
+</sc-for>
+</nav>
+<div style="flex: 999 1 480px; min-width: 0; max-width: 720px; display: flex; flex-direction: column; gap: 32px;">
+<sc-for list="{{policy}}" as="s" hint-placeholder-count="6">
+<section id="{{s.id}}" style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600;">{{s.n}}. {{s.title}}</h2>
+<p style="margin: 0; color: {{c.muted}};">{{s.body}}</p>
+<sc-if value="{{s.perApp}}" hint-placeholder-val="{{ false }}">
+<ul style="list-style: none; margin: 4px 0 0; padding: 0; border: 1px solid {{c.line}}; border-radius: 22px; background: {{c.raised}}; overflow: hidden;">
+<sc-for list="{{apps}}" as="app" hint-placeholder-count="4">
+<li id="{{app.anchor}}" style="border-top: {{app.rowBorder}}; display: flex; gap: 16px; padding: 16px 20px;">
+<img src="{{app.icon}}" alt="" style="width: 40px; height: 40px; border-radius: 22%; flex: none; display: block;">
+<span style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-weight: 600;">{{app.name}}</span><span style="font-size: 14px; line-height: 20px; color: {{c.muted}};">{{app.stores}}</span></span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+</section>
+</sc-for>
+<p style="margin: 0; padding: 16px 20px; border-radius: 14px; border: 2px dashed {{c.lineStrong}}; color: {{c.muted}}; font-size: 14px; line-height: 20px;">{{t.privacyDraftNote}}</p>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isSupport}}" hint-placeholder-val="{{ false }}">
+<section style="max-width: 760px; padding: {{l.pagePad}} 0 0; display: flex; flex-direction: column; gap: 32px;">
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{l.h2Size}}; line-height: {{l.h2Line}}; letter-spacing: -0.02em;">Support</h1>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: {{c.muted}};">{{t.supportLead}}</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: 22px; background: {{c.raised}}; border: 1px solid {{c.line}};">
+<h2 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600;">{{t.mailTitle}}</h2>
+<p style="margin: 0; color: {{c.muted}};">{{t.mailBody}}</p>
+<a href="mailto:privacy@appelent.nl" style="align-self: flex-start; display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; font-weight: 600; text-decoration: none;">privacy@appelent.nl</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0 0 8px; font-size: 20px; line-height: 28px; font-weight: 600;">{{t.faqTitle}}</h2>
+<sc-for list="{{faq}}" as="q" hint-placeholder-count="3">
+<div style="border-top: 1px solid {{c.line}}; padding: 16px 0;">
+<h3 style="margin: 0; font-size: 16px; line-height: 24px; font-weight: 600;">{{q.q}}</h3>
+<p style="margin: 8px 0 0; color: {{c.muted}};">{{q.a}}</p>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{isNotFound}}" hint-placeholder-val="{{ false }}">
+<section style="padding: 96px 0; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; max-width: 560px;">
+<p style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{c.tealInk}};"><span style="width: 8px; height: 8px; border-radius: 50%; background: #7fd1c8;"></span>404</p>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{l.h2Size}}; line-height: {{l.h2Line}}; letter-spacing: -0.02em;">{{t.nfTitle}}</h1>
+<p style="margin: 0; color: {{c.muted}};">{{t.nfBody}}</p>
+<a href="#top" onClick="{{goHome}}" style="margin-top: 8px; display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; font-weight: 600; text-decoration: none;">{{t.nfCta}}</a>
+</section>
+</sc-if>
+</main>
+
+<footer style="margin-top: {{l.sectionPad}}; background: {{c.sunk}}; border-top: 1px solid {{c.line}};">
+<div style="max-width: 1184px; margin: 0 auto; box-sizing: border-box; padding: 40px {{l.gutter}}; display: grid; grid-template-columns: {{l.footCols}}; gap: 32px; font-size: 14px; line-height: 20px;">
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<span style="display: flex; align-items: center; gap: 10px; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 18px;"><img src="/_blob/a728a9cd56626e62ec9467e7335bcf87" alt="" style="width: 28px; height: 28px; display: block;">AppElent</span>
+<span style="color: {{c.muted}};">{{t.footTag}}</span>
+</div>
+<nav aria-label="Apps" style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-weight: 600;">Apps</span>
+<sc-for list="{{apps}}" as="app" hint-placeholder-count="4">
+<a href="{{app.web}}" style="color: {{c.muted}}; text-decoration: none;">{{app.name}}</a>
+</sc-for>
+</nav>
+<nav aria-label="AppElent" style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-weight: 600;">AppElent</span>
+<a href="#privacy" onClick="{{goPrivacy}}" style="color: {{c.muted}}; text-decoration: none;">Privacy</a>
+<a href="#support" onClick="{{goSupport}}" style="color: {{c.muted}}; text-decoration: none;">Support</a>
+<a href="https://account.appelent.nl" style="color: {{c.muted}}; text-decoration: none;">{{t.footAccount}}</a>
+</nav>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-weight: 600;">Contact</span>
+<a href="mailto:privacy@appelent.nl" style="color: {{c.muted}}; text-decoration: none;">privacy@appelent.nl</a>
+<span style="color: {{c.muted}};">© 2026 AppElent</span>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"screen":{"editor":"enum","options":["home","privacy","support","notfound"],"default":"home"},"lang":{"editor":"enum","options":["nl","en"],"default":"nl"},"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"size":{"editor":"enum","options":["desktop","phone"],"default":"desktop"},"$preview":{"width":1280,"height":2900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var s = this.state || {};
+    var p = this.props || {};
+    var screen = s.screen || p.screen || 'home';
+    var lang = s.lang || p.lang || 'nl';
+    var dark = (p.theme || 'light') === 'dark';
+    var phone = (p.size || 'desktop') === 'phone';
+    var self = this;
+    function go(next) { return function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ screen: next }); }; }
+    function setLang(next) { return function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ lang: next }); }; }
+
+    var c = dark ? {
+      surface: '#12161f', raised: '#1c2333', sunk: '#0d1018', line: '#2c3549', lineStrong: '#4a5674',
+      ink: '#f4f6fb', inkSoft: '#d3d9e6', muted: '#a7b1c6', tealInk: '#7fd1c8', tealSoft: '#14302e',
+      action: '#f4f6fb', onAction: '#1c2333', shadow: 'none', badgeBorder: '#4a5674'
+    } : {
+      surface: '#f6f7fb', raised: '#ffffff', sunk: '#eceff6', line: '#dde2ec', lineStrong: '#a9b2c4',
+      ink: '#1c2333', inkSoft: '#3a4459', muted: '#55607a', tealInk: '#1d6f67', tealSoft: '#e2f4f2',
+      action: '#1c2333', onAction: '#f4f6fb', shadow: '0 1px 2px rgba(28,35,51,0.06), 0 8px 24px rgba(28,35,51,0.06)', badgeBorder: '#000000'
+    };
+
+    var l = phone ? {
+      gutter: '16px', navDisplay: 'none', langMargin: 'auto',
+      heroPad: '32px 24px', heroDir: 'column', heroGap: '32px', heroAlign: 'stretch',
+      h1Size: '40px', h1Line: '44px', h2Size: '32px', h2Line: '38px',
+      iconCols: 4, iconGap: '12px', iconSize: '64px', photoSize: '80px', doCols: 'minmax(0, 1fr)',
+      sectionPad: '48px', appCols: 'minmax(0, 1fr)',
+      bandPad: '24px', bandDir: 'column', bandAlign: 'stretch', bandBtnAlign: 'flex-start',
+      pagePad: '32px', footCols: 'repeat(2, minmax(0, 1fr))', tocMax: 'none'
+    } : {
+      gutter: '32px', navDisplay: 'flex', langMargin: '0',
+      heroPad: '72px 64px', heroDir: 'row', heroGap: '48px', heroAlign: 'center',
+      h1Size: '64px', h1Line: '64px', h2Size: '44px', h2Line: '48px',
+      iconCols: 2, iconGap: '20px', iconSize: '112px', photoSize: '96px', doCols: 'repeat(3, minmax(0, 1fr))',
+      sectionPad: '64px', appCols: 'repeat(2, minmax(0, 1fr))',
+      bandPad: '32px 40px', bandDir: 'row', bandAlign: 'center', bandBtnAlign: 'center',
+      pagePad: '48px', footCols: '2fr 1fr 1fr 1fr', tocMax: '260px'
+    };
+
+    var T = {
+      nl: {
+        navLabel: 'Hoofdmenu', langLabel: 'Taal',
+        navAbout: 'Over mij',
+        photoLabel: 'Foto van Eric (volgt)', photoHint: 'foto',
+        heroEyebrow: 'Maker van AppElent',
+        heroTitle: 'Hoi, ik ben Eric. Ik bouw apps.',
+        heroBody: '[Een of twee zinnen over jezelf: wat je doet, waar je woont, wat je drijft.]',
+        heroCta: 'Bekijk mijn apps', heroContact: 'Neem contact op',
+        doTitle: 'Wat ik doe',
+        appsTitle: 'Wat ik maak',
+        appsBody: 'Vier apps, elk voor één deel van het leven. Je logt overal in met hetzelfde account.',
+        stackTitle: 'Waarmee ik bouw',
+        stackBody: 'Web en iPhone uit één codebase per app, met AI-agents die het meeste werk doen.',
+        contactBody: 'Een vraag, een idee of gewoon hallo? Mail me of vind me op GitHub.',
+        contactMail: 'Mail me',
+        storeSmall: 'Download in de', soon: 'Binnenkort', openWeb: 'Open web-app',
+        accountTitle: 'Eén account voor alle apps',
+        accountBody: 'Bekijk welke apps je gebruikt, download je gegevens of verwijder je account, op één plek.',
+        accountCta: 'Naar je account',
+        privacyTitle: 'Privacybeleid',
+        privacyLead: 'Eén privacybeleid voor alle apps: welke gegevens we bewaren, waarom, en hoe je ze inziet of verwijdert.',
+        privacyScope: 'Gather · Foundry · Fairway · Arcade Club · appelent.nl',
+        privacyUpdated: 'Laatst bijgewerkt: [datum]',
+        tocLabel: 'Inhoud',
+        privacyDraftNote: 'Concepttekst voor het ontwerp. De definitieve tekst voegen we samen uit de vier huidige app-beleiden; wat per app verschilt komt in sectie 3.',
+        privacyRead: 'Lees',
+        privacyAccountTitle: 'Je account',
+        privacyAccountBody: 'Alle apps delen één inlog. In elke app kies je onder Account of je alleen de gegevens van die app verwijdert of je hele AppElent-account. Straks kan dat ook op account.appelent.nl.',
+        privacyContact: 'Vragen over privacy? Mail',
+        supportLead: 'Loop je ergens tegenaan of heb je een idee? Laat het weten.',
+        mailTitle: 'Mail ons',
+        mailBody: 'Noem de app, je toestel en wat je deed. Een screenshot helpt.',
+        faqTitle: 'Veelgestelde vragen',
+        nfTitle: 'Deze pagina bestaat niet.',
+        nfBody: 'De link is oud of er zit een typfout in. Op de homepage vind je alle apps.',
+        nfCta: 'Naar de homepage',
+        footTag: 'Eric Jansen. Apps voor thuis, sport en spel.',
+        footAccount: 'Account'
+      },
+      en: {
+        navLabel: 'Main menu', langLabel: 'Language',
+        navAbout: 'About',
+        photoLabel: 'Photo of Eric (to follow)', photoHint: 'photo',
+        heroEyebrow: 'Maker of AppElent',
+        heroTitle: 'Hi, I’m Eric. I build apps.',
+        heroBody: '[One or two sentences about yourself: what you do, where you live, what drives you.]',
+        heroCta: 'See my apps', heroContact: 'Get in touch',
+        doTitle: 'What I do',
+        appsTitle: 'What I make',
+        appsBody: 'Four apps, each for one part of life. You sign in to all of them with the same account.',
+        stackTitle: 'What I build with',
+        stackBody: 'Web and iPhone from one codebase per app, with AI agents doing most of the work.',
+        contactBody: 'A question, an idea or just hello? Email me or find me on GitHub.',
+        contactMail: 'Email me',
+        storeSmall: 'Download on the', soon: 'Coming soon', openWeb: 'Open web app',
+        accountTitle: 'One account for every app',
+        accountBody: 'See which apps you use, download your data or delete your account, all in one place.',
+        accountCta: 'Go to your account',
+        privacyTitle: 'Privacy policy',
+        privacyLead: 'One privacy policy for every app: what data we keep, why, and how you view or delete it.',
+        privacyScope: 'Gather · Foundry · Fairway · Arcade Club · appelent.nl',
+        privacyUpdated: 'Last updated: [date]',
+        tocLabel: 'Contents',
+        privacyDraftNote: 'Draft text for the design. The final text merges the four current app policies; what differs per app goes in section 3.',
+        privacyRead: 'Read',
+        privacyAccountTitle: 'Your account',
+        privacyAccountBody: 'All apps share one sign-in. In each app, under Account, you choose to delete only that app’s data or your whole AppElent account. Soon you can also do this at account.appelent.nl.',
+        privacyContact: 'Questions about privacy? Email',
+        supportLead: 'Stuck on something, or have an idea? Let us know.',
+        mailTitle: 'Email us',
+        mailBody: 'Mention the app, your device and what you did. A screenshot helps.',
+        faqTitle: 'Frequently asked questions',
+        nfTitle: 'This page does not exist.',
+        nfBody: 'The link is old or has a typo. The home page lists every app.',
+        nfCta: 'Go to the home page',
+        footTag: 'Eric Jansen. Apps for home, sport and play.',
+        footAccount: 'Account'
+      }
+    };
+    var t = T[lang];
+
+    var A = [
+      { id: 'gather', name: 'Gather', icon: '/_blob/30b32935b01f6e74dc768ed43b56e933', web: 'https://gather.appelent.nl', privacy: 'https://gather.appelent.nl/privacy', store: 'https://apps.apple.com/app/id6801454605', live: true,
+        kind: { nl: 'Huishouden', en: 'Household' },
+        body: { nl: 'Het huishouden samen: recepten, weekmenu, boodschappen en taken, gedeeld met je huisgenoten.', en: 'Run the household together: recipes, meal plan, groceries and tasks, shared with the people you live with.' } },
+      { id: 'foundry', name: 'Foundry', icon: '/_blob/0a27cb48f5f8af61a65e3aed29e9ce50', web: 'https://foundry.appelent.nl', privacy: 'https://foundry.appelent.nl/privacy', store: 'https://apps.apple.com/app/id6811609419', live: true,
+        kind: { nl: 'Training', en: 'Training' },
+        body: { nl: 'Krachttraining en voeding bijhouden: sessies, schema’s, 1RM, hardlopen en fietsen.', en: 'Track strength training and nutrition: sessions, routines, 1RM, runs and rides.' } },
+      { id: 'fairway', name: 'Fairway', icon: '/_blob/eaf6a8ba5e62e376d6412b52af56482f', web: 'https://fairway.appelent.nl', privacy: 'https://fairway.appelent.nl/privacy', store: 'https://apps.apple.com/app/id6833832527', live: true,
+        kind: { nl: 'Golf', en: 'Golf' },
+        body: { nl: 'Je golfronde op de baan: scores per hole, statistieken en je eigen banen.', en: 'Your golf round on the course: scores per hole, statistics and your own courses.' } },
+      { id: 'arcade', name: 'Arcade Club', icon: '/_blob/43cef4798d59667dc412624fb5c262ef', web: 'https://arcade-club.appelent.nl', privacy: 'https://arcade-club.appelent.nl/privacy', store: '', live: false,
+        kind: { nl: 'Spellen', en: 'Games' },
+        body: { nl: 'Spellen met vrienden, aan tafel of op afstand: quiz, kaart- en dobbelspellen en schaak.', en: 'Games with friends, at the table or apart: quizzes, card and dice games, and chess.' } }
+    ];
+    var STORES = {
+      gather: { nl: 'Recepten, weekmenu, boodschappenlijsten, taken, notities en agenda’s, gedeeld binnen je groep.', en: 'Recipes, meal plan, grocery lists, tasks, notes and calendars, shared within your group.' },
+      foundry: { nl: 'Trainingen en sets, 1RM, hardloop- en fietsritten, voedingsdagboek en lichaamsmetingen.', en: 'Workouts and sets, 1RM, runs and rides, food diary and body measurements.' },
+      fairway: { nl: 'Rondes, scores per hole, statistieken en je banen.', en: 'Rounds, scores per hole, statistics and your courses.' },
+      arcade: { nl: 'Spelkamers, je spelersnaam en scores.', en: 'Game rooms, your player name and scores.' }
+    };
+    var POLICY = {
+      nl: [
+        { id: 'wie', title: 'Wie we zijn', body: 'AppElent is de naam waaronder Eric Jansen apps maakt. Dit beleid geldt voor Gather, Foundry, Fairway, Arcade Club en deze site.' },
+        { id: 'account', title: 'Je account', body: 'Alle apps delen één inlog. Daarvoor bewaren we je e-mailadres, je naam en de manier waarop je inlogt (bijvoorbeeld met Apple).' },
+        { id: 'per-app', title: 'Wat elke app bewaart', body: 'Elke app bewaart alleen wat je er zelf in zet. Per app:', perApp: true },
+        { id: 'diensten', title: 'Diensten die we gebruiken', body: 'Clerk voor inloggen, Convex voor opslag en Cloudflare voor de websites. [Aanvullen uit de app-beleiden, bijvoorbeeld foutmeldingen en AI-functies.]' },
+        { id: 'rechten', title: 'Inzien en verwijderen', body: 'In elke app kies je onder Account of je alleen de gegevens van die app verwijdert of je hele AppElent-account. Straks kan dat ook op account.appelent.nl.' },
+        { id: 'contact', title: 'Contact', body: 'Vragen over je gegevens? Mail privacy@appelent.nl.' }
+      ],
+      en: [
+        { id: 'who', title: 'Who we are', body: 'AppElent is the name under which Eric Jansen makes apps. This policy covers Gather, Foundry, Fairway, Arcade Club and this site.' },
+        { id: 'account', title: 'Your account', body: 'All apps share one sign-in. For that we keep your email address, your name and how you sign in (for example with Apple).' },
+        { id: 'per-app', title: 'What each app keeps', body: 'Each app keeps only what you put in it. Per app:', perApp: true },
+        { id: 'services', title: 'Services we use', body: 'Clerk for sign-in, Convex for storage and Cloudflare for the websites. [Fill in from the app policies, for example error reporting and AI features.]' },
+        { id: 'rights', title: 'View and delete', body: 'In each app, under Account, you choose to delete only that app’s data or your whole AppElent account. Soon you can also do this at account.appelent.nl.' },
+        { id: 'contact', title: 'Contact', body: 'Questions about your data? Email privacy@appelent.nl.' }
+      ]
+    };
+    var policy = POLICY[lang].map(function (s, i) { return { id: s.id, title: s.title, body: s.body, perApp: !!s.perApp, n: i + 1 }; });
+    var apps = A.map(function (a, i) {
+      return {
+        name: a.name, icon: a.icon, web: a.web, privacy: a.privacy, store: a.store,
+        live: a.live, soon: !a.live,
+        kind: a.kind[lang], body: a.body[lang],
+        storeLabel: (lang === 'nl' ? 'Download ' : 'Download ') + a.name + (lang === 'nl' ? ' in de App Store' : ' on the App Store'),
+        privacyHost: a.privacy.replace('https://', ''),
+        anchor: 'app-' + a.id, stores: STORES[a.id][lang],
+        rowBorder: i === 0 ? 'none' : '1px solid ' + c.line
+      };
+    });
+
+    var FAQ = {
+      nl: [
+        { q: 'Hoe verwijder ik mijn account?', a: 'In elke app onder Account, Account verwijderen. Je kiest daar of je alleen de gegevens van die app wist of je hele AppElent-account.', open: true },
+        { q: 'Werkt één account in alle apps?', a: 'Ja. Je logt in met hetzelfde account in Gather, Foundry, Fairway en Arcade Club.', open: false },
+        { q: 'Zijn de apps er ook voor Android?', a: 'Nog niet. De apps zijn er voor iPhone en in de browser.', open: false }
+      ],
+      en: [
+        { q: 'How do I delete my account?', a: 'In any app under Account, Delete account. There you choose to erase only that app’s data or your whole AppElent account.', open: true },
+        { q: 'Does one account work in every app?', a: 'Yes. You sign in with the same account in Gather, Foundry, Fairway and Arcade Club.', open: false },
+        { q: 'Are the apps on Android?', a: 'Not yet. The apps are on iPhone and in the browser.', open: false }
+      ]
+    };
+
+    var DOES = {
+      nl: [
+        { title: 'Apps voor het dagelijks leven', body: 'Gather voor het huishouden, Foundry voor de sportschool, Fairway op de golfbaan en Arcade Club voor spelavonden.', ph: false },
+        { title: 'Een softwarefabriek met AI', body: 'AI-agents schrijven, testen en reviewen de code. Ik bepaal wat er gebouwd wordt en keur elke stap goed.', ph: false },
+        { title: '[Je werk]', body: '[Wat je overdag doet, of waar je naast AppElent aan werkt.]', ph: true }
+      ],
+      en: [
+        { title: 'Apps for everyday life', body: 'Gather for the household, Foundry for the gym, Fairway on the golf course and Arcade Club for game nights.', ph: false },
+        { title: 'A software factory with AI', body: 'AI agents write, test and review the code. I decide what gets built and approve every step.', ph: false },
+        { title: '[Your work]', body: '[What you do by day, or what you work on next to AppElent.]', ph: true }
+      ]
+    };
+    var does = DOES[lang].map(function (d) {
+      return { title: d.title, body: d.body, border: d.ph ? '2px dashed ' + c.lineStrong : '1px solid ' + c.line };
+    });
+    var stack = ['TanStack Start', 'Convex', 'Expo', 'Clerk', 'Cloudflare Workers', 'Claude Code', 'Linear'];
+
+    var on = { bg: c.ink, fg: c.surface, current: 'true' };
+    var off = { bg: 'transparent', fg: c.muted, current: 'false' };
+
+    return {
+      lang: lang, c: c, l: l, t: t, apps: apps, faq: FAQ[lang], does: does, stack: stack, policy: policy,
+      isHome: screen === 'home', isPrivacy: screen === 'privacy', isSupport: screen === 'support', isNotFound: screen === 'notfound',
+      nav: { home: screen === 'home' ? c.ink : c.muted, privacy: screen === 'privacy' ? c.ink : c.muted, support: screen === 'support' ? c.ink : c.muted },
+      langNl: lang === 'nl' ? on : off, langEn: lang === 'en' ? on : off,
+      goHome: go('home'), goPrivacy: go('privacy'), goSupport: go('support'),
+      toNl: setLang('nl'), toEn: setLang('en')
+    };
+  }
+}
+</script>
+</body>
+</html>
