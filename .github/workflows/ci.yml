@@ -1,0 +1,43 @@
+name: CI
+# Adapted from developer-home standards/baseline/templates/ci.yml for a static
+# site with no Convex backend and no env manifest. Pull requests, plus
+# deploy.yml's `checks` job, which calls this workflow before it deploys.
+on:
+  pull_request:
+  workflow_call:
+# A new push cancels a PR's stale run; a call from deploy.yml gets its own group.
+concurrency:
+  group: ci-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
+jobs:
+  # Keep the id `check` and no `name:` or matrix: the main ruleset requires a
+  # status check named `check`.
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions: { contents: read }
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      # Biome, typecheck and tests: the same gate agents run locally.
+      - run: pnpm verify
+      - run: pnpm build
+      # The staging deploy would ship appelent-www-staging and nothing that
+      # routes appelent.nl or www.appelent.nl (APP-480 phase 1).
+      - name: Guard Worker name
+        working-directory: apps/www
+        run: node scripts/guard-worker.ts staging appelent-www-staging
+      # The real Workers runtime and assets binding, locally: the same smoke
+      # check the deploy runs against staging.
+      - name: Smoke check (local Worker)
+        working-directory: apps/www
+        run: |
+          pnpm exec wrangler dev --env staging --ip 127.0.0.1 --port 8787 > "$RUNNER_TEMP/wrangler-dev.log" 2>&1 &
+          for _ in $(seq 1 60); do
+            curl -fsS -o /dev/null http://127.0.0.1:8787/en/ && break
+            sleep 1
+          done
+          node scripts/smoke.ts http://127.0.0.1:8787 || { cat "$RUNNER_TEMP/wrangler-dev.log"; exit 1; }

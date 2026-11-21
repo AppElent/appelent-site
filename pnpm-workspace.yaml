@@ -1,0 +1,11 @@
+packages:
+  - "apps/*"
+
+# pnpm 11 default-denies install/build lifecycle scripts. Only packages that
+# compile or download a native binary run theirs.
+allowBuilds:
+  esbuild: true # native binary (wrangler's bundler)
+  workerd: true # downloads the Cloudflare Workers runtime binary
+  sharp: false # wrangler's optional image dependency; not needed to deploy
+
+minimumReleaseAge: 4320 # 3 days — blocks the worm/account-takeover window
