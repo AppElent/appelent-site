@@ -1,0 +1,23 @@
+{
+  "name": "@appelent/www",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "dev": "node scripts/build.ts && wrangler dev --env staging --ip 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "launch:check": "node scripts/launch-check.ts",
+    "smoke": "node scripts/smoke.ts",
+    "deploy:staging": "node scripts/build.ts && node scripts/guard-worker.ts staging appelent-www-staging && wrangler deploy --env staging"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261118.1",
+    "@fontsource-variable/bricolage-grotesque": "^5.2.8",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@types/node": "^22.20.5",
+    "typescript": "~6.0.3",
+    "vitest": "^4.1.12",
+    "wrangler": "^4.161.0"
+  }
+}

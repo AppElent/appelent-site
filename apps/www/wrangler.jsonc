@@ -1,0 +1,40 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // The appelent.nl public site: a Worker in front of the static build in
+  // dist/ (pnpm build). Production is the top-level config and the staging
+  // Worker is env.staging (developer-home standards/deployments.md).
+  //
+  // PHASE 1 (APP-480): production has NO routes on purpose. appelent.nl still
+  // serves the Vimexx parked page, and the developer-home apex-favicon Worker
+  // owns the apex icon paths. Attaching appelent.nl and www.appelent.nl is the
+  // production cutover, a separate change after Eric's content and his go.
+  // scripts/guard-worker.ts and test/wrangler.test.ts fail while any config
+  // here routes a production host.
+  "name": "appelent-www",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // The Worker decides /, /account, the language switch and 404s.
+    "run_worker_first": true,
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "vars": { "INDEXING": "on" },
+  "observability": { "enabled": true },
+  "env": {
+    // What a merge to main deploys (.github/workflows/deploy.yml). The custom
+    // domain creates only the www-stg.appelent.nl record; apex, MX, SPF and
+    // DKIM records are not touched.
+    "staging": {
+      "name": "appelent-www-staging",
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [{ "pattern": "www-stg.appelent.nl", "custom_domain": true }],
+      "vars": { "INDEXING": "off" }
+    }
+  }
+}

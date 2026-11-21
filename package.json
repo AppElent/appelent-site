@@ -1,0 +1,22 @@
+{
+  "name": "appelent-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "biome check",
+    "typecheck": "pnpm --filter @appelent/www typecheck",
+    "test": "pnpm --filter @appelent/www test",
+    "verify": "pnpm check && pnpm typecheck && pnpm test",
+    "build": "pnpm --filter @appelent/www build",
+    "dev": "pnpm --filter @appelent/www dev",
+    "deploy:staging": "pnpm --filter @appelent/www deploy:staging"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.7"
+  },
+  "packageManager": "pnpm@11.8.0",
+  "engines": {
+    "node": ">=22.18",
+    "pnpm": ">=11"
+  }
+}
