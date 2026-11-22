@@ -10,11 +10,14 @@ const config = JSON.parse(
 )
 
 describe('wrangler.jsonc', () => {
-  it('gives production no routes: APP-481 ships staging only', () => {
+  it('puts production on account.appelent.nl only', () => {
     expect(config.name).toBe('appelent-account')
-    expect(config.routes).toBeUndefined()
+    expect(config.routes).toEqual([
+      { pattern: 'account.appelent.nl', custom_domain: true },
+    ])
     expect(config.route).toBeUndefined()
     expect(config.workers_dev).toBe(false)
+    expect(config.preview_urls).toBe(false)
   })
 
   it('puts staging on account-stg.appelent.nl only', () => {

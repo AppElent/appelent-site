@@ -3,7 +3,7 @@
 account.appelent.nl: one place to see which AppElent apps you use, download your data, and manage
 your sign-in. Built from the approved design in
 [`designs/portal/portal_final.md`](../../designs/portal/portal_final.md) with the tokens in
-[`DESIGN_SYSTEM.md`](../../DESIGN_SYSTEM.md). APP-481 ships staging only (`account-stg.appelent.nl`).
+[`DESIGN_SYSTEM.md`](../../DESIGN_SYSTEM.md). Staging is `account-stg.appelent.nl`, production `account.appelent.nl`.
 
 ## How it works
 
@@ -36,8 +36,8 @@ In this folder:
   holds the local build values (Clerk dev key, dev Convex URLs); `.env.example` lists them.
 - `pnpm build` then `pnpm preview`: the built Worker in workerd.
 - `pnpm smoke <origin>`: signed-out checks of a running portal (routes, 404s, CSP and headers).
-- `node scripts/guard-worker.ts <worker>` after a build: fails on a wrong Worker name or any
-  production route.
+- `node scripts/guard-worker.ts <worker>` after a build: fails on a wrong Worker name or on any
+  route other than that Worker's own custom domain.
 
 ### Fake apps in development
 
@@ -67,10 +67,20 @@ The four `*-convex-url` keys live in Infisical `prod` under `/account` (values i
 `env.manifest.ts`); `clerk-publishable-key`, `cloudflare-account-token` and `cloudflare-account-id` are
 shared at `/`.
 
-Clerk (dashboard, per instance): allow the origin and redirect URLs for `https://account-stg.appelent.nl`
-(production instance) and `http://localhost:3481` / `http://127.0.0.1:3481` (development instance).
+Clerk needs no change: the production instance accepts every `appelent.nl` subdomain, and the portal
+uses the plain session token (Clerk's native Convex integration, no JWT template).
 
-## Production (not in APP-481)
+## Production
 
-The top-level `wrangler.jsonc` has no routes; `test/wrangler.test.ts` and the guard fail if it gets
-one. Production (`account.appelent.nl`) is a separate change with Eric's go.
+After staging passes its smoke check, the `account-production` job builds the top-level Worker
+(`appelent-account`, custom domain `account.appelent.nl`), runs `env.mjs check production --ci` and the
+guard, deploys and smoke-checks it. Production calls each app's production deployment (see the
+production table in `env.manifest.ts`). Gather and Fairway reuse their `*-convex-url` keys; Foundry and
+Arcade Club read `foundry-convex-url-production` and `arcade-convex-url-production` from Infisical
+`prod` under `/account`. One-time setup of the GitHub `production` Environment:
+
+```sh
+cd apps/account
+pnpm env:plan production
+pnpm env:apply production
+```
