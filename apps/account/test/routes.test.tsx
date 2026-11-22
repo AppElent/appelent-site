@@ -239,6 +239,13 @@ describe('routes', () => {
     await waitFor(() => expect(router.state.location.pathname).toBe('/'))
   })
 
+  it('sends a signed-in visitor home past a malformed sign-in way back', async () => {
+    session.isSignedIn = true
+    sessionStorage.setItem('portal-fake', 'new')
+    const router = renderAt('/sign-in?redirect=%2F%2573ign-in%2F%254%2531')
+    await waitFor(() => expect(router.state.location.pathname).toBe('/'))
+  })
+
   it('sends a signed-in visitor on from sign-in', async () => {
     session.isSignedIn = true
     sessionStorage.setItem('portal-fake', 'new')

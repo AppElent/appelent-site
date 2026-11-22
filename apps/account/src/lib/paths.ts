@@ -30,12 +30,19 @@ export function safeRedirect(value: unknown): string {
     return '/'
   const path = `${url.pathname}${url.search}${url.hash}`
   // `/.//evil.example` normalizes to `//evil.example`.
-  // The router matches `/Sign-In` and `/%73ign-in` to the sign-in page too.
-  if (
-    path.startsWith('//') ||
-    decodeURIComponentSafe(url.pathname).toLowerCase().startsWith('/sign-in')
-  )
-    return '/'
+  if (path.startsWith('//')) return '/'
+  // The router matches `/Sign-In`, `/%73ign-in` and `/sign-in/...` to the
+  // sign-in page too. Decode each segment; one that does not decode
+  // (`%4%31`) is no place to send anyone.
+  const segments: string[] = []
+  for (const segment of url.pathname.split('/')) {
+    try {
+      segments.push(decodeURIComponent(segment))
+    } catch {
+      return '/'
+    }
+  }
+  if (segments[1]?.toLowerCase() === 'sign-in') return '/'
   return path
 }
 
