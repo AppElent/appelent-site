@@ -226,6 +226,10 @@ describe('Download', () => {
     ).toBeInTheDocument()
     expect(await zips()).toEqual([])
     expect(within(row('Fairway')).getByText('Niet gelukt')).toBeInTheDocument()
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Downloaden zonder Fairway' }),
+    )
+    expect(await zips()).toEqual([['foundry.json', 'gather.json']])
   })
 
   it('tries an unreachable app too, and names several failures', async () => {
