@@ -54,11 +54,18 @@ A merge to `main` runs the `account-staging` job in `.github/workflows/deploy.ym
 
 Staging signs in with the production Clerk instance (`pk_live_`), so its Convex URLs point at each
 app's staging-web deployments (see the table in `env.manifest.ts`). One-time setup on the GitHub
-`staging` Environment (repository admin), besides the `CLOUDFLARE_API_TOKEN` secret and
-`CLOUDFLARE_ACCOUNT_ID` variable the site already uses: `pnpm env:apply staging` from Infisical, or
-by hand `gh variable set <NAME> --env staging -R AppElent/appelent-site --body <value>` for
-`VITE_CLERK_PUBLISHABLE_KEY`, `VITE_GATHER_CONVEX_URL`, `VITE_FOUNDRY_CONVEX_URL`,
-`VITE_FAIRWAY_CONVEX_URL` and `VITE_ARCADE_CONVEX_URL`.
+`staging` Environment (repository admin), from the shared Infisical project (`.infisical.json`, folders `/`
+and `/account`, Infisical `prod` for staging):
+
+```sh
+cd apps/account
+pnpm env:plan staging     # shows what is missing in Infisical and what would change on GitHub
+pnpm env:apply staging    # writes the GitHub `staging` Environment variables and secret
+```
+
+The four `*-convex-url` keys live in Infisical `prod` under `/account` (values in the table in
+`env.manifest.ts`); `clerk-publishable-key`, `cloudflare-api-token` and `cloudflare-account-id` are
+shared at `/`.
 
 Clerk (dashboard, per instance): allow the origin and redirect URLs for `https://account-stg.appelent.nl`
 (production instance) and `http://localhost:3481` / `http://127.0.0.1:3481` (development instance).
