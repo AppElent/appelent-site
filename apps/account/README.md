@@ -64,7 +64,7 @@ pnpm env:apply staging    # writes the GitHub `staging` Environment variables an
 ```
 
 The four `*-convex-url` keys live in Infisical `prod` under `/account` (values in the table in
-`env.manifest.ts`); `clerk-publishable-key`, `cloudflare-api-token` and `cloudflare-account-id` are
+`env.manifest.ts`); `clerk-publishable-key`, `cloudflare-account-token` and `cloudflare-account-id` are
 shared at `/`.
 
 Clerk (dashboard, per instance): allow the origin and redirect URLs for `https://account-stg.appelent.nl`

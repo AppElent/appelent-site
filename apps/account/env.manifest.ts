@@ -62,7 +62,7 @@ export const ENTRIES = [
   convexUrl('arcade', 'Arcade Club (games)'),
   {
     key: 'cloudflareApiToken',
-    infisicalKey: 'cloudflare-api-token',
+    infisicalKey: 'cloudflare-account-token',
     description: 'Worker deploy token',
     secret: true,
     lands: {
