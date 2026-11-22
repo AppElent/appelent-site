@@ -1,6 +1,6 @@
 import { useAuth } from '@clerk/react'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Footer } from '../components/Shell.tsx'
 import { safeRedirect } from '../lib/paths.ts'
 import { SignInScreen } from '../screens/Simple.tsx'
@@ -42,22 +42,25 @@ function SignInPage() {
   const search = Route.useSearch()
   const { _splat: step } = Route.useParams()
   // Clerk's own steps (`/sign-in/factor-one`, the SSO callback) drop the
-  // query string, and a reload there starts this page again: keep the return
-  // path for the tab, validated again on the way out. Only a Clerk step reads
-  // it back; `/sign-in` itself starts a fresh sign-in and forgets an
-  // abandoned one.
-  // Worked out on every render: the router reuses this page when you move
-  // between Clerk's steps or come back with a new `redirect`.
+  // query string. Within one page life the router reuses this component, so
+  // the path is kept in memory; a reload of a step starts it again, so it is
+  // also kept for the tab (validated again when read). `/sign-in` without a
+  // `redirect` starts a fresh sign-in and forgets an abandoned one.
+  const memory = useRef<string | null>(null)
   const redirect =
-    search.redirect ?? (step ? safeRedirect(stored.get() ?? '/') : '/')
+    search.redirect ??
+    (step ? (memory.current ?? safeRedirect(stored.get() ?? '/')) : '/')
+  memory.current = redirect
   useEffect(() => {
     if (search.redirect !== undefined) stored.set(search.redirect)
     else if (!step) stored.clear()
   }, [search.redirect, step])
   const { isLoaded, isSignedIn } = useAuth()
   const router = useRouter()
+  const forwarded = useRef(false)
   useEffect(() => {
-    if (!isLoaded || !isSignedIn) return
+    if (!isLoaded || !isSignedIn || forwarded.current) return
+    forwarded.current = true
     stored.clear()
     router.history.replace(redirect)
   }, [isLoaded, isSignedIn, redirect, router])

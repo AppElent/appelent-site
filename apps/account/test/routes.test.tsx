@@ -100,6 +100,7 @@ function renderAt(path: string, locale: Locale = 'nl') {
 
 describe('routes', () => {
   beforeEach(() => {
+    vi.unstubAllGlobals()
     session.isLoaded = true
     session.isSignedIn = false
     signIn.mockClear()
@@ -192,6 +193,43 @@ describe('routes', () => {
     await waitFor(() =>
       expect(sessionStorage.getItem('ae-sign-in-redirect')).toBeNull(),
     )
+  })
+
+  it('keeps the way back across steps when storage is blocked', async () => {
+    const fail = () => {
+      throw new Error('blocked')
+    }
+    vi.stubGlobal('sessionStorage', {
+      getItem: fail,
+      setItem: fail,
+      removeItem: fail,
+    })
+    const router = renderAt('/sign-in?redirect=%2Fexport')
+    await screen.findByText('clerk sign-in')
+    await router.navigate({
+      to: '/sign-in/$',
+      params: { _splat: 'factor-one' },
+    } as never)
+    await waitFor(() =>
+      expect(router.state.location.pathname).toBe('/sign-in/factor-one'),
+    )
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    expect(signIn).toHaveBeenLastCalledWith(
+      expect.objectContaining({ forceRedirectUrl: '/export' }),
+    )
+  })
+
+  it('forwards once to the stored way back, whatever renders next', async () => {
+    sessionStorage.setItem('ae-sign-in-redirect', '/export')
+    session.isSignedIn = true
+    sessionStorage.setItem('portal-fake', 'new')
+    const router = renderAt('/sign-in/factor-one')
+    await waitFor(() => expect(router.state.location.pathname).toBe('/export'))
+    expect(sessionStorage.getItem('ae-sign-in-redirect')).toBeNull()
+    const calls = signIn.mock.calls.map(
+      ([props]) => (props as { forceRedirectUrl: string }).forceRedirectUrl,
+    )
+    expect(calls.every((url) => url === '/export')).toBe(true)
   })
 
   it('sends a signed-in visitor on from sign-in', async () => {
