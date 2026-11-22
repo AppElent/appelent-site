@@ -143,6 +143,56 @@ describe('createConvexPortalClient', () => {
     expect(calls).toBe(1)
   })
 
+  it.each([
+    ['the fresh token arrives', 'token'],
+    ['the refusal arrives', 'refusal'],
+  ])(
+    'starts no retry once the deadline passed before %s',
+    async (_case, late) => {
+      vi.useFakeTimers()
+      try {
+        let refuse: (error: unknown) => void = () => {}
+        let give: (token: string) => void = () => {}
+        query.mockImplementationOnce(
+          () =>
+            new Promise((_resolve, reject) => {
+              refuse = reject
+            }),
+        )
+        const tokens: (boolean | undefined)[] = []
+        const client = createConvexPortalClient(
+          'foundry',
+          'https://x.convex.cloud',
+          (fresh) => {
+            tokens.push(fresh)
+            if (!fresh) return Promise.resolve('cached-jwt')
+            return new Promise<string>((resolve) => {
+              give = resolve
+            })
+          },
+        )
+        const result = expect(client.summary()).rejects.toThrow('Timed out')
+        await vi.advanceTimersByTimeAsync(0)
+        if (late === 'token') {
+          refuse(new ConvexError({ code: 'unauthenticated' }))
+          await vi.advanceTimersByTimeAsync(20_000)
+          await result
+          give('fresh-jwt')
+        } else {
+          await vi.advanceTimersByTimeAsync(20_000)
+          await result
+          refuse(new ConvexError({ code: 'unauthenticated' }))
+        }
+        await vi.advanceTimersByTimeAsync(0)
+        expect(query).toHaveBeenCalledTimes(1)
+        expect(setAuth).toHaveBeenCalledTimes(1)
+        expect(tokens).toEqual(late === 'token' ? [false, true] : [false])
+      } finally {
+        vi.useRealTimers()
+      }
+    },
+  )
+
   it('surfaces a missing accountPortal function as an error', async () => {
     query.mockRejectedValue(
       new Error("Could not find public function for 'accountPortal:summary'"),

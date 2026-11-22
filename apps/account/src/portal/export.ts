@@ -94,7 +94,9 @@ export async function exportApp(
       tables[name] = into
       for (const row of rows) into.push(row)
       totalRows += rows.length
-      if (rows.length > 0) table = name
+      // The page's first table with rows names the step: an app adds its
+      // related tables (sessions, catalog tees) after the one it pages over.
+      if (rows.length > 0 && table === null) table = name
     }
     options.onPage?.({
       table,

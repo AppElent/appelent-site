@@ -113,7 +113,7 @@ export const apps: Record<AppId, AppInfo> = {
       rounds: { nl: 'Rondes', en: 'Rounds' },
       shots: { nl: 'Slagen', en: 'Shots' },
       clubs: { nl: 'Clubs', en: 'Clubs' },
-      courseCopies: { nl: 'Eigen banen', en: 'Saved courses' },
+      courseCopies: { nl: 'Eigen banen', en: 'Own courses' },
       courseSuggestions: { nl: 'Baansuggesties', en: 'Course suggestions' },
       settings: { nl: 'Instellingen', en: 'Settings' },
     },
@@ -130,7 +130,7 @@ export const apps: Record<AppId, AppInfo> = {
     icon: arcadeIcon,
     webUrl: 'https://arcade-club.appelent.nl',
     labels: {
-      gameSeats: { nl: 'Gespeelde spellen', en: 'Games played' },
+      gameSeats: { nl: 'Deelnames', en: 'Seats taken' },
       drafts: { nl: 'Concepten', en: 'Drafts' },
       quizSets: { nl: 'Quizsets', en: 'Quiz sets' },
     },

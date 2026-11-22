@@ -54,7 +54,7 @@ describe('Download', () => {
     renderScreen(<Download />, {
       clients: {
         gather: used('gather', { recipes: 3, tasks: 1 }),
-        foundry: used('foundry', { sets: 2 }),
+        foundry: used('foundry', { sets: 2, wods: 0, routines: 0 }),
         arcade: new FakePortalClient('arcade', { summary: null }),
       },
     })

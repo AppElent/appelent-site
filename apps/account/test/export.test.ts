@@ -47,6 +47,28 @@ describe('exportApp', () => {
     expect(seen).toEqual(['recipes:2', 'recipes:3'])
   })
 
+  it('names a page by its first table with rows, not the related ones after it', async () => {
+    const page: ExportPage = {
+      contract: 1,
+      app: 'arcade',
+      tables: {
+        sessionParticipants: [{ _id: 'p1' }],
+        gameSessions: [{ _id: 's1' }],
+        quizAnswers: [{ _id: 'a1' }, { _id: 'a2' }],
+      },
+      next: null,
+    }
+    const client: PortalClient = {
+      summary: async () => null,
+      exportPage: async () => page,
+    }
+    const seen: string[] = []
+    await exportApp('arcade', client, {
+      onPage: (p) => seen.push(`${p.table}:${p.tableRows}`),
+    })
+    expect(seen).toEqual(['sessionParticipants:1'])
+  })
+
   it('stops between pages when cancelled', async () => {
     const controller = new AbortController()
     const client = fake({ recipes: 10 })

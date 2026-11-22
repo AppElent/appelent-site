@@ -8,6 +8,7 @@ import {
   apps,
   countKeyForTable,
   countLabel,
+  shownCounts,
 } from '../portal/apps.ts'
 import type { Summary } from '../portal/contract.ts'
 import {
@@ -166,7 +167,7 @@ export function Download() {
     if (state.status === 'unreachable')
       return { text: t.unreachable, warn: true }
     if (state.summary === null) return { text: t.nothing }
-    return { text: t.kinds(state.summary.counts.length) }
+    return { text: t.kinds(shownCounts(state.summary.counts).length) }
   }
 
   return (
