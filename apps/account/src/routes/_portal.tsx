@@ -67,8 +67,11 @@ function SignedIn() {
   const clients = useMemo<PortalClients>(() => {
     const fakes = devScenario()
     if (fakes) return fakes
+    // The shared Clerk app uses Clerk's native Convex integration: the plain
+    // session token already carries `aud: "convex"`, as in the apps'
+    // ConvexProviderWithClerk. There is no `convex` JWT template.
     const token = ownTokens(userId ?? null, (fresh) =>
-      tokenRef.current({ template: 'convex', skipCache: fresh === true }),
+      tokenRef.current({ skipCache: fresh === true }),
     )
     return Object.fromEntries(
       appIds.map((app: AppId) => {
