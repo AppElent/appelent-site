@@ -57,10 +57,12 @@ function SignInPage() {
   }, [search.redirect, step])
   const { isLoaded, isSignedIn } = useAuth()
   const router = useRouter()
-  const forwarded = useRef(false)
+  // Forward once per destination: a render while the forward loads must not
+  // start it again, but a new destination must still be followed.
+  const forwardedTo = useRef<string | null>(null)
   useEffect(() => {
-    if (!isLoaded || !isSignedIn || forwarded.current) return
-    forwarded.current = true
+    if (!isLoaded || !isSignedIn || forwardedTo.current === redirect) return
+    forwardedTo.current = redirect
     stored.clear()
     router.history.replace(redirect)
   }, [isLoaded, isSignedIn, redirect, router])

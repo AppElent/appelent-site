@@ -18,6 +18,8 @@ describe('safeRedirect', () => {
     '/sign-in',
     '/%09/evil.example',
     '/.//evil.example',
+    '/Sign-In',
+    '/%73ign-in',
     '/\t/evil.example',
     '/sign-in?redirect=%2F',
     '',

@@ -232,6 +232,13 @@ describe('routes', () => {
     expect(calls.every((url) => url === '/export')).toBe(true)
   })
 
+  it('sends a signed-in visitor home when the way back is sign-in itself', async () => {
+    session.isSignedIn = true
+    sessionStorage.setItem('portal-fake', 'new')
+    const router = renderAt('/sign-in?redirect=%2FSign-In')
+    await waitFor(() => expect(router.state.location.pathname).toBe('/'))
+  })
+
   it('sends a signed-in visitor on from sign-in', async () => {
     session.isSignedIn = true
     sessionStorage.setItem('portal-fake', 'new')

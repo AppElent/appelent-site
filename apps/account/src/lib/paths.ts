@@ -30,7 +30,12 @@ export function safeRedirect(value: unknown): string {
     return '/'
   const path = `${url.pathname}${url.search}${url.hash}`
   // `/.//evil.example` normalizes to `//evil.example`.
-  if (path.startsWith('//') || path.startsWith('/sign-in')) return '/'
+  // The router matches `/Sign-In` and `/%73ign-in` to the sign-in page too.
+  if (
+    path.startsWith('//') ||
+    decodeURIComponentSafe(url.pathname).toLowerCase().startsWith('/sign-in')
+  )
+    return '/'
   return path
 }
 
