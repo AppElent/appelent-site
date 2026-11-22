@@ -293,7 +293,7 @@ a:hover {
   font-weight: 600;
 }
 
-/* Placeholders Eric still supplies (src/content/owner.ts). Never on production. */
+/* Items Eric still confirms (src/content/owner.ts). Never on production. */
 
 .ph {
   outline: 2px dashed var(--line-strong);
@@ -304,10 +304,6 @@ a:hover {
 .hero .ph,
 .band-slate .ph {
   outline-color: rgba(127, 209, 200, 0.6);
-}
-
-.card.ph-card {
-  border: 2px dashed var(--line-strong);
 }
 
 /* Buttons */
@@ -351,12 +347,6 @@ a:hover {
   background: var(--action);
   color: var(--on-action);
   align-self: flex-start;
-}
-
-.btn-placeholder {
-  border: 1px dashed rgba(127, 209, 200, 0.6);
-  color: var(--teal);
-  padding: 0 20px;
 }
 
 .icon-arrow {
@@ -469,53 +459,6 @@ a:hover {
   gap: 20px;
 }
 
-.hero-id {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.hero-photo {
-  flex: none;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.hero-photo-ph {
-  background: rgba(127, 209, 200, 0.16);
-  border: 2px dashed rgba(127, 209, 200, 0.6);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--teal);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 28px;
-  line-height: 32px;
-}
-
-.hero-photo-ph span {
-  font-family: var(--font-text);
-  font-size: 11px;
-  line-height: 14px;
-  font-weight: 500;
-}
-
-.hero-name {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.hero-person {
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
-}
-
 .hero-lead {
   font-size: 18px;
   line-height: 28px;
@@ -547,11 +490,6 @@ a:hover {
     flex-direction: row;
     align-items: center;
     gap: 48px;
-  }
-
-  .hero-photo {
-    width: 96px;
-    height: 96px;
   }
 
   .hero-icons {
@@ -591,7 +529,6 @@ a:hover {
   border: 1px solid var(--line);
 }
 
-.grid-do,
 .grid-apps {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -602,33 +539,6 @@ a:hover {
   .grid-apps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
-
-@media (min-width: 960px) {
-  .grid-do {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.do-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.do-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: var(--teal-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.do-icon .dot {
-  width: 12px;
-  height: 12px;
 }
 
 .app-card {

@@ -10,7 +10,6 @@ import { createRequire } from 'node:module'
 import { basename, dirname, extname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { apps } from '../src/content/apps.ts'
-import { owner } from '../src/content/owner.ts'
 import { type Locale, locales } from '../src/i18n/index.ts'
 import { homePage } from '../src/render/home.ts'
 import { type AssetUrls, context } from '../src/render/layout.ts'
@@ -75,7 +74,6 @@ export function build(): void {
       nl: fingerprint(join(root, 'assets/badges/app-store-nl-nl.svg')),
       en: fingerprint(join(root, 'assets/badges/app-store-en-us.svg')),
     },
-    photo: owner.photo ? fingerprint(join(root, 'assets', owner.photo)) : null,
   }
 
   const renderers: Record<PageId, typeof homePage> = {

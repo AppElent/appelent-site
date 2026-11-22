@@ -17,8 +17,6 @@ export interface AssetUrls {
   fonts: { text: string; display: string }
   appIcons: Record<(typeof apps)[number]['id'], string>
   badges: Record<Locale, string>
-  /** Eric's photo, once supplied (`owner.photo`). */
-  photo: string | null
 }
 
 export interface PageContext {
@@ -105,7 +103,6 @@ function header(ctx: PageContext, page: PageId | null): Html {
 <header class="wrap site-header">
 <a class="brand" href="${home}" aria-label="${copy.shell.homeLabel}"><img src="${assets.mark}" alt="" width="32" height="32"><span>AppElent</span></a>
 <nav class="main-nav" aria-label="${copy.shell.navLabel}">
-<a class="${navColor('home')}" href="${home}#about">${copy.shell.navAbout}</a>
 <a class="${navColor('home')}" href="${home}#apps">${copy.shell.navApps}</a>
 <a class="${navColor('privacy')}" href="${pagePaths.privacy[locale]}"${current('privacy')}>${copy.shell.navPrivacy}</a>
 <a class="${navColor('support')}" href="${pagePaths.support[locale]}"${current('support')}>${copy.shell.navSupport}</a>
@@ -153,5 +150,5 @@ export function emailLink(
   extra: Html | string = '',
 ): Html {
   const classes = [className, pending.email ? 'ph' : ''].filter(Boolean)
-  return html`${pending.email ? placeholderComment('item 4', 'contact email, confirm with Eric') : ''}<a href="mailto:${owner.email}"${classes.length ? html` class="${classes.join(' ')}"` : ''}>${label}${extra}</a>`
+  return html`${pending.email ? placeholderComment('item 1', 'contact email, confirm with Eric') : ''}<a href="mailto:${owner.email}"${classes.length ? html` class="${classes.join(' ')}"` : ''}>${label}${extra}</a>`
 }

@@ -18,7 +18,6 @@ const assets: AssetUrls = {
     arcade: '/assets/a.png',
   },
   badges: { nl: '/assets/badge-nl.svg', en: '/assets/badge-en.svg' },
-  photo: null,
 }
 
 const pages = {
@@ -63,7 +62,6 @@ describe.each(locales)('%s pages', (locale) => {
         ...Object.values(pagePaths).flatMap((p) =>
           locales.map((l) => `${p[l]}?lang=${l}`),
         ),
-        `${pagePaths.home[locale]}#about`,
         `${pagePaths.home[locale]}#apps`,
       ])
       for (const href of hrefs(render(page, locale))) {
@@ -96,7 +94,6 @@ describe.each(locales)('%s pages', (locale) => {
     const out = render('home', locale)
     const order = [
       'hero-title',
-      'do-title',
       'id="apps"',
       'account-title',
       'stack-title',
@@ -169,31 +166,22 @@ describe.each(locales)('%s pages', (locale) => {
 describe('placeholders', () => {
   const home = render('home', 'nl')
 
-  it('marks every open placeholder with a comment and dashed styling', () => {
-    if (pending.photo) {
-      expect(home).toContain('<!-- PLACEHOLDER (item 1)')
-      expect(home).toContain('class="hero-photo hero-photo-ph" role="img"')
-    }
-    if (pending.bio)
-      expect(home).toMatch(/PLACEHOLDER \(item 2\)[\s\S]*class="hero-lead ph"/)
-    if (pending.workCard)
-      expect(home).toMatch(/PLACEHOLDER \(item 3\)[\s\S]*do-card ph-card/)
+  it('marks every open item with a comment and dashed styling', () => {
     if (pending.email)
       expect(home).toMatch(
-        /PLACEHOLDER \(item 4\)[\s\S]*class="btn btn-chalk ph"/,
+        /PLACEHOLDER \(item 1\)[\s\S]*class="btn btn-chalk ph"/,
       )
-    if (pending.links && !owner.linkedin)
-      expect(home).toContain('class="btn btn-placeholder"')
-    if (pending.launchStatus) expect(home).toContain('PLACEHOLDER (item 5)')
+    if (pending.launchStatus) expect(home).toContain('PLACEHOLDER (item 2)')
     if (pending.privacy)
       expect(render('privacy', 'en')).toContain('class="draft-note"')
   })
 
-  it('never renders a bracketed placeholder text whose flag is closed', () => {
+  it('carries no personal info on the home page', () => {
     for (const locale of locales) {
-      const t = messages[locale].home
-      if (!pending.bio) expect(t.hero.body).not.toMatch(/^\[/)
-      if (!pending.workCard) expect(t.does.work.title).not.toMatch(/^\[/)
+      const out = render('home', locale).replace(/<!--[\s\S]*?-->/g, '')
+      expect(out).not.toContain('Eric')
+      expect(out).not.toContain('#about')
+      expect(out).not.toContain('linkedin')
     }
   })
 })

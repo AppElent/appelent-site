@@ -1,14 +1,14 @@
 import type { Messages } from './en.ts'
 
 // De Nederlandse catalogus. Zelfde sleutels als en.ts (de parity-test bewaakt
-// dat). Tekst tussen [vierkante haken] levert Eric nog aan.
+// dat).
 
 export const nl = {
   meta: {
     siteName: 'AppElent',
-    homeTitle: 'Eric Jansen · AppElent',
+    homeTitle: 'AppElent · Apps voor thuis, sport en spel',
     homeDescription:
-      'Eric Jansen bouwt apps voor thuis, sport en spel: Gather, Foundry, Fairway en Arcade Club.',
+      'AppElent maakt apps voor thuis, sport en spel: Gather, Foundry, Fairway en Arcade Club.',
     privacyTitle: 'Privacybeleid · AppElent',
     privacyDescription:
       'Eén privacybeleid voor Gather, Foundry, Fairway, Arcade Club en appelent.nl.',
@@ -22,14 +22,13 @@ export const nl = {
     skip: 'Naar de inhoud',
     homeLabel: 'AppElent, homepage',
     navLabel: 'Hoofdmenu',
-    navAbout: 'Over mij',
     navApps: 'Apps',
     navPrivacy: 'Privacy',
     navSupport: 'Support',
     langLabel: 'Taal',
     languages: { nl: 'NL', en: 'EN' },
     languageNames: { nl: 'Nederlands', en: 'English' },
-    footTag: 'Eric Jansen. Apps voor thuis, sport en spel.',
+    footTag: 'Apps voor thuis, sport en spel.',
     footApps: 'Apps',
     footAppElent: 'AppElent',
     footContact: 'Contact',
@@ -38,32 +37,14 @@ export const nl = {
   },
   home: {
     hero: {
-      photoLabel: 'Foto van Eric (volgt)',
-      photoHint: 'foto',
-      photoAlt: 'Eric Jansen',
-      eyebrow: 'Maker van AppElent',
-      title: 'Hoi, ik ben Eric. Ik bouw apps.',
-      body: '[Een of twee zinnen over jezelf: wat je doet, waar je woont, wat je drijft.]',
-      cta: 'Bekijk mijn apps',
+      eyebrow: 'AppElent',
+      title: 'Apps voor thuis, sport en spel.',
+      body: 'Vier apps voor het huishouden, de sportschool, de golfbaan en spelavonden. Op het web en op de iPhone, met één account.',
+      cta: 'Bekijk de apps',
       contact: 'Neem contact op',
     },
-    does: {
-      title: 'Wat ik doe',
-      apps: {
-        title: 'Apps voor het dagelijks leven',
-        body: 'Gather voor het huishouden, Foundry voor de sportschool, Fairway op de golfbaan en Arcade Club voor spelavonden.',
-      },
-      factory: {
-        title: 'Een softwarefabriek met AI',
-        body: 'AI-agents schrijven, testen en reviewen de code. Ik bepaal wat er gebouwd wordt en keur elke stap goed.',
-      },
-      work: {
-        title: '[Je werk]',
-        body: '[Wat je overdag doet, of waar je naast AppElent aan werkt.]',
-      },
-    },
     apps: {
-      title: 'Wat ik maak',
+      title: 'De apps',
       body: 'Vier apps, elk voor één deel van het leven. Je logt overal in met hetzelfde account.',
       storeAlt: 'Download {app} in de App Store',
       soonSmall: 'App Store',
@@ -76,16 +57,14 @@ export const nl = {
       cta: 'Naar je account',
     },
     stack: {
-      title: 'Waarmee ik bouw',
-      body: 'Web en iPhone uit één codebase per app, met AI-agents die het meeste werk doen.',
+      title: 'Waarmee we bouwen',
+      body: 'Web en iPhone uit één codebase per app, gebouwd met AI-agents.',
     },
     contact: {
       title: 'Contact',
-      body: 'Een vraag, een idee of gewoon hallo? Mail me of vind me op GitHub.',
-      mail: 'Mail me',
+      body: 'Een vraag of een idee? Mail ons of kijk op GitHub.',
+      mail: 'Mail ons',
       github: 'GitHub',
-      linkedin: 'LinkedIn',
-      linkedinPlaceholder: '[LinkedIn?]',
     },
   },
   apps: {

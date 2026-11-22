@@ -35,7 +35,7 @@ ${Object.values(copy.apps[app.id].notes).map((note) => html`<p class="small mute
   const main = html`<div class="page-head">
 <h1 class="display-2">${t.title}</h1>
 <p class="lead muted">${t.lead}</p>
-<p class="page-meta"><span class="pill-teal">${t.scope}</span>${pending.privacy ? placeholderComment('item 6', 'final privacy text and date, Eric approves in the PR') : ''}<span${pending.privacy ? html` class="ph"` : ''}>${t.updated}</span></p>
+<p class="page-meta"><span class="pill-teal">${t.scope}</span>${pending.privacy ? placeholderComment('item 3', 'final privacy text and date, Eric approves in the PR') : ''}<span${pending.privacy ? html` class="ph"` : ''}>${t.updated}</span></p>
 </div>
 <div class="policy">
 <nav class="toc" aria-label="${t.tocLabel}">

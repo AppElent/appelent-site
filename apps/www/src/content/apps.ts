@@ -11,7 +11,7 @@ export interface App {
   appStoreId: string
   /**
    * LAUNCH STATUS — placeholder until Eric confirms which apps are public at
-   * launch (APP-480 open item 5). `live` shows Apple's App Store badge;
+   * launch (APP-480 open item 2). `live` shows Apple's App Store badge;
    * `soon` shows the dashed "Binnenkort" / "Coming soon" state and no link.
    * Flip an app by changing this one value.
    */
