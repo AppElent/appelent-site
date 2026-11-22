@@ -4,12 +4,14 @@
   "type": "module",
   "scripts": {
     "check": "biome check",
-    "typecheck": "pnpm --filter @appelent/www typecheck",
-    "test": "pnpm --filter @appelent/www test",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
     "verify": "pnpm check && pnpm typecheck && pnpm test",
-    "build": "pnpm --filter @appelent/www build",
+    "build": "pnpm -r --if-present build",
     "dev": "pnpm --filter @appelent/www dev",
-    "deploy:staging": "pnpm --filter @appelent/www deploy:staging"
+    "dev:account": "pnpm --filter @appelent/account dev",
+    "deploy:staging": "pnpm --filter @appelent/www deploy:staging",
+    "deploy:account:staging": "pnpm --filter @appelent/account deploy:staging"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.7"

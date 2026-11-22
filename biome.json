@@ -9,6 +9,11 @@
       "!designs",
       "!apps/www/assets",
       "!apps/www/public",
+      "!apps/account/public",
+      "!apps/account/src/routeTree.gen.ts",
+      "!apps/account/scripts/env.mjs",
+      "!apps/account/scripts/lib",
+      "!apps/account/.env.example",
       "!**/*.md"
     ]
   },
