@@ -17,8 +17,7 @@ export function safeRedirect(value: unknown): string {
   ) {
     return '/'
   }
-  // Browsers drop tabs and newlines when parsing (`/%09/evil.example` reads
-  // as `//evil.example`): resolve it and insist on this origin.
+  // Resolve it and insist on this origin.
   const base = 'https://account.invalid'
   let url: URL
   try {
@@ -26,8 +25,7 @@ export function safeRedirect(value: unknown): string {
   } catch {
     return '/'
   }
-  if (url.origin !== base || /[\t\n\r]/.test(decodeURIComponentSafe(value)))
-    return '/'
+  if (url.origin !== base) return '/'
   const path = `${url.pathname}${url.search}${url.hash}`
   // `/.//evil.example` normalizes to `//evil.example`.
   if (path.startsWith('//')) return '/'
@@ -42,16 +40,14 @@ export function safeRedirect(value: unknown): string {
       return '/'
     }
   }
-  if (segments[1]?.toLowerCase() === 'sign-in') return '/'
+  // Browsers drop tabs and newlines when parsing (`/%09/evil.example` can
+  // read as `//evil.example`): none in a decoded segment.
+  if (
+    segments.some((segment) => /[\t\n\r]/.test(segment)) ||
+    segments[1]?.toLowerCase() === 'sign-in'
+  )
+    return '/'
   return path
-}
-
-function decodeURIComponentSafe(value: string) {
-  try {
-    return decodeURIComponent(value)
-  } catch {
-    return value
-  }
 }
 
 /** The profile's route id, for typed links (`params: { _splat: '' }`). */
