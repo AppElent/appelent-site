@@ -53,7 +53,7 @@ export function Download() {
   const [cancelled, setCancelled] = useState(false)
   const abort = useRef<AbortController | null>(null)
 
-  // Leaving the page stops the export after its current page.
+  // Leaving the page stops the export at once.
   useEffect(() => () => abort.current?.abort(), [])
 
   const settled = appIds.every((id) => summaries[id].status !== 'loading')

@@ -47,6 +47,8 @@ function untilAborted<T>(start: () => Promise<T>, signal?: AbortSignal) {
     }
     if (signal.aborted) {
       signal.removeEventListener('abort', onAbort)
+      // Nobody reads this page any more; keep its failure from surfacing.
+      promise.catch(() => {})
       reject(new ExportCancelled())
       return
     }

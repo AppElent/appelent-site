@@ -1,6 +1,6 @@
 import { useAuth } from '@clerk/react'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Footer } from '../components/Shell.tsx'
 import { safeRedirect } from '../lib/paths.ts'
 import { SignInScreen } from '../screens/Simple.tsx'
@@ -19,6 +19,7 @@ const REDIRECT_KEY = 'ae-sign-in-redirect'
 /** The tab's pending return path; storage can be missing or throw. */
 const stored = {
   get: () => {
+    if (typeof window === 'undefined') return null
     try {
       return sessionStorage.getItem(REDIRECT_KEY)
     } catch {
@@ -45,18 +46,14 @@ function SignInPage() {
   // path for the tab, validated again on the way out. Only a Clerk step reads
   // it back; `/sign-in` itself starts a fresh sign-in and forgets an
   // abandoned one.
-  const [redirect] = useState(() => {
-    if (typeof window === 'undefined') return search.redirect ?? '/'
-    if (search.redirect !== undefined) {
-      stored.set(search.redirect)
-      return search.redirect
-    }
-    if (!step) {
-      stored.clear()
-      return '/'
-    }
-    return safeRedirect(stored.get() ?? '/')
-  })
+  // Worked out on every render: the router reuses this page when you move
+  // between Clerk's steps or come back with a new `redirect`.
+  const redirect =
+    search.redirect ?? (step ? safeRedirect(stored.get() ?? '/') : '/')
+  useEffect(() => {
+    if (search.redirect !== undefined) stored.set(search.redirect)
+    else if (!step) stored.clear()
+  }, [search.redirect, step])
   const { isLoaded, isSignedIn } = useAuth()
   const router = useRouter()
   useEffect(() => {

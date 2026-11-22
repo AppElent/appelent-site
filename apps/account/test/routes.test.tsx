@@ -160,6 +160,40 @@ describe('routes', () => {
     expect(sessionStorage.getItem('ae-sign-in-redirect')).toBeNull()
   })
 
+  it('follows a new way back when sign-in is entered again in place', async () => {
+    sessionStorage.setItem('ae-sign-in-redirect', '/export')
+    const router = renderAt('/sign-in/sso-callback')
+    await screen.findByText('clerk sign-in')
+    expect(signIn).toHaveBeenLastCalledWith(
+      expect.objectContaining({ forceRedirectUrl: '/export' }),
+    )
+    await router.navigate({
+      to: '/sign-in/$',
+      params: { _splat: '' },
+      search: { redirect: '/profile' },
+    } as never)
+    await waitFor(() =>
+      expect(signIn).toHaveBeenLastCalledWith(
+        expect.objectContaining({ forceRedirectUrl: '/profile' }),
+      ),
+    )
+    await waitFor(() =>
+      expect(sessionStorage.getItem('ae-sign-in-redirect')).toBe('/profile'),
+    )
+    await router.navigate({
+      to: '/sign-in/$',
+      params: { _splat: '' },
+    } as never)
+    await waitFor(() =>
+      expect(signIn).toHaveBeenLastCalledWith(
+        expect.objectContaining({ forceRedirectUrl: '/' }),
+      ),
+    )
+    await waitFor(() =>
+      expect(sessionStorage.getItem('ae-sign-in-redirect')).toBeNull(),
+    )
+  })
+
   it('sends a signed-in visitor on from sign-in', async () => {
     session.isSignedIn = true
     sessionStorage.setItem('portal-fake', 'new')

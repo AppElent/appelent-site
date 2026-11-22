@@ -70,6 +70,20 @@ describe('exportApp', () => {
     await expect(pending).rejects.toBeInstanceOf(ExportCancelled)
   })
 
+  it('swallows a page that fails after a cancel raised while it starts', async () => {
+    const controller = new AbortController()
+    const aborting: PortalClient = {
+      summary: async () => null,
+      exportPage: () => {
+        controller.abort()
+        return Promise.reject(new Error('Server error'))
+      },
+    }
+    await expect(
+      exportApp('gather', aborting, { signal: controller.signal }),
+    ).rejects.toBeInstanceOf(ExportCancelled)
+  })
+
   it('answers a cancel raised while a page starts', async () => {
     const controller = new AbortController()
     const aborting: PortalClient = {
