@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Journeys account portal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1400px; height: 900px; box-sizing: border-box; padding: 48px; background: #f6f7fb; color: #1c2333; font-family: Inter, sans-serif; display: flex; flex-direction: column; gap: 36px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 40px; line-height: 44px;">Journeys</h1>
+<sc-for list="{{flows}}" as="f" hint-placeholder-count="4">
+<section style="display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 18px; line-height: 26px; font-weight: 600;">{{f.title}}</h2>
+<div style="display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; row-gap: 10px;">
+<sc-for list="{{f.steps}}" as="s" hint-placeholder-count="5">
+<div style="display: flex; align-items: center;">
+<div style="width: 190px; min-height: 72px; box-sizing: border-box; padding: 12px 14px; border-radius: 14px; background: {{s.bg}}; border: 1px solid {{s.border}}; display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 14px; line-height: 20px; font-weight: 600;">{{s.name}}</span>
+<span style="font-size: 12px; line-height: 16px; color: #55607a;">{{s.note}}</span>
+</div>
+<sc-if value="{{s.arrow}}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="width: 32px; text-align: center; color: #55607a; font-size: 18px;">→</span></sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-for>
+<p style="margin: 0; font-size: 13px; color: #55607a;">Teal: eerste moment van waarde. Oranje rand: vertakking of fout, met een uitweg op hetzelfde scherm.</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const N = { bg: '#ffffff', border: '#dde2ec' };
+    const V = { bg: '#e2f4f2', border: '#7fd1c8' };
+    const B = { bg: '#ffffff', border: '#f0c4a8' };
+    const mk = (title, steps) => ({ title, steps: steps.map((s, i) => Object.assign({ name: s[0], note: s[1], arrow: i < steps.length - 1 }, s[2] || N)) });
+    return { flows: [
+      mk('1 · Eerste bezoek', [['Link “Naar je account”', 'appelent.nl of een app (fase 4)'], ['account.appelent.nl', 'niet ingelogd'], ['Inloggen', 'Clerk SignIn: Apple, Google, Microsoft, e-mail'], ['Overzicht', 'vier apps met status en samenvatting', V], ['Nieuw account', 'geen app gebruikt: uitleg + open een app', B]]),
+      mk('2 · Alles downloaden', [['Overzicht', 'kaart “Al je gegevens downloaden”'], ['Downloaden', 'lijst van wat erin komt'], ['Zip maken', 'voortgang per app'], ['Klaar', 'zip in downloads', V], ['Eén app mislukt', 'opnieuw of zonder die app', B]]),
+      mk('3 · Eén app bekijken', [['Overzicht', 'rij van een app'], ['App-pagina', 'wat de app bewaart, per soort', V], ['Download of open', 'JSON van die app, of open de app'], ['Nog niet gebruikt', 'niets opgeslagen + open de app', B], ['Niet bereikbaar', 'opnieuw proberen; andere apps werken', B]]),
+      mk('4 · Profiel en inloggen', [['Overzicht', 'kaart “Profiel en inloggen”'], ['Profiel', 'Clerk UserProfile', V], ['Wijzigen', 'naam, e-mail, wachtwoord, passkeys, 2FA'], ['Apparaat uitloggen', 'per sessie'], ['Uitloggen', 'terug naar Inloggen']])
+    ] };
+  }
+}
+</script>
+</body>
+</html>

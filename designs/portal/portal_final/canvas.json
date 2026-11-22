@@ -1,0 +1,352 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "A-home-list-phone.dc.html": {
+      "h": 1900,
+      "page": "directions",
+      "title": "A · Lijst · telefoon",
+      "w": 390,
+      "x": 0,
+      "y": 1220
+    },
+    "A-home-list.dc.html": {
+      "h": 1100,
+      "page": "directions",
+      "title": "A · Lijst (aanbevolen)",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "B-home-cards-phone.dc.html": {
+      "h": 2100,
+      "page": "history",
+      "title": "Ronde 1 · B · Kaarten · telefoon (niet gekozen)",
+      "w": 390,
+      "x": 0,
+      "y": 1220
+    },
+    "B-home-cards.dc.html": {
+      "h": 1100,
+      "page": "history",
+      "title": "Ronde 1 · B · Kaarten (niet gekozen)",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "D-app.dc.html": {
+      "h": 1100,
+      "page": "portal",
+      "title": "App: Gather · desktop licht NL",
+      "w": 1280,
+      "x": 1158,
+      "y": 1220
+    },
+    "D-export.dc.html": {
+      "h": 900,
+      "page": "portal",
+      "title": "Downloaden · desktop licht NL",
+      "w": 1280,
+      "x": 2720,
+      "y": 1220
+    },
+    "D-profile.dc.html": {
+      "h": 1300,
+      "page": "portal",
+      "title": "Profiel · desktop licht NL",
+      "w": 1280,
+      "x": 4080,
+      "y": 1220
+    },
+    "D-signin.dc.html": {
+      "h": 900,
+      "page": "portal",
+      "title": "Inloggen · desktop licht NL",
+      "w": 1280,
+      "x": 0,
+      "y": 1220
+    },
+    "DE-app.dc.html": {
+      "h": 1100,
+      "page": "portal",
+      "title": "App: Foundry · desktop dark EN",
+      "w": 1280,
+      "x": 4080,
+      "y": 0
+    },
+    "DE-export.dc.html": {
+      "h": 900,
+      "page": "portal",
+      "title": "Download · desktop dark EN",
+      "w": 1280,
+      "x": 5440,
+      "y": 0
+    },
+    "DE-home.dc.html": {
+      "h": 1100,
+      "page": "portal",
+      "title": "Overview · desktop dark EN",
+      "w": 1280,
+      "x": 1360,
+      "y": 0
+    },
+    "DE-profile.dc.html": {
+      "h": 1300,
+      "page": "portal",
+      "title": "Profile · desktop dark EN",
+      "w": 1280,
+      "x": 5440,
+      "y": 1220
+    },
+    "DE-signin.dc.html": {
+      "h": 900,
+      "page": "portal",
+      "title": "Sign in · desktop dark EN",
+      "w": 1280,
+      "x": 2720,
+      "y": 0
+    },
+    "Flows.dc.html": {
+      "h": 900,
+      "page": "flows",
+      "title": "Journeys",
+      "w": 1400,
+      "x": 0,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "h": 1100,
+      "is_interactive": true,
+      "page": "portal",
+      "title": "Main (interactive): overzicht, desktop, licht, NL",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "P-app.dc.html": {
+      "h": 1500,
+      "page": "portal",
+      "title": "App: Gather · telefoon licht NL",
+      "w": 390,
+      "x": 940,
+      "y": 2640
+    },
+    "P-export.dc.html": {
+      "h": 1200,
+      "page": "portal",
+      "title": "Downloaden · telefoon licht NL",
+      "w": 390,
+      "x": 1410,
+      "y": 2640
+    },
+    "P-home.dc.html": {
+      "h": 1900,
+      "page": "portal",
+      "title": "Overzicht · telefoon licht NL",
+      "w": 390,
+      "x": 470,
+      "y": 2640
+    },
+    "P-profile.dc.html": {
+      "h": 1800,
+      "page": "portal",
+      "title": "Profiel · telefoon licht NL",
+      "w": 390,
+      "x": 1880,
+      "y": 2640
+    },
+    "P-signin.dc.html": {
+      "h": 1000,
+      "page": "portal",
+      "title": "Inloggen · telefoon licht NL",
+      "w": 390,
+      "x": 0,
+      "y": 2640
+    },
+    "PE-home.dc.html": {
+      "h": 1900,
+      "page": "portal",
+      "title": "Overview · phone dark EN",
+      "w": 390,
+      "x": 2350,
+      "y": 2640
+    },
+    "S-app-error.dc.html": {
+      "h": 800,
+      "page": "states",
+      "title": "App niet bereikbaar",
+      "w": 1280,
+      "x": 1360,
+      "y": 1220
+    },
+    "S-app-unused.dc.html": {
+      "h": 800,
+      "page": "states",
+      "title": "App nog niet gebruikt",
+      "w": 1280,
+      "x": 0,
+      "y": 1220
+    },
+    "S-export-done.dc.html": {
+      "h": 900,
+      "page": "states",
+      "title": "Downloaden: klaar",
+      "w": 1280,
+      "x": 1360,
+      "y": 2140
+    },
+    "S-export-error.dc.html": {
+      "h": 900,
+      "page": "states",
+      "title": "Downloaden: één app mislukt",
+      "w": 1280,
+      "x": 2720,
+      "y": 2140
+    },
+    "S-export-working.dc.html": {
+      "h": 900,
+      "page": "states",
+      "title": "Downloaden: bezig",
+      "w": 1280,
+      "x": 0,
+      "y": 2140
+    },
+    "S-foundry-error.dc.html": {
+      "h": 1100,
+      "page": "states",
+      "title": "Eén app niet bereikbaar",
+      "w": 1280,
+      "x": 1360,
+      "y": 0
+    },
+    "S-loading.dc.html": {
+      "h": 1000,
+      "page": "states",
+      "title": "Laden",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "S-new-user.dc.html": {
+      "h": 1100,
+      "page": "states",
+      "title": "Nieuw account: nog geen apps",
+      "w": 1280,
+      "x": 2720,
+      "y": 0
+    },
+    "S-notfound.dc.html": {
+      "h": 800,
+      "page": "states",
+      "title": "Pagina niet gevonden",
+      "w": 1280,
+      "x": 2720,
+      "y": 1220
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-22T06:12:50Z",
+    "v": 1
+  },
+  "designSystems": [
+    {
+      "artifact": "https://claude.ai/artifact/PBhrWSBiiAaCm9q1h5rPFo",
+      "copiedAt": "2026-11-22T06:12:50Z",
+      "namespace": "appelent",
+      "title": "AppElent",
+      "version": "1795191839-3705"
+    }
+  ],
+  "launch": {
+    "page": "portal",
+    "view": "canvas"
+  },
+  "notes": {
+    "brief": {
+      "fill": "teal",
+      "page": "brief",
+      "size": 24,
+      "text": "APP-481 · account.appelent.nl · ronde 2 (22 nov 2026)\n\nVoor wie: iemand met een AppElent-account die één of meer apps gebruikt (Gather, Foundry, Fairway, Arcade Club).\n\nUitkomst: op één plek zien welke apps je gebruikt en wat ze van je bewaren, alles downloaden, en je profiel en inloggen beheren. Verwijderen volgt in fase 3 (APP-483).\n\nPlatform: alleen web (TanStack Start op Workers), telefoon en desktop, NL + EN, licht + donker volgens het systeem. Geen app-scherm: de apps linken hierheen (fase 4).\n\nGeen eigen database: de browser vraagt elke app zelf (convex/accountPortal.ts, APP-482). Datamodel: geen.\n\nInloggen en profiel zijn Clerk-componenten (SignIn, UserProfile) in de AppElent-stijl; strikte CSP, geen scripts van derden.",
+      "w": 620,
+      "x": 0,
+      "y": 0
+    },
+    "choices": {
+      "fill": "blue",
+      "page": "brief",
+      "size": 24,
+      "text": "Ronde 2 (22 nov 2026)\n\nEric koos richting A (lijst). Kaarten (B) staan op History.\n\nTelefoon opgeschoond na Erics opmerking over afgebroken zinnen:\n1. App-rijen: kortere samenvatting (twee tellingen), status zonder pil, soort op één regel, minder padding.\n2. Knoppen op de telefoon over de volle breedte, labels breken niet.\n3. Koppen gebalanceerd, alinea's zonder losse woorden aan het eind.\n4. Profiel: lange adressen breken netjes, knoppen blijven heel.\n\nOngewijzigd: drie tabbladen, app-pagina, zip met voortgang per app, verwijderkaart tot fase 3. App-iconen zijn stand-ins; de bouw gebruikt ieders icon.png.",
+      "w": 620,
+      "x": 700,
+      "y": 0
+    },
+    "open": {
+      "fill": "orange",
+      "page": "brief",
+      "size": 24,
+      "text": "Open vragen voor Eric\n\n1. Tonen we 'Laatst actief' per app? Dat vraagt elke app om een tijdstip bij te houden (summary in APP-482).\n2. Ook losse JSON per app (knop op de app-pagina), of alleen de zip?\n3. Inloggen: dezelfde methodes als de apps (Apple, Google, Microsoft, e-mail). Klopt dat?",
+      "w": 620,
+      "x": 1400,
+      "y": 0
+    }
+  },
+  "order": [
+    "Flows.dc.html",
+    "S-loading.dc.html",
+    "S-foundry-error.dc.html",
+    "S-new-user.dc.html",
+    "S-app-unused.dc.html",
+    "S-app-error.dc.html",
+    "S-notfound.dc.html",
+    "S-export-working.dc.html",
+    "S-export-done.dc.html",
+    "S-export-error.dc.html",
+    "A-home-list.dc.html",
+    "B-home-cards.dc.html",
+    "A-home-list-phone.dc.html",
+    "B-home-cards-phone.dc.html",
+    "Main.dc.html",
+    "D-signin.dc.html",
+    "D-app.dc.html",
+    "D-export.dc.html",
+    "D-profile.dc.html",
+    "DE-home.dc.html",
+    "DE-signin.dc.html",
+    "DE-app.dc.html",
+    "DE-export.dc.html",
+    "DE-profile.dc.html",
+    "P-signin.dc.html",
+    "P-home.dc.html",
+    "P-app.dc.html",
+    "P-export.dc.html",
+    "P-profile.dc.html",
+    "PE-home.dc.html"
+  ],
+  "pages": [
+    {
+      "id": "brief",
+      "name": "Brief"
+    },
+    {
+      "id": "flows",
+      "name": "Flows"
+    },
+    {
+      "id": "portal",
+      "name": "APP-481 Portal"
+    },
+    {
+      "id": "states",
+      "name": "States"
+    },
+    {
+      "id": "directions",
+      "name": "Directions"
+    },
+    {
+      "id": "history",
+      "name": "History"
+    }
+  ],
+  "title": "AppElent — Account portal"
+}

@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>AppElent account</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}
+.ae button,.ae a{font-family:inherit}
+.ae h1,.ae h2,.ae h3{text-wrap:balance}
+.ae p,.ae dt,.ae span{text-wrap:pretty}
+.ae .nowrap{white-space:nowrap}
+.ae a:focus-visible,.ae button:focus-visible,.ae input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+</style>
+</helmet>
+<div class="ae" style="width: {{w}}px; min-height: 100%; box-sizing: border-box; background: {{c.surface}}; color: {{c.ink}}; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 16px; line-height: 24px; --focus: {{c.focus}}; display: flex; flex-direction: column;">
+
+<sc-if value="{{showShell}}" hint-placeholder-val="{{ true }}">
+<header style="border-bottom: 1px solid {{c.line}}; background: {{c.raised}};">
+<div style="max-width: 1184px; margin: 0 auto; padding: 0 {{gutter}}px; height: 64px; display: flex; align-items: center; gap: 24px;">
+<a href="#" onClick="{{goHome}}" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: {{c.ink}};" aria-label="{{t.homeLabel}}">
+<svg width="32" height="32" viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="mk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b4a6b"></stop><stop offset="1" stop-color="#1c2333"></stop></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#mk)"></rect><path d="M256 104 L376 408 H322 L296 336 H216 L190 408 H136 Z M232 290 H280 L256 222 Z" fill="#f4f6fb"></path><circle cx="388" cy="132" r="34" fill="#7fd1c8"></circle></svg>
+<span style="font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 20px;">AppElent</span>
+<span style="font-size: 14px; color: {{c.muted}}; border-left: 1px solid {{c.line}}; padding-left: 10px;">{{t.account}}</span>
+</a>
+<sc-if value="{{isDesktop}}" hint-placeholder-val="{{ true }}">
+<nav aria-label="{{t.navLabel}}" style="display: flex; gap: 4px; margin-left: 16px;">
+<sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
+<a href="#" onClick="{{tab.go}}" aria-current="{{tab.current}}" style="padding: 10px 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: {{tab.color}}; background: {{tab.bg}};">{{tab.label}}</a>
+</sc-for>
+</nav>
+</sc-if>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 12px;">
+<sc-if value="{{isDesktop}}" hint-placeholder-val="{{ true }}">
+<div role="group" aria-label="{{t.langLabel}}" style="display: flex; border: 1px solid {{c.line}}; border-radius: 8px; padding: 2px;">
+<sc-for list="{{langs}}" as="l" hint-placeholder-count="2">
+<a href="#" onClick="{{l.go}}" lang="{{l.code}}" aria-current="{{l.current}}" style="min-width: 36px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 13px; font-weight: 600; text-decoration: none; color: {{l.color}}; background: {{l.bg}};">{{l.label}}</a>
+</sc-for>
+</div>
+</sc-if>
+<button type="button" aria-label="{{t.menuLabel}}" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid {{c.line}}; background: {{c.tealSoft}}; color: {{c.tealInk}}; font-weight: 600; font-size: 15px; cursor: pointer;">{{user.initials}}</button>
+</div>
+</div>
+<sc-if value="{{isPhone}}" hint-placeholder-val="{{ false }}">
+<nav aria-label="{{t.navLabel}}" style="display: flex; gap: 4px; padding: 0 {{gutter}}px 10px; overflow-x: auto;">
+<sc-for list="{{tabs}}" as="tab" hint-placeholder-count="3">
+<a href="#" onClick="{{tab.go}}" aria-current="{{tab.current}}" style="flex: none; min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; color: {{tab.color}}; background: {{tab.bg}};">{{tab.label}}</a>
+</sc-for>
+</nav>
+</sc-if>
+</header>
+</sc-if>
+
+<main style="flex: 1; width: 100%; max-width: 1184px; margin: 0 auto; box-sizing: border-box; padding: {{mainPad}}px {{gutter}}px 64px; display: flex; flex-direction: column; gap: 32px;">
+
+<sc-if value="{{s.signin}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center; justify-content: center; padding-top: 24px;">
+<div style="flex: 1 1 340px; max-width: 460px; display: flex; flex-direction: column; gap: 16px;">
+<svg width="56" height="56" viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="mk2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b4a6b"></stop><stop offset="1" stop-color="#1c2333"></stop></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#mk2)"></rect><path d="M256 104 L376 408 H322 L296 336 H216 L190 408 H136 Z M232 290 H280 L256 222 Z" fill="#f4f6fb"></path><circle cx="388" cy="132" r="34" fill="#7fd1c8"></circle></svg>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{h1Size}}px; line-height: 1.1; letter-spacing: -0.02em;">{{t.signinTitle}}</h1>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: {{c.muted}};">{{t.signinLead}}</p>
+<div style="display: flex; gap: 8px; margin-top: 4px;">
+<sc-for list="{{apps}}" as="app" hint-placeholder-count="4">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 22%; background: {{app.iconBg}}; color: {{app.iconFg}}; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 20px;">{{app.glyph}}</span>
+</sc-for>
+</div>
+</div>
+<div style="flex: 1 1 340px; max-width: 420px; background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; box-shadow: {{c.shadow}}; padding: 32px 28px; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600;">{{t.signinCard}}</h2>
+<p style="margin: 0 0 6px; font-size: 14px; line-height: 20px; color: {{c.muted}};">{{t.signinCardSub}}</p>
+<sc-for list="{{providers}}" as="p" hint-placeholder-count="3">
+<button type="button" style="height: 48px; border-radius: 14px; border: 1px solid {{c.line}}; background: {{c.surface}}; color: {{c.ink}}; font-size: 15px; font-weight: 500; cursor: pointer;">{{p}}</button>
+</sc-for>
+<div style="display: flex; align-items: center; gap: 12px; color: {{c.muted}}; font-size: 13px;"><span style="flex: 1; height: 1px; background: {{c.line}};"></span>{{t.or}}<span style="flex: 1; height: 1px; background: {{c.line}};"></span></div>
+<label for="em" style="font-size: 14px; font-weight: 500;">{{t.email}}</label>
+<input id="em" type="email" autocomplete="email" placeholder="naam@voorbeeld.nl" style="height: 48px; border-radius: 8px; border: 1px solid {{c.line}}; background: {{c.surface}}; color: {{c.ink}}; padding: 0 14px; font-size: 16px; font-family: inherit;">
+<a href="#" onClick="{{goHome}}" style="height: 48px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 600;">{{t.continue}}</a>
+<p style="margin: 4px 0 0; font-size: 13px; line-height: 18px; color: {{c.muted}};">{{t.signinNote}}</p>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s.home}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{h1Size}}px; line-height: 1.1; letter-spacing: -0.02em;">{{t.hello}}</h1>
+<p style="margin: 0; color: {{c.muted}};">{{user.email}}</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section aria-labelledby="apps-h" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+<h2 id="apps-h" style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600;">{{t.yourApps}}</h2>
+<span style="font-size: 14px; color: {{c.muted}};">{{usedLine}}</span>
+</div>
+<sc-if value="{{newUser}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; padding: 16px 20px; border-radius: 14px; background: {{c.tealSoft}}; color: {{c.ink}}; font-size: 15px;">{{t.newUserNote}}</p>
+</sc-if>
+
+<sc-if value="{{listLayout}}" hint-placeholder-val="{{ true }}">
+<ul style="list-style: none; margin: 0; padding: 0; background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; box-shadow: {{c.shadow}}; overflow: hidden;">
+<sc-for list="{{apps}}" as="app" hint-placeholder-count="4">
+<li style="border-top: {{app.divider}};">
+<sc-if value="{{app.loading}}" hint-placeholder-val="{{ false }}">
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 16px; padding: 20px 24px;">
+<span style="width: 48px; height: 48px; border-radius: 22%; background: {{c.sunk}};"></span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 8px;"><span style="width: 120px; height: 14px; border-radius: 6px; background: {{c.sunk}};"></span><span style="width: 60%; height: 12px; border-radius: 6px; background: {{c.sunk}};"></span></span>
+</div>
+</sc-if>
+<sc-if value="{{app.ready}}" hint-placeholder-val="{{ true }}">
+<a href="#" onClick="{{app.open}}" style="display: flex; align-items: center; gap: {{rowGap}}px; padding: {{rowPad}}; min-height: 52px; text-decoration: none; color: {{c.ink}};">
+<span aria-hidden="true" style="flex: none; width: {{rowIcon}}px; height: {{rowIcon}}px; border-radius: 22%; background: {{app.iconBg}}; color: {{app.iconFg}}; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 22px;">{{app.glyph}}</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;">
+<span class="nowrap" style="display: flex; align-items: baseline; gap: 8px; overflow: hidden;"><span style="font-weight: 600; font-size: 17px;">{{app.name}}</span><span style="font-size: 13px; color: {{c.muted}}; overflow: hidden; text-overflow: ellipsis;">{{app.kind}}</span></span>
+<span style="font-size: 14px; line-height: 20px; color: {{app.lineColor}};">{{app.line}}</span>
+</span>
+<sc-if value="{{isDesktop}}" hint-placeholder-val="{{ true }}">
+<span style="flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+<span class="nowrap" style="font-size: 12px; line-height: 16px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: {{app.pillBg}}; color: {{app.pillFg}};">{{app.pill}}</span>
+<span class="nowrap" style="font-size: 13px; color: {{c.muted}};">{{app.last}}</span>
+</span>
+</sc-if>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{c.muted}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+</sc-if>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{cardLayout}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat({{cardCols}}, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{apps}}" as="app" hint-placeholder-count="4">
+<article style="background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; box-shadow: {{c.shadow}}; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 14px;">
+<span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 22%; background: {{app.iconBg}}; color: {{app.iconFg}}; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 28px;">{{app.glyph}}</span>
+<div style="flex: 1;"><h3 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 24px; line-height: 30px;">{{app.name}}</h3><p style="margin: 0; font-size: 13px; color: {{c.muted}};">{{app.kind}}</p></div>
+<span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: {{app.pillBg}}; color: {{app.pillFg}};">{{app.pill}}</span>
+</div>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: {{app.lineColor}}; min-height: 40px;">{{app.line}}</p>
+<p style="margin: 0; font-size: 13px; color: {{c.muted}};">{{app.last}}</p>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<a href="#" onClick="{{app.open}}" style="min-height: 44px; padding: 0 16px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; display: flex; align-items: center; text-decoration: none; font-weight: 600; font-size: 15px;">{{t.view}}</a>
+<sc-if value="{{app.used}}" hint-placeholder-val="{{ true }}"><a href="#" style="min-height: 44px; padding: 0 16px; border-radius: 14px; border: 1px solid {{c.line}}; display: flex; align-items: center; text-decoration: none; font-weight: 600; font-size: 15px; color: {{c.ink}};">{{t.download}}</a></sc-if>
+</div>
+</article>
+</sc-for>
+</div>
+</sc-if>
+</section>
+
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section style="background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; box-shadow: {{c.shadow}}; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 18px; line-height: 26px; font-weight: 600;">{{t.exportCardTitle}}</h2>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: {{c.muted}};">{{t.exportCardBody}}</p>
+<a href="#" onClick="{{goExport}}" style="align-self: flex-start; margin-top: 6px; min-height: 44px; padding: 0 18px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; display: flex; align-items: center; text-decoration: none; font-weight: 600; font-size: 15px;">{{t.exportCardCta}}</a>
+</section>
+<section style="background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 18px; line-height: 26px; font-weight: 600;">{{t.profileCardTitle}}</h2>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: {{c.muted}};">{{t.profileCardBody}}</p>
+<a href="#" onClick="{{goProfile}}" style="align-self: flex-start; color: {{c.tealInk}}; font-weight: 600; font-size: 15px; min-height: 44px; display: flex; align-items: center;">{{t.profileCardCta}}</a>
+</section>
+<section style="background: {{c.sunk}}; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-size: 18px; line-height: 26px; font-weight: 600;">{{t.deleteCardTitle}}</h2>
+<p style="margin: 0; font-size: 14px; line-height: 20px; color: {{c.muted}};">{{t.deleteCardBody}}</p>
+</section>
+</aside>
+</div>
+</sc-if>
+
+<sc-if value="{{s.app}}" hint-placeholder-val="{{ false }}">
+<a href="#" onClick="{{goHome}}" style="align-self: flex-start; display: flex; align-items: center; gap: 6px; color: {{c.tealInk}}; font-weight: 600; font-size: 15px; text-decoration: none; min-height: 44px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>{{t.back}}</a>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center;">
+<span aria-hidden="true" style="width: 72px; height: 72px; border-radius: 22%; background: {{sel.iconBg}}; color: {{sel.iconFg}}; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 36px;">{{sel.glyph}}</span>
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 4px;">
+<p style="margin: 0; font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{c.muted}};">{{sel.kind}}</p>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{h1Size}}px; line-height: 1.1; letter-spacing: -0.02em;">{{sel.name}}</h1>
+<p style="margin: 0; font-size: 15px; color: {{sel.lineColor}};">{{sel.statusLine}}</p>
+</div>
+<sc-if value="{{sel.ready}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; gap: 10px; flex-wrap: wrap; flex: {{btnRow}};">
+<sc-if value="{{sel.used}}" hint-placeholder-val="{{ true }}"><a href="#" class="nowrap" style="flex: {{btnFlex}}; min-height: 48px; padding: 0 20px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; display: flex; align-items: center; justify-content: center; text-decoration: none; font-weight: 600;">{{sel.downloadLabel}}</a></sc-if>
+<a href="#" class="nowrap" style="flex: {{btnFlex}}; min-height: 48px; padding: 0 20px; border-radius: 14px; border: 1px solid {{c.line}}; background: {{c.raised}}; color: {{c.ink}}; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-weight: 600;">{{sel.openLabel}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{sel.showData}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<section aria-labelledby="data-h" style="flex: 999 1 560px; min-width: 0; background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; box-shadow: {{c.shadow}}; padding: 24px; display: flex; flex-direction: column; gap: 4px;">
+<h2 id="data-h" style="margin: 0 0 8px; font-size: 18px; line-height: 26px; font-weight: 600;">{{sel.dataTitle}}</h2>
+<dl style="margin: 0;">
+<sc-for list="{{sel.cats}}" as="cat" hint-placeholder-count="6">
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid {{c.line}};">
+<dt style="font-size: 15px;">{{cat.label}}</dt>
+<dd style="margin: 0; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums;">{{cat.count}}</dd>
+</div>
+</sc-for>
+</dl>
+</section>
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<section style="background: {{c.tealSoft}}; border-radius: 22px; padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+<h2 style="margin: 0; font-size: 16px; line-height: 24px; font-weight: 600;">{{t.aboutDownload}}</h2>
+<p style="margin: 0; font-size: 14px; line-height: 20px;">{{sel.note}}</p>
+</section>
+<a href="#" style="display: flex; align-items: center; gap: 6px; color: {{c.tealInk}}; font-weight: 600; font-size: 15px; min-height: 44px;">{{sel.privacyLabel}}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+</aside>
+</div>
+</sc-if>
+
+<sc-if value="{{sel.showEmpty}}" hint-placeholder-val="{{ false }}">
+<section style="background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; padding: 40px 32px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; max-width: 640px;">
+<h2 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600;">{{sel.emptyTitle}}</h2>
+<p style="margin: 0; color: {{c.muted}};">{{sel.emptyBody}}</p>
+</section>
+</sc-if>
+
+<sc-if value="{{sel.error}}" hint-placeholder-val="{{ false }}">
+<section role="alert" style="background: {{c.raised}}; border: 1px solid {{c.warnLine}}; border-radius: 22px; padding: 32px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; max-width: 640px;">
+<h2 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600;">{{sel.errorTitle}}</h2>
+<p style="margin: 0; color: {{c.muted}};">{{t.errorBody}}</p>
+<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 14px; border: 0; background: {{c.action}}; color: {{c.onAction}}; font-weight: 600; font-size: 15px; cursor: pointer;">{{t.retry}}</button>
+</section>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{s.export}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 720px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{h1Size}}px; line-height: 1.1; letter-spacing: -0.02em;">{{t.exportTitle}}</h1>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: {{c.muted}};">{{t.exportLead}}</p>
+</div>
+<section aria-labelledby="ex-h" style="max-width: 720px; background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; box-shadow: {{c.shadow}}; padding: 24px; display: flex; flex-direction: column; gap: 4px;">
+<h2 id="ex-h" style="margin: 0 0 8px; font-size: 18px; line-height: 26px; font-weight: 600;">{{t.exportList}}</h2>
+<ul style="list-style: none; margin: 0; padding: 0;">
+<sc-for list="{{exportRows}}" as="r" hint-placeholder-count="4">
+<li style="display: flex; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid {{c.line}};">
+<span aria-hidden="true" style="flex: none; width: 36px; height: 36px; border-radius: 22%; background: {{r.iconBg}}; color: {{r.iconFg}}; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 18px;">{{r.glyph}}</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column;"><span style="font-weight: 600;">{{r.name}}</span><span style="font-size: 14px; line-height: 20px; color: {{r.statusColor}};">{{r.status}}</span></span>
+<sc-if value="{{r.working}}" hint-placeholder-val="{{ false }}"><span role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{r.pct}}" aria-label="{{r.name}}" style="width: 96px; height: 6px; border-radius: 999px; background: {{c.sunk}}; overflow: hidden;"><span style="display: block; width: {{r.pct}}%; height: 100%; background: {{c.tealInk}};"></span></span></sc-if>
+<sc-if value="{{r.failed}}" hint-placeholder-val="{{ false }}"><button type="button" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid {{c.line}}; background: {{c.raised}}; color: {{c.ink}}; font-weight: 600; font-size: 14px; cursor: pointer;">{{t.retry}}</button></sc-if>
+</li>
+</sc-for>
+</ul>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid {{c.line}};">
+<sc-if value="{{ex.idle}}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{startExport}}" class="nowrap" style="flex: {{btnFlex}}; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 14px; border: 0; background: {{c.action}}; color: {{c.onAction}}; font-weight: 600; font-size: 16px; cursor: pointer;">{{t.makeZip}}</button>
+<span style="flex: 1 1 200px; font-size: 14px; color: {{c.muted}};">{{t.zipHint}}</span>
+</sc-if>
+<sc-if value="{{ex.working}}" hint-placeholder-val="{{ false }}">
+<button type="button" disabled="disabled" aria-busy="true" class="nowrap" style="flex: {{btnFlex}}; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 14px; border: 0; background: {{c.sunk}}; color: {{c.muted}}; font-weight: 600; font-size: 16px;">{{t.making}}</button>
+<button type="button" onClick="{{resetExport}}" class="nowrap" style="flex: {{btnFlex}}; justify-content: center; min-height: 48px; padding: 0 18px; border-radius: 14px; border: 1px solid {{c.line}}; background: transparent; color: {{c.ink}}; font-weight: 600; font-size: 15px; cursor: pointer;">{{t.cancel}}</button>
+</sc-if>
+<sc-if value="{{ex.done}}" hint-placeholder-val="{{ false }}">
+<p role="status" style="margin: 0; flex: 1 1 100%; font-weight: 600;">{{t.zipReady}}</p>
+<a href="#" class="nowrap" style="flex: {{btnFlex}}; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; display: flex; align-items: center; text-decoration: none; font-weight: 600;">{{t.downloadAgain}}</a>
+<button type="button" onClick="{{resetExport}}" class="nowrap" style="flex: {{btnFlex}}; justify-content: center; min-height: 48px; padding: 0 18px; border-radius: 14px; border: 1px solid {{c.line}}; background: transparent; color: {{c.ink}}; font-weight: 600; font-size: 15px; cursor: pointer;">{{t.makeNew}}</button>
+</sc-if>
+<sc-if value="{{ex.error}}" hint-placeholder-val="{{ false }}">
+<p role="alert" style="margin: 0; flex: 1 1 100%;">{{t.zipPartial}}</p>
+<button type="button" class="nowrap" style="flex: {{btnFlex}}; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 14px; border: 0; background: {{c.action}}; color: {{c.onAction}}; font-weight: 600; font-size: 16px; cursor: pointer;">{{t.retryFoundry}}</button>
+<a href="#" class="nowrap" style="flex: {{btnFlex}}; justify-content: center; min-height: 48px; padding: 0 18px; border-radius: 14px; border: 1px solid {{c.line}}; display: flex; align-items: center; text-decoration: none; color: {{c.ink}}; font-weight: 600; font-size: 15px;">{{t.downloadWithout}}</a>
+</sc-if>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{s.profile}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 720px;">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{h1Size}}px; line-height: 1.1; letter-spacing: -0.02em;">{{t.profileTitle}}</h1>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: {{c.muted}};">{{t.profileLead}}</p>
+</div>
+<div style="max-width: 860px; background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; box-shadow: {{c.shadow}}; overflow: hidden;">
+<sc-for list="{{profileSections}}" as="ps" hint-placeholder-count="5">
+<section style="display: flex; flex-wrap: wrap; gap: 8px 24px; padding: 22px 24px; border-top: {{ps.divider}};">
+<h2 style="flex: 1 1 180px; margin: 0; font-size: 15px; line-height: 24px; font-weight: 600;">{{ps.title}}</h2>
+<div style="flex: 999 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+<sc-for list="{{ps.rows}}" as="row" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px;">
+<span style="flex: 1; display: flex; flex-direction: column; min-width: 0;"><span style="font-size: 15px; overflow-wrap: anywhere;">{{row.main}}</span><span style="font-size: 13px; line-height: 18px; color: {{c.muted}}; overflow-wrap: anywhere;">{{row.sub}}</span></span>
+<sc-if value="{{row.hasPill}}" hint-placeholder-val="{{ false }}"><span style="flex: none; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: {{c.tealSoft}}; color: {{c.tealInk}};">{{row.pill}}</span></sc-if>
+<sc-if value="{{row.hasAction}}" hint-placeholder-val="{{ false }}"><button type="button" class="nowrap" style="flex: none; min-height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid {{c.line}}; background: transparent; color: {{c.ink}}; font-weight: 600; font-size: 14px; cursor: pointer;">{{row.action}}</button></sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-for>
+</div>
+<button type="button" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 14px; border: 1px solid {{c.line}}; background: transparent; color: {{c.ink}}; font-weight: 600; font-size: 15px; cursor: pointer;">{{t.signOut}}</button>
+</sc-if>
+
+<sc-if value="{{s.notfound}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 14px; align-items: flex-start; padding-top: 48px;">
+<p style="margin: 0; display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: {{c.tealInk}};"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #7fd1c8;"></span>404</p>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: {{h1Size}}px; line-height: 1.1;">{{t.nfTitle}}</h1>
+<p style="margin: 0; color: {{c.muted}};">{{t.nfBody}}</p>
+<a href="#" onClick="{{goHome}}" class="nowrap" style="flex: {{btnFlex}}; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; display: flex; align-items: center; text-decoration: none; font-weight: 600;">{{t.nfCta}}</a>
+</div>
+</sc-if>
+</main>
+
+<footer style="border-top: 1px solid {{c.line}}; background: {{c.sunk}};">
+<div style="max-width: 1184px; margin: 0 auto; padding: 20px {{gutter}}px; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: {{c.muted}};">
+<span>© 2026 AppElent</span>
+<a href="#" style="color: {{c.muted}};">{{t.privacy}}</a>
+<a href="#" style="color: {{c.muted}};">{{t.support}}</a>
+<a href="#" style="color: {{c.muted}};">appelent.nl</a>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"screen":{"editor":"enum","options":["signin","home","app","export","profile","loading","notfound"],"default":"home"},"app":{"editor":"enum","options":["gather","foundry","fairway","arcade"],"default":"gather"},"lang":{"editor":"enum","options":["nl","en"],"default":"nl"},"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"size":{"editor":"enum","options":["desktop","phone"],"default":"desktop"},"layout":{"editor":"enum","options":["list","cards"],"default":"list"},"persona":{"editor":"enum","options":["regular","new"],"default":"regular"},"fail":{"editor":"enum","options":["none","foundry"],"default":"none"},"exportState":{"editor":"enum","options":["idle","working","done","error"],"default":"idle"},"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  renderVals() {
+    const P = this.props;
+    const S = this.state;
+    const screen = S.screen || P.screen || 'home';
+    const appId = S.app || P.app || 'gather';
+    const lang = S.lang || P.lang || 'nl';
+    const theme = P.theme || 'light';
+    const size = P.size || 'desktop';
+    const layout = P.layout || 'list';
+    const persona = P.persona || 'regular';
+    const fail = P.fail || 'none';
+    const exportState = S.exportState || P.exportState || 'idle';
+    const isPhone = size === 'phone';
+    const nl = lang === 'nl';
+
+    const C = {
+      light: { surface: '#f6f7fb', raised: '#ffffff', sunk: '#eceff6', line: '#dde2ec', ink: '#1c2333', muted: '#55607a', tealInk: '#1d6f67', tealSoft: '#e2f4f2', action: '#1c2333', onAction: '#f4f6fb', focus: '#1d6f67', shadow: '0 1px 2px rgba(28,35,51,0.06), 0 8px 24px rgba(28,35,51,0.06)', warnInk: '#9a3412', warnSoft: '#fdeee4', warnLine: '#f0c4a8' },
+      dark: { surface: '#12161f', raised: '#1c2333', sunk: '#0d1018', line: '#2c3549', ink: '#f4f6fb', muted: '#a7b1c6', tealInk: '#7fd1c8', tealSoft: '#14302e', action: '#f4f6fb', onAction: '#1c2333', focus: '#7fd1c8', shadow: 'none', warnInk: '#fdba8c', warnSoft: '#3a2418', warnLine: '#7a3e1d' }
+    };
+    const c = C[theme];
+
+    const T = {
+      nl: {
+        homeLabel: 'AppElent account, overzicht', account: 'Account', navLabel: 'Accountmenu', langLabel: 'Taal', menuLabel: 'Accountmenu: uitloggen',
+        tabs: ['Overzicht', 'Downloaden', 'Profiel'],
+        signinTitle: 'Je AppElent-account', signinLead: 'Eén account voor Gather, Foundry, Fairway en Arcade Club. Zie welke apps je gebruikt, download je gegevens en beheer hoe je inlogt.',
+        signinCard: 'Inloggen', signinCardSub: 'Gebruik hetzelfde account als in de apps.', providers: ['Doorgaan met Apple', 'Doorgaan met Google', 'Doorgaan met Microsoft'], or: 'of', email: 'E-mailadres', continue: 'Doorgaan', signinNote: 'Nog geen account? Dat maak je in een van de apps.',
+        hello: 'Hoi Sam', yourApps: 'Je apps', used: (n) => n === 0 ? 'Nog geen app gebruikt' : n + ' van 4 in gebruik',
+        newUserNote: 'Je hebt nog geen van de apps gebruikt. Open er een; je logt in met dit account.',
+        notUsed: 'Nog niet gebruikt', inUse: 'In gebruik', unreachable: 'Niet bereikbaar', lastActive: 'Laatst actief ', nothingStored: 'Er staat niets van je opgeslagen.', unreachableLine: 'Nu niet bereikbaar. Je andere apps werken gewoon.',
+        view: 'Bekijken', download: 'Downloaden',
+        exportCardTitle: 'Al je gegevens downloaden', exportCardBody: 'Eén zip met een JSON-bestand per app.', exportCardCta: 'Naar downloaden',
+        profileCardTitle: 'Profiel en inloggen', profileCardBody: 'Naam, e-mailadres, wachtwoord, passkeys en je apparaten. Geldt voor alle apps.', profileCardCta: 'Profiel openen',
+        deleteCardTitle: 'Account verwijderen', deleteCardBody: 'Dat kan nu in elke app onder Instellingen › Account. Binnenkort ook hier, voor één app of alles tegelijk.',
+        back: 'Overzicht', aboutDownload: 'Over de download', errorBody: 'We konden deze app nu niet bereiken. Je gegevens zijn veilig; probeer het zo opnieuw.', retry: 'Opnieuw proberen',
+        exportTitle: 'Je gegevens downloaden', exportLead: 'Eén zip met een JSON-bestand per app. Je browser haalt alles op en maakt de zip; je gegevens gaan nergens anders heen.', exportList: 'Wat erin komt',
+        makeZip: 'Zip maken', zipHint: 'Duurt meestal minder dan een minuut.', making: 'Bezig met maken…', cancel: 'Annuleren', zipReady: 'Klaar: appelent-gegevens-2026-11-22.zip (6,4 MB) staat in je downloads.', downloadAgain: 'Opnieuw downloaden', makeNew: 'Nieuwe zip maken',
+        zipPartial: 'Foundry lukte niet. De rest is klaar.', retryFoundry: 'Foundry opnieuw proberen', downloadWithout: 'Downloaden zonder Foundry',
+        waiting: 'Wacht', nothing: 'Niets te downloaden', failed: 'Niet gelukt',
+        profileTitle: 'Profiel', profileLead: 'Dit profiel geldt voor alle AppElent-apps. Wat je hier wijzigt, zie je overal.',
+        signOut: 'Uitloggen',
+        nfTitle: 'Deze pagina bestaat niet', nfBody: 'De link klopt niet of de pagina is verplaatst.', nfCta: 'Naar het overzicht',
+        privacy: 'Privacy', support: 'Support'
+      },
+      en: {
+        homeLabel: 'AppElent account, overview', account: 'Account', navLabel: 'Account menu', langLabel: 'Language', menuLabel: 'Account menu: sign out',
+        tabs: ['Overview', 'Download', 'Profile'],
+        signinTitle: 'Your AppElent account', signinLead: 'One account for Gather, Foundry, Fairway and Arcade Club. See which apps you use, download your data and manage how you sign in.',
+        signinCard: 'Sign in', signinCardSub: 'Use the same account as in the apps.', providers: ['Continue with Apple', 'Continue with Google', 'Continue with Microsoft'], or: 'or', email: 'Email address', continue: 'Continue', signinNote: 'No account yet? You create one in any of the apps.',
+        hello: 'Hi Sam', yourApps: 'Your apps', used: (n) => n === 0 ? 'No app used yet' : n + ' of 4 in use',
+        newUserNote: 'You have not used any of the apps yet. Open one; you sign in with this account.',
+        notUsed: 'Not used yet', inUse: 'In use', unreachable: 'Unreachable', lastActive: 'Last active ', nothingStored: 'Nothing of yours is stored.', unreachableLine: 'Unreachable right now. Your other apps work as usual.',
+        view: 'View', download: 'Download',
+        exportCardTitle: 'Download all your data', exportCardBody: 'One zip with a JSON file per app.', exportCardCta: 'Go to download',
+        profileCardTitle: 'Profile and sign-in', profileCardBody: 'Name, email, password, passkeys and your devices. Applies to every app.', profileCardCta: 'Open profile',
+        deleteCardTitle: 'Delete account', deleteCardBody: 'You can do this in each app under Settings › Account. Soon also here, for one app or everything at once.',
+        back: 'Overview', aboutDownload: 'About the download', errorBody: 'We could not reach this app right now. Your data is safe; try again in a moment.', retry: 'Try again',
+        exportTitle: 'Download your data', exportLead: 'One zip with a JSON file per app. Your browser fetches everything and builds the zip; your data goes nowhere else.', exportList: 'What goes in',
+        makeZip: 'Build zip', zipHint: 'Usually takes less than a minute.', making: 'Building…', cancel: 'Cancel', zipReady: 'Done: appelent-data-2026-11-22.zip (6.4 MB) is in your downloads.', downloadAgain: 'Download again', makeNew: 'Build a new zip',
+        zipPartial: 'Foundry did not work. The rest is ready.', retryFoundry: 'Try Foundry again', downloadWithout: 'Download without Foundry',
+        waiting: 'Waiting', nothing: 'Nothing to download', failed: 'Did not work',
+        profileTitle: 'Profile', profileLead: 'This profile applies to every AppElent app. What you change here, you see everywhere.',
+        signOut: 'Sign out',
+        nfTitle: 'This page does not exist', nfBody: 'The link is wrong or the page has moved.', nfCta: 'Go to the overview',
+        privacy: 'Privacy', support: 'Support'
+      }
+    };
+    const t = T[lang];
+
+    const D = {
+      gather: { name: 'Gather', kind: nl ? 'Huishouden' : 'Household', glyph: 'G', iconBg: 'linear-gradient(135deg,#4fb39a,#2a7d73)', iconFg: '#ffffff', last: nl ? 'vandaag' : 'today',
+        cats: nl ? [['Groepen', '2'], ['Recepten', '148'], ['Weekmenu’s', '36'], ['Boodschappen- en voorraadlijsten', '4'], ['Taken', '212'], ['Notities', '19'], ['Afspraken', '87']] : [['Groups', '2'], ['Recipes', '148'], ['Meal plans', '36'], ['Grocery and pantry lists', '4'], ['Tasks', '212'], ['Notes', '19'], ['Events', '87']],
+        top: nl ? '148 recepten · 212 taken · 2 groepen' : '148 recipes · 212 tasks · 2 groups', short: nl ? '148 recepten · 212 taken' : '148 recipes · 212 tasks',
+        note: nl ? 'Je krijgt alles wat jij hebt gemaakt, als JSON. Wat anderen in je groepen zetten, blijft van hen en zit er niet in.' : 'You get everything you created, as JSON. What others add to your groups stays theirs and is not included.' },
+      foundry: { name: 'Foundry', kind: nl ? 'Training' : 'Training', glyph: 'F', iconBg: '#141a10', iconFg: '#c8f04a', last: nl ? 'gisteren' : 'yesterday',
+        cats: nl ? [['Trainingen', '184'], ['Sets', '5.402'], ['Schema’s', '6'], ['Hardloop- en fietsritten', '61'], ['Dagen in je voedingsdagboek', '290'], ['Lichaamsmetingen', '48']] : [['Workouts', '184'], ['Sets', '5,402'], ['Routines', '6'], ['Runs and rides', '61'], ['Days in your food diary', '290'], ['Body measurements', '48']],
+        top: nl ? '184 trainingen · 61 ritten · 290 dagen voeding' : '184 workouts · 61 rides · 290 food days', short: nl ? '184 trainingen · 61 ritten' : '184 workouts · 61 rides',
+        note: nl ? 'Je krijgt al je trainingen, ritten, voeding en metingen als JSON. Foto’s zitten erin als links die 24 uur werken.' : 'You get all your workouts, rides, food and measurements as JSON. Photos are included as links that work for 24 hours.' },
+      fairway: { name: 'Fairway', kind: 'Golf', glyph: 'W', iconBg: 'linear-gradient(135deg,#2fa25a,#14693a)', iconFg: '#eaffd8', last: nl ? '9 nov 2026' : '9 Nov 2026',
+        cats: nl ? [['Rondes', '23'], ['Scores per hole', '414'], ['Eigen banen', '2']] : [['Rounds', '23'], ['Hole scores', '414'], ['Own courses', '2']],
+        top: nl ? '23 rondes · 2 eigen banen' : '23 rounds · 2 own courses', short: nl ? '23 rondes · 2 eigen banen' : '23 rounds · 2 own courses',
+        note: nl ? 'Je krijgt je rondes, scores en eigen banen als JSON. Banen uit OpenStreetMap zitten erin als verwijzing.' : 'You get your rounds, scores and own courses as JSON. Courses from OpenStreetMap are included as references.' },
+      arcade: { name: 'Arcade Club', kind: nl ? 'Spellen' : 'Games', glyph: 'A', iconBg: '#11131c', iconFg: '#5ad1f0', last: '',
+        cats: [], top: '', short: '', note: '' }
+    };
+    const order = ['gather', 'foundry', 'fairway', 'arcade'];
+    const usedSet = persona === 'new' ? {} : { gather: true, foundry: true, fairway: true };
+    const loading = screen === 'loading';
+
+    const apps = order.map((id, i) => {
+      const d = D[id];
+      const used = !!usedSet[id];
+      const err = fail === 'foundry' && id === 'foundry';
+      let pill = used ? t.inUse : t.notUsed;
+      let pillBg = used ? c.tealSoft : c.sunk;
+      let pillFg = used ? c.tealInk : c.muted;
+      let line = used ? (isPhone ? d.short : d.top) : (isPhone ? t.notUsed : t.nothingStored);
+      let lineColor = c.muted;
+      if (err) { pill = t.unreachable; pillBg = c.warnSoft; pillFg = c.warnInk; line = isPhone ? t.unreachable : t.unreachableLine; lineColor = c.warnInk; }
+      return {
+        id, name: d.name, kind: d.kind, glyph: d.glyph, iconBg: d.iconBg, iconFg: d.iconFg, used: used && !err,
+        pill, pillBg, pillFg, line, lineColor,
+        last: used && !err ? t.lastActive + d.last : '',
+        divider: i === 0 ? '0' : '1px solid ' + c.line,
+        loading, ready: !loading,
+        open: (e) => { if (e) e.preventDefault(); this.setState({ screen: 'app', app: id }); }
+      };
+    });
+    const usedCount = apps.filter((a) => usedSet[a.id]).length;
+
+    const d = D[appId];
+    const selUsed = !!usedSet[appId];
+    const selErr = fail === 'foundry' && appId === 'foundry';
+    const sel = {
+      name: d.name, kind: d.kind, glyph: d.glyph, iconBg: d.iconBg, iconFg: d.iconFg,
+      used: selUsed && !selErr, ready: true,
+      statusLine: selErr ? t.unreachableLine : (selUsed ? t.inUse + ' · ' + t.lastActive.toLowerCase() + d.last : t.notUsed),
+      lineColor: selErr ? c.warnInk : c.muted,
+      downloadLabel: (nl ? 'Download ' : 'Download ') + d.name + (nl ? '-gegevens' : ' data'),
+      openLabel: (nl ? 'Open ' : 'Open ') + d.name,
+      dataTitle: nl ? 'Wat ' + d.name + ' van je bewaart' : 'What ' + d.name + ' keeps about you',
+      cats: d.cats.map((x) => ({ label: x[0], count: x[1] })),
+      note: d.note,
+      privacyLabel: nl ? 'Privacybeleid van ' + d.name : d.name + ' privacy policy',
+      showData: selUsed && !selErr, showEmpty: !selUsed && !selErr, error: selErr,
+      emptyTitle: nl ? 'Je hebt ' + d.name + ' nog niet gebruikt' : 'You have not used ' + d.name + ' yet',
+      emptyBody: nl ? 'Er staat niets van je opgeslagen. Open ' + d.name + ' om te beginnen; je logt in met dit account.' : 'Nothing of yours is stored. Open ' + d.name + ' to start; you sign in with this account.',
+      errorTitle: nl ? d.name + ' is nu niet bereikbaar' : d.name + ' is unreachable right now'
+    };
+
+    const exStatus = {
+      idle: { gather: nl ? '7 soorten gegevens' : '7 kinds of data', foundry: nl ? '6 soorten gegevens' : '6 kinds of data', fairway: nl ? '3 soorten gegevens' : '3 kinds of data' },
+      working: { gather: nl ? 'Klaar · 2,1 MB' : 'Done · 2.1 MB', foundry: nl ? 'Bezig · sets 1.900 van 5.402' : 'Working · sets 1,900 of 5,402', fairway: t.waiting },
+      done: { gather: nl ? 'Klaar · 2,1 MB' : 'Done · 2.1 MB', foundry: nl ? 'Klaar · 4,1 MB' : 'Done · 4.1 MB', fairway: nl ? 'Klaar · 0,2 MB' : 'Done · 0.2 MB' },
+      error: { gather: nl ? 'Klaar · 2,1 MB' : 'Done · 2.1 MB', foundry: t.failed, fairway: nl ? 'Klaar · 0,2 MB' : 'Done · 0.2 MB' }
+    };
+    const exportRows = order.map((id) => {
+      const dd = D[id];
+      const used = !!usedSet[id];
+      const status = used ? exStatus[exportState][id] : t.nothing;
+      const working = exportState === 'working' && id === 'foundry' && used;
+      const failed = exportState === 'error' && id === 'foundry' && used;
+      return { name: dd.name, glyph: dd.glyph, iconBg: dd.iconBg, iconFg: dd.iconFg, status, working, failed, pct: 35,
+        statusColor: failed ? c.warnInk : c.muted };
+    });
+
+    const tabIds = ['home', 'export', 'profile'];
+    const activeTab = screen === 'app' || screen === 'loading' ? 'home' : screen;
+    const tabs = tabIds.map((id, i) => ({
+      label: t.tabs[i], current: activeTab === id ? 'page' : 'false',
+      color: activeTab === id ? c.ink : c.muted, bg: activeTab === id ? c.sunk : 'transparent',
+      go: (e) => { if (e) e.preventDefault(); this.setState({ screen: id }); }
+    }));
+    const langs = ['nl', 'en'].map((code) => ({
+      code, label: code.toUpperCase(), current: code === lang ? 'true' : 'false',
+      color: code === lang ? c.onAction : c.muted, bg: code === lang ? c.action : 'transparent',
+      go: (e) => { if (e) e.preventDefault(); this.setState({ lang: code }); }
+    }));
+
+    const row = (main, sub, opts) => Object.assign({ main, sub: sub || '', hasPill: false, pill: '', hasAction: false, action: '' }, opts || {});
+    const profileSections = (nl ? [
+      ['Profiel', [row('Sam de Vries', 'Naam en profielfoto', { hasAction: true, action: 'Wijzigen' })]],
+      ['E-mailadressen', [row('sam@voorbeeld.nl', 'Hiermee log je in en krijg je mail', { hasPill: true, pill: 'Primair' }), row('E-mailadres toevoegen', '', { hasAction: true, action: 'Toevoegen' })]],
+      ['Gekoppelde accounts', [row('Apple', 'sam@privaterelay.appleid.com', { hasAction: true, action: 'Ontkoppelen' }), row('Google, Microsoft', 'Niet gekoppeld', { hasAction: true, action: 'Koppelen' })]],
+      ['Beveiliging', [row('Wachtwoord', 'Laatst gewijzigd 3 mrt 2026', { hasAction: true, action: 'Wijzigen' }), row('Passkeys', '1 op iPhone van Sam', { hasAction: true, action: 'Toevoegen' }), row('Tweestapsverificatie', 'Authenticator-app', { hasPill: true, pill: 'Aan' })]],
+      ['Apparaten', [row('MacBook · Safari', 'Amsterdam · dit apparaat', { hasPill: true, pill: 'Nu' }), row('iPhone · Gather', 'Amsterdam · 2 uur geleden', { hasAction: true, action: 'Uitloggen' }), row('iPhone · Foundry', 'Amsterdam · gisteren', { hasAction: true, action: 'Uitloggen' })]]
+    ] : [
+      ['Profile', [row('Sam de Vries', 'Name and profile photo', { hasAction: true, action: 'Edit' })]],
+      ['Email addresses', [row('sam@voorbeeld.nl', 'You sign in and get mail with this', { hasPill: true, pill: 'Primary' }), row('Add an email address', '', { hasAction: true, action: 'Add' })]],
+      ['Connected accounts', [row('Apple', 'sam@privaterelay.appleid.com', { hasAction: true, action: 'Disconnect' }), row('Google, Microsoft', 'Not connected', { hasAction: true, action: 'Connect' })]],
+      ['Security', [row('Password', 'Last changed 3 Mar 2026', { hasAction: true, action: 'Change' }), row('Passkeys', '1 on Sam’s iPhone', { hasAction: true, action: 'Add' }), row('Two-step verification', 'Authenticator app', { hasPill: true, pill: 'On' })]],
+      ['Devices', [row('MacBook · Safari', 'Amsterdam · this device', { hasPill: true, pill: 'Now' }), row('iPhone · Gather', 'Amsterdam · 2 hours ago', { hasAction: true, action: 'Sign out' }), row('iPhone · Foundry', 'Amsterdam · yesterday', { hasAction: true, action: 'Sign out' })]]
+    ]).map((s, i) => ({ title: s[0], rows: s[1], divider: i === 0 ? '0' : '1px solid ' + c.line }));
+
+    const go = (scr) => (e) => { if (e) e.preventDefault(); this.setState({ screen: scr }); };
+
+    return {
+      c, t, w: isPhone ? 390 : 1280, gutter: isPhone ? 16 : 32, mainPad: isPhone ? 24 : 40, h1Size: isPhone ? 32 : 44,
+      isPhone, isDesktop: !isPhone,
+      rowPad: isPhone ? '14px 16px' : '18px 24px', rowGap: isPhone ? 12 : 16, rowIcon: isPhone ? 44 : 48,
+      btnFlex: isPhone ? '1 1 100%' : '0 0 auto', btnRow: isPhone ? '1 1 100%' : '0 0 auto',
+      showShell: screen !== 'signin',
+      s: { signin: screen === 'signin', home: screen === 'home' || screen === 'loading', app: screen === 'app', export: screen === 'export', profile: screen === 'profile', notfound: screen === 'notfound' },
+      user: { initials: 'SV', email: 'sam@voorbeeld.nl' },
+      apps, usedLine: loading ? '' : t.used(usedCount), newUser: persona === 'new' && !loading,
+      listLayout: layout === 'list', cardLayout: layout === 'cards', cardCols: isPhone ? 1 : 2,
+      providers: t.providers,
+      sel, exportRows,
+      ex: { idle: exportState === 'idle', working: exportState === 'working', done: exportState === 'done', error: exportState === 'error' },
+      tabs, langs, profileSections,
+      goHome: go('home'), goExport: go('export'), goProfile: go('profile'),
+      startExport: () => this.setState({ exportState: 'working' }),
+      resetExport: () => this.setState({ exportState: 'idle' })
+    };
+  }
+}
+</script>
+</body>
+</html>
