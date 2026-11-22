@@ -24,18 +24,16 @@ From the repository root: `pnpm verify` (Biome, typecheck, tests), `pnpm build`,
 In this folder: `pnpm smoke <origin> [commit]` checks a running site; `pnpm launch:check` lists
 open placeholders and fails while any remain.
 
-## Placeholders (Eric supplies)
+## Before production (Eric confirms)
 
-All live in [`src/content/owner.ts`](src/content/owner.ts) (with the catalog keys named there) and
+The site carries no personal info (Eric, 22 Nov 2026): the home is a generic projects showcase. The
+items below live in [`src/content/owner.ts`](src/content/owner.ts) and
 [`src/content/apps.ts`](src/content/apps.ts). Each renders with a dashed outline and a
 `<!-- PLACEHOLDER (item n) -->` comment until its `pending` flag is false.
 
-1. Photo: commit a square photo (≥400px) to `assets/`, set `owner.photo`.
-2. Hero bio: `home.hero.body` in `en.ts` and `nl.ts`, then `pending.bio = false`.
-3. Third "Wat ik doe" card: `home.does.work`, then `pending.workCard = false`.
-4. Contact email (`owner.email`, today privacy@appelent.nl) and LinkedIn (`owner.linkedin`).
-5. App Store status per app: `appStore: 'live' | 'soon'` in `apps.ts`. Arcade Club is `soon`.
-6. Privacy text: the draft in the catalog's `privacy` merges the four app policies.
+1. Contact email (`owner.email`, today privacy@appelent.nl).
+2. App Store status per app: `appStore: 'live' | 'soon'` in `apps.ts`. Arcade Club is `soon`.
+3. Privacy text: the draft in the catalog's `privacy` merges the four app policies.
 
 ## Staging
 
@@ -60,7 +58,7 @@ By hand, signed in to Cloudflare: `pnpm deploy:staging` (build, guard, deploy).
 ## Production (not in phase 1)
 
 Nothing here routes `appelent.nl` or `www.appelent.nl`; the guard and `test/wrangler.test.ts` fail if
-anything does. The cutover is its own change, after Eric's content and his go:
+anything does. The cutover is its own change, after Eric's go:
 
 1. `pnpm launch:check` passes.
 2. Add the `appelent.nl` and `www.appelent.nl` custom domains to the top-level config in

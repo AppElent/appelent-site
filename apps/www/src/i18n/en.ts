@@ -4,9 +4,6 @@ import type { Locale } from './core.ts'
 // The English catalog. Every user-visible string on the site lives here or in
 // nl.ts (i18n standard): no copy in templates, no locale ternaries. Section
 // bodies are keyed records so the parity test compares every paragraph.
-//
-// Text in [square brackets] is a placeholder Eric still supplies; see
-// src/content/owner.ts for the matching `pending` flag.
 
 /** One block of the privacy policy, rendered as paragraphs, then a list, then paragraphs. */
 export interface PolicySection {
@@ -29,9 +26,9 @@ export interface AppCopy {
 export const en = {
   meta: {
     siteName: 'AppElent',
-    homeTitle: 'Eric Jansen · AppElent',
+    homeTitle: 'AppElent · Apps for home, sport and play',
     homeDescription:
-      'Eric Jansen builds apps for home, sport and play: Gather, Foundry, Fairway and Arcade Club.',
+      'AppElent makes apps for home, sport and play: Gather, Foundry, Fairway and Arcade Club.',
     privacyTitle: 'Privacy policy · AppElent',
     privacyDescription:
       'One privacy policy for Gather, Foundry, Fairway, Arcade Club and appelent.nl.',
@@ -45,7 +42,6 @@ export const en = {
     skip: 'Skip to content',
     homeLabel: 'AppElent, home page',
     navLabel: 'Main menu',
-    navAbout: 'About',
     navApps: 'Apps',
     navPrivacy: 'Privacy',
     navSupport: 'Support',
@@ -55,7 +51,7 @@ export const en = {
       nl: 'Nederlands',
       en: 'English',
     } satisfies Record<Locale, string>,
-    footTag: 'Eric Jansen. Apps for home, sport and play.',
+    footTag: 'Apps for home, sport and play.',
     footApps: 'Apps',
     footAppElent: 'AppElent',
     footContact: 'Contact',
@@ -64,32 +60,14 @@ export const en = {
   },
   home: {
     hero: {
-      photoLabel: 'Photo of Eric (to follow)',
-      photoHint: 'photo',
-      photoAlt: 'Eric Jansen',
-      eyebrow: 'Maker of AppElent',
-      title: 'Hi, I’m Eric. I build apps.',
-      body: '[One or two sentences about yourself: what you do, where you live, what drives you.]',
-      cta: 'See my apps',
+      eyebrow: 'AppElent',
+      title: 'Apps for home, sport and play.',
+      body: 'Four apps for the household, the gym, the golf course and game nights. On the web and on iPhone, with one account.',
+      cta: 'See the apps',
       contact: 'Get in touch',
     },
-    does: {
-      title: 'What I do',
-      apps: {
-        title: 'Apps for everyday life',
-        body: 'Gather for the household, Foundry for the gym, Fairway on the golf course and Arcade Club for game nights.',
-      },
-      factory: {
-        title: 'A software factory with AI',
-        body: 'AI agents write, test and review the code. I decide what gets built and approve every step.',
-      },
-      work: {
-        title: '[Your work]',
-        body: '[What you do by day, or what you work on next to AppElent.]',
-      },
-    },
     apps: {
-      title: 'What I make',
+      title: 'The apps',
       body: 'Four apps, each for one part of life. You sign in to all of them with the same account.',
       storeAlt: 'Download {app} on the App Store',
       soonSmall: 'App Store',
@@ -102,16 +80,14 @@ export const en = {
       cta: 'Go to your account',
     },
     stack: {
-      title: 'What I build with',
-      body: 'Web and iPhone from one codebase per app, with AI agents doing most of the work.',
+      title: 'What we build with',
+      body: 'Web and iPhone from one codebase per app, built with AI agents.',
     },
     contact: {
       title: 'Contact',
-      body: 'A question, an idea or just hello? Email me or find me on GitHub.',
-      mail: 'Email me',
+      body: 'A question or an idea? Email us or find us on GitHub.',
+      mail: 'Email us',
       github: 'GitHub',
-      linkedin: 'LinkedIn',
-      linkedinPlaceholder: '[LinkedIn?]',
     },
   },
   apps: {
