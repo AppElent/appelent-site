@@ -183,7 +183,7 @@ describe('Download', () => {
     await screen.findByRole('status')
   })
 
-  it('names an aliased table with its total', async () => {
+  it('names an aliased table with its total, past a related table', async () => {
     const gate = deferred()
     const inner = used(
       'fairway',
@@ -205,7 +205,11 @@ describe('Download', () => {
           exportPage: async (cursor) => {
             const page = await inner.exportPage(cursor)
             if (cursor !== null) await gate.promise
-            return page
+            // A related table that sorts first, as Convex orders keys.
+            return {
+              ...page,
+              tables: { catalogCourses: [{ _id: 'cat' }], ...page.tables },
+            }
           },
         },
         arcade: new FakePortalClient('arcade', { summary: null }),

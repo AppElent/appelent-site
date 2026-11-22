@@ -99,8 +99,15 @@ export function Download() {
       setRun(app, { status: 'working', progress: null })
       try {
         if (!client) throw new Error('No client')
+        const state = summaries[app]
+        const counted = new Set(
+          state.status === 'ready' && state.summary
+            ? state.summary.counts.map((c) => c.key)
+            : [],
+        )
         const result = await exportApp(app, client, {
           signal: controller.signal,
+          names: (table) => counted.has(countKeyForTable(app, table)),
           onPage: (progress) => setRun(app, { status: 'working', progress }),
         })
         results.push(result)

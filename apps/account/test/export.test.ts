@@ -47,14 +47,15 @@ describe('exportApp', () => {
     expect(seen).toEqual(['recipes:2', 'recipes:3'])
   })
 
-  it('names a page by its first table with rows, not the related ones after it', async () => {
+  it('names a page by its counted table, whatever the key order', async () => {
     const page: ExportPage = {
       contract: 1,
       app: 'arcade',
+      // Sorted, the way Convex returns object keys.
       tables: {
-        sessionParticipants: [{ _id: 'p1' }],
         gameSessions: [{ _id: 's1' }],
         quizAnswers: [{ _id: 'a1' }, { _id: 'a2' }],
+        sessionParticipants: [{ _id: 'p1' }],
       },
       next: null,
     }
@@ -65,8 +66,12 @@ describe('exportApp', () => {
     const seen: string[] = []
     await exportApp('arcade', client, {
       onPage: (p) => seen.push(`${p.table}:${p.tableRows}`),
+      names: (table) => table === 'sessionParticipants',
     })
-    expect(seen).toEqual(['sessionParticipants:1'])
+    await exportApp('arcade', client, {
+      onPage: (p) => seen.push(`${p.table}:${p.tableRows}`),
+    })
+    expect(seen).toEqual(['sessionParticipants:1', 'gameSessions:1'])
   })
 
   it('stops between pages when cancelled', async () => {

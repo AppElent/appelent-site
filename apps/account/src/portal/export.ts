@@ -71,6 +71,9 @@ export async function exportApp(
   options: {
     signal?: AbortSignal
     onPage?: (progress: PageProgress) => void
+    /** Tables that name a step (counted ones), preferred over the related
+     * tables on the same page. Key order is not kept by Convex. */
+    names?: (table: string) => boolean
     now?: () => Date
   } = {},
 ): Promise<AppExport> {
@@ -89,14 +92,18 @@ export async function exportApp(
     )
     contract = result.contract
     let table: string | null = null
+    let named = false
     for (const [name, rows] of Object.entries(result.tables)) {
       const into = tables[name] ?? []
       tables[name] = into
       for (const row of rows) into.push(row)
       totalRows += rows.length
-      // The page's first table with rows names the step: an app adds its
-      // related tables (sessions, catalog tees) after the one it pages over.
-      if (rows.length > 0 && table === null) table = name
+      // A counted table with rows names the step, not its related tables
+      // (sessions, catalog tees); otherwise any table with rows.
+      if (rows.length === 0 || named) continue
+      const counted = options.names?.(name) === true
+      if (counted || table === null) table = name
+      named = counted
     }
     options.onPage?.({
       table,
