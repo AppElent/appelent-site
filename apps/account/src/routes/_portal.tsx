@@ -12,7 +12,7 @@ import { useEffect, useMemo, useRef } from 'react'
 import { Shell } from '../components/Shell.tsx'
 import { convexUrls } from '../config.ts'
 import { type AppId, appIds } from '../portal/apps.ts'
-import { createConvexPortalClient } from '../portal/convex-client.ts'
+import { createConvexPortalClient, ownTokens } from '../portal/convex-client.ts'
 import { devScenario } from '../portal/dev-fakes.ts'
 import {
   type PortalClients,
@@ -67,15 +67,16 @@ function SignedIn() {
   const clients = useMemo<PortalClients>(() => {
     const fakes = devScenario()
     if (fakes) return fakes
-    const token = (fresh?: boolean) =>
-      tokenRef.current({ template: 'convex', skipCache: fresh === true })
+    const token = ownTokens(userId ?? null, (fresh) =>
+      tokenRef.current({ template: 'convex', skipCache: fresh === true }),
+    )
     return Object.fromEntries(
       appIds.map((app: AppId) => {
         const url = convexUrls[app]
         return [app, url ? createConvexPortalClient(app, url, token) : null]
       }),
     ) as PortalClients
-  }, [])
+  }, [userId])
   return (
     <PortalProvider key={userId} clients={clients}>
       <Outlet />

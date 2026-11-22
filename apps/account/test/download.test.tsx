@@ -156,17 +156,6 @@ describe('Download', () => {
         },
       },
     )
-    const fairwayInner = used(
-      'fairway',
-      { courses: 6 },
-      {
-        summary: {
-          contract: 1,
-          lastActiveAt: null,
-          counts: [{ key: 'courseCopies', count: 6, more: false }],
-        },
-      },
-    )
     const gated = (client: PortalClient): PortalClient => ({
       summary: () => client.summary(),
       exportPage: async (cursor) => {
@@ -179,7 +168,7 @@ describe('Download', () => {
       clients: {
         gather: gated(inner),
         foundry: new FakePortalClient('foundry', { summary: null }),
-        fairway: gated(fairwayInner),
+        fairway: new FakePortalClient('fairway', { summary: null }),
         arcade: new FakePortalClient('arcade', { summary: null }),
       },
     })
@@ -188,6 +177,45 @@ describe('Download', () => {
     )
     expect(
       await within(row('Gather')).findByText('Bezig · maaltijden 2'),
+    ).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Annuleren' }))
+    gate.resolve()
+    await screen.findByRole('status')
+  })
+
+  it('names an aliased table with its total', async () => {
+    const gate = deferred()
+    const inner = used(
+      'fairway',
+      { courses: 6 },
+      {
+        summary: {
+          contract: 1,
+          lastActiveAt: null,
+          counts: [{ key: 'courseCopies', count: 6, more: false }],
+        },
+      },
+    )
+    renderScreen(<Download />, {
+      clients: {
+        gather: new FakePortalClient('gather', { summary: null }),
+        foundry: new FakePortalClient('foundry', { summary: null }),
+        fairway: {
+          summary: () => inner.summary(),
+          exportPage: async (cursor) => {
+            const page = await inner.exportPage(cursor)
+            if (cursor !== null) await gate.promise
+            return page
+          },
+        },
+        arcade: new FakePortalClient('arcade', { summary: null }),
+      },
+    })
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Zip maken' }),
+    )
+    expect(
+      await within(row('Fairway')).findByText('Bezig · eigen banen 2 van 6'),
     ).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Annuleren' }))
     gate.resolve()

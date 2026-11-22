@@ -16,11 +16,28 @@ import {
 export type TokenSource = (fresh?: boolean) => Promise<string | null>
 
 /**
+ * Convex itself refusing the token (HTTP 401, for example a token that
+ * expired in transit) before any app code runs. The SDK would turn this into
+ * a plain `Error`, so the client's fetch marks it.
+ */
+export class TokenRejected extends Error {
+  override name = 'TokenRejected'
+}
+
+/** Fetch for the SDK: a 401 becomes `TokenRejected`, everything else passes. */
+export const markTokenRejected: typeof fetch = async (input, init) => {
+  const response = await globalThis.fetch(input, init)
+  if (response.status === 401) throw new TokenRejected(await response.text())
+  return response
+}
+
+/**
  * An app saying the caller is not signed in: Foundry's `unauthenticated`
- * code, Gather's `Not authenticated`. A cached token can expire between
- * Clerk and the app, so this earns one retry with a fresh token.
+ * code, Gather's `Not authenticated`, or Convex's 401. A cached token can
+ * expire between Clerk and the app, so this earns one retry with a fresh token.
  */
 export function isUnauthenticated(error: unknown): boolean {
+  if (error instanceof TokenRejected) return true
   if (!(error instanceof ConvexError)) return false
   const data: unknown = error.data
   if (data === 'Not authenticated' || data === 'unauthenticated') return true
@@ -29,6 +46,34 @@ export function isUnauthenticated(error: unknown): boolean {
     data !== null &&
     (data as { code?: unknown }).code === 'unauthenticated'
   )
+}
+
+/** The `sub` claim of a JWT, without verifying it (the app does that). */
+export function tokenSubject(jwt: string | null): string | null {
+  const payload = jwt?.split('.')[1]
+  if (!payload) return null
+  try {
+    const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
+    const sub: unknown = (JSON.parse(json) as { sub?: unknown }).sub
+    return typeof sub === 'string' ? sub : null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Only `owner`'s tokens: if another account becomes active mid-export, its
+ * token is never sent with this account's cursor; the call fails as "no
+ * token" instead.
+ */
+export function ownTokens(
+  owner: string | null,
+  source: TokenSource,
+): TokenSource {
+  return async (fresh) => {
+    const jwt = await source(fresh)
+    return owner !== null && tokenSubject(jwt) === owner ? jwt : null
+  }
 }
 
 const summaryRef = makeFunctionReference<'query', Record<string, never>>(
@@ -62,7 +107,10 @@ export function createConvexPortalClient(
   url: string,
   getToken: TokenSource,
 ): PortalClient {
-  const client = new ConvexHttpClient(url, { logger: false })
+  const client = new ConvexHttpClient(url, {
+    logger: false,
+    fetch: markTokenRejected,
+  })
   function call<T>(run: () => Promise<T>): Promise<T> {
     // One deadline over the token and the query: a stalled token refresh is
     // as unreachable as a stalled app, and a late token starts nothing.

@@ -3,16 +3,27 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const query = vi.fn()
 const setAuth = vi.fn()
+const options = vi.hoisted(() => ({ last: null as unknown }))
 vi.mock('convex/browser', () => ({
   ConvexHttpClient: class {
     query = query
     setAuth = setAuth
+    constructor(_url: string, opts: unknown) {
+      options.last = opts
+    }
   },
 }))
 
-const { createConvexPortalClient } = await import(
-  '../src/portal/convex-client.ts'
-)
+const {
+  createConvexPortalClient,
+  markTokenRejected,
+  ownTokens,
+  TokenRejected,
+  tokenSubject,
+} = await import('../src/portal/convex-client.ts')
+
+const jwtFor = (sub: string) =>
+  `h.${btoa(JSON.stringify({ sub })).replace(/=+$/, '')}.s`
 
 describe('createConvexPortalClient', () => {
   beforeEach(() => {
@@ -89,6 +100,7 @@ describe('createConvexPortalClient', () => {
   it.each([
     ['Foundry', new ConvexError({ code: 'unauthenticated' })],
     ['Gather', new ConvexError('Not authenticated')],
+    ['Convex (401)', new TokenRejected('{"code":"InvalidAuthHeader"}')],
   ])(
     'asks Clerk for a fresh token once when %s says not signed in',
     async (_app, refusal) => {
@@ -141,5 +153,71 @@ describe('createConvexPortalClient', () => {
       async () => 'jwt',
     )
     await expect(client.summary()).rejects.toThrow('Could not find')
+  })
+
+  it('gives the SDK a fetch that marks a 401 as a rejected token', async () => {
+    createConvexPortalClient(
+      'gather',
+      'https://x.convex.cloud',
+      async () => 'jwt',
+    )
+    expect((options.last as { fetch?: unknown }).fetch).toBe(markTokenRejected)
+    vi.stubGlobal(
+      'fetch',
+      vi
+        .fn()
+        .mockResolvedValueOnce(
+          new Response('{"code":"Expired"}', { status: 401 }),
+        )
+        .mockResolvedValueOnce(new Response('{}', { status: 200 })),
+    )
+    try {
+      await expect(markTokenRejected('https://x')).rejects.toBeInstanceOf(
+        TokenRejected,
+      )
+      await expect(markTokenRejected('https://x')).resolves.toHaveProperty(
+        'status',
+        200,
+      )
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
+  it('reads the subject of a token, and nothing from a malformed one', () => {
+    expect(tokenSubject(jwtFor('user_a'))).toBe('user_a')
+    expect(tokenSubject('not-a-jwt')).toBeNull()
+    expect(tokenSubject('h.%%%.s')).toBeNull()
+    expect(tokenSubject(null)).toBeNull()
+  })
+
+  it("never sends another account's token, also on the fresh-token retry", async () => {
+    let active = 'user_a'
+    const source = ownTokens('user_a', async () => jwtFor(active))
+    query.mockRejectedValueOnce(new ConvexError('Not authenticated'))
+    query.mockResolvedValue({
+      contract: 1,
+      app: 'gather',
+      tables: {},
+      next: null,
+    })
+    const client = createConvexPortalClient(
+      'gather',
+      'https://x.convex.cloud',
+      async (fresh) => {
+        // Account B becomes active before the refusal comes back.
+        if (fresh) active = 'user_b'
+        return source(fresh)
+      },
+    )
+    await expect(client.exportPage('cursor-a')).rejects.toThrow(
+      'No Clerk session token',
+    )
+    expect(query).toHaveBeenCalledTimes(1)
+    expect(setAuth).toHaveBeenCalledTimes(1)
+    expect(setAuth).toHaveBeenCalledWith(jwtFor('user_a'))
+    await expect(
+      ownTokens(null, async () => jwtFor('user_a'))(),
+    ).resolves.toBeNull()
   })
 })
