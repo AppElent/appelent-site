@@ -2,7 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { AppIcon } from '../components/Mark.tsx'
 import { useLocale, useMessages } from '../i18n/locale-context.tsx'
 import { formatCount, formatList, formatSize } from '../i18n/messages.ts'
-import { type AppId, appIds, apps, countLabel } from '../portal/apps.ts'
+import {
+  type AppId,
+  appIds,
+  apps,
+  countKeyForTable,
+  countLabel,
+} from '../portal/apps.ts'
 import type { Summary } from '../portal/contract.ts'
 import {
   type AppExport,
@@ -141,8 +147,13 @@ export function Download() {
       const p = r.progress
       if (!p?.table) return { text: t.starting }
       const summary = state.status === 'ready' ? state.summary : null
-      const count = summary?.counts.find((c) => c.key === p.table)
-      const label = countLabel(app, p.table, locale).toLowerCase()
+      const key = countKeyForTable(app, p.table)
+      // A Group's table (`groups/<slug>/recipes`) is one Group's share of
+      // the count, so it gets no "of <total>".
+      const count = p.table.includes('/')
+        ? undefined
+        : summary?.counts.find((c) => c.key === key)
+      const label = countLabel(app, key, locale).toLowerCase()
       return {
         text: t.working(
           label,

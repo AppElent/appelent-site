@@ -67,7 +67,8 @@ function SignedIn() {
   const clients = useMemo<PortalClients>(() => {
     const fakes = devScenario()
     if (fakes) return fakes
-    const token = () => tokenRef.current({ template: 'convex' })
+    const token = (fresh?: boolean) =>
+      tokenRef.current({ template: 'convex', skipCache: fresh === true })
     return Object.fromEntries(
       appIds.map((app: AppId) => {
         const url = convexUrls[app]

@@ -3,6 +3,7 @@
 // only makes one-shot reads, and the CSP then allows https to the four hosts.
 import { ConvexHttpClient } from 'convex/browser'
 import { makeFunctionReference } from 'convex/server'
+import { ConvexError } from 'convex/values'
 import {
   type ExportPage,
   type PortalClient,
@@ -11,7 +12,24 @@ import {
   type Summary,
 } from './contract.ts'
 
-export type TokenSource = () => Promise<string | null>
+/** `fresh`: skip Clerk's token cache (after an app refused the last one). */
+export type TokenSource = (fresh?: boolean) => Promise<string | null>
+
+/**
+ * An app saying the caller is not signed in: Foundry's `unauthenticated`
+ * code, Gather's `Not authenticated`. A cached token can expire between
+ * Clerk and the app, so this earns one retry with a fresh token.
+ */
+export function isUnauthenticated(error: unknown): boolean {
+  if (!(error instanceof ConvexError)) return false
+  const data: unknown = error.data
+  if (data === 'Not authenticated' || data === 'unauthenticated') return true
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    (data as { code?: unknown }).code === 'unauthenticated'
+  )
+}
 
 const summaryRef = makeFunctionReference<'query', Record<string, never>>(
   'accountPortal:summary',
@@ -49,14 +67,22 @@ export function createConvexPortalClient(
     // One deadline over the token and the query: a stalled token refresh is
     // as unreachable as a stalled app, and a late token starts nothing.
     let expired = false
-    const attempt = async () => {
-      const token = await getToken()
+    const once = async (fresh: boolean) => {
+      const token = await getToken(fresh)
       if (expired) throw new Error('Timed out')
       // Never call an app anonymously: every portal function resolves the
       // caller from the token.
       if (!token) throw new Error('No Clerk session token')
       client.setAuth(token)
       return run()
+    }
+    const attempt = async () => {
+      try {
+        return await once(false)
+      } catch (error) {
+        if (expired || !isUnauthenticated(error)) throw error
+        return once(true)
+      }
     }
     return withTimeout(attempt(), CALL_TIMEOUT_MS).catch((error: unknown) => {
       expired = true

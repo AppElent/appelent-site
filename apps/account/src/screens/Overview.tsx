@@ -3,7 +3,13 @@ import { AppIcon, Chevron } from '../components/Mark.tsx'
 import { useLocale, useMessages } from '../i18n/locale-context.tsx'
 import { formatCount, formatDay } from '../i18n/messages.ts'
 import { profileRoute } from '../lib/paths.ts'
-import { type AppId, appIds, apps, countLabel } from '../portal/apps.ts'
+import {
+  type AppId,
+  appIds,
+  apps,
+  countLabel,
+  shownCounts,
+} from '../portal/apps.ts'
 import type { Count } from '../portal/contract.ts'
 import { type SummaryState, usePortal } from '../portal/portal-context.tsx'
 
@@ -19,7 +25,7 @@ export function countsLine(
   n: number,
   locale: 'nl' | 'en',
 ) {
-  return counts
+  return shownCounts(counts)
     .slice(0, n)
     .map(({ key, count, more }) => {
       const label = countLabel(app, key, locale)

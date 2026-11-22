@@ -15,12 +15,14 @@ const usedFoundry = (
       contract: 1,
       lastActiveAt: Date.now(),
       counts: [
-        { key: 'workouts', count: 184, more: false },
+        { key: 'workoutSessions', count: 184, more: false },
+        { key: 'wods', count: 0, more: false },
         { key: 'sets', count: 5402, more: false },
-        { key: 'foodDays', count: 1000, more: true },
+        { key: 'nutritionDiaryEntries', count: 1000, more: true },
+        { key: 'futureTable', count: 3, more: false },
       ],
     },
-    tables: { workouts: 3, sets: 4 },
+    tables: { workoutSessions: 3, sets: 4 },
     pageSize: 3,
     ...extra,
   })
@@ -42,6 +44,11 @@ describe('AppPage', () => {
     expect(within(data).getByText('Sets')).toBeInTheDocument()
     expect(within(data).getByText('5.402')).toBeInTheDocument()
     expect(within(data).getByText('1.000+')).toBeInTheDocument()
+    expect(within(data).getByText('Trainingen')).toBeInTheDocument()
+    expect(within(data).getByText('Voedingsregels')).toBeInTheDocument()
+    // An unknown key still reads, and an empty kind is left out.
+    expect(within(data).getByText('Future table')).toBeInTheDocument()
+    expect(within(data).queryByText('WOD’s')).not.toBeInTheDocument()
     expect(
       screen.getByRole('link', { name: /Privacybeleid van Foundry/ }),
     ).toHaveAttribute('href', 'https://appelent.nl/privacy#app-foundry')

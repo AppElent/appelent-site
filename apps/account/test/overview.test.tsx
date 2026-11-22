@@ -41,7 +41,7 @@ describe('Overview', () => {
     expect(await screen.findByText('3 van 4 in gebruik')).toBeInTheDocument()
     const gather = row('Gather')
     expect(
-      within(gather).getByText('148 recepten · 212 taken · 2 groepen'),
+      within(gather).getByText('2 groepen · 148 recepten · 36 maaltijden'),
     ).toBeInTheDocument()
     expect(within(gather).getByText('In gebruik')).toBeInTheDocument()
     expect(
@@ -102,7 +102,7 @@ describe('Overview', () => {
     })
     expect(await screen.findByText('3 of 4 in use')).toBeInTheDocument()
     expect(
-      within(row('Gather')).getByText('148 recipes · 212 tasks · 2 groups'),
+      within(row('Gather')).getByText('2 groups · 148 recipes · 36 meals'),
     ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Open profile' })).toHaveAttribute(
       'href',

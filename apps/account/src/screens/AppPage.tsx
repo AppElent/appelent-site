@@ -3,7 +3,13 @@ import { useEffect, useRef, useState } from 'react'
 import { AppIcon, Chevron, External } from '../components/Mark.tsx'
 import { useLocale, useMessages } from '../i18n/locale-context.tsx'
 import { formatCount, formatDay } from '../i18n/messages.ts'
-import { type AppId, apps, countLabel, privacyUrl } from '../portal/apps.ts'
+import {
+  type AppId,
+  apps,
+  countLabel,
+  privacyUrl,
+  shownCounts,
+} from '../portal/apps.ts'
 import { exportApp, localDate, saveFile } from '../portal/export.ts'
 import { usePortal } from '../portal/portal-context.tsx'
 
@@ -125,7 +131,7 @@ export function AppPage({ app }: { app: AppId }) {
               {t.dataTitle(info.name)}
             </h2>
             <dl className="data-list">
-              {summary.counts.map((c) => (
+              {shownCounts(summary.counts).map((c) => (
                 <div key={c.key}>
                   <dt>{countLabel(app, c.key, locale)}</dt>
                   <dd>{formatCount(c.count, c.more, locale)}</dd>

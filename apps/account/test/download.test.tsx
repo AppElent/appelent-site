@@ -143,6 +143,57 @@ describe('Download', () => {
     expect(downloads).toEqual([])
   })
 
+  it('names export tables by their count key, without a total for one Group', async () => {
+    const gate = deferred()
+    const inner = used(
+      'gather',
+      { 'groups/thuis/mealEntries': 6 },
+      {
+        summary: {
+          contract: 1,
+          lastActiveAt: null,
+          counts: [{ key: 'meals', count: 9, more: false }],
+        },
+      },
+    )
+    const fairwayInner = used(
+      'fairway',
+      { courses: 6 },
+      {
+        summary: {
+          contract: 1,
+          lastActiveAt: null,
+          counts: [{ key: 'courseCopies', count: 6, more: false }],
+        },
+      },
+    )
+    const gated = (client: PortalClient): PortalClient => ({
+      summary: () => client.summary(),
+      exportPage: async (cursor) => {
+        const page = await client.exportPage(cursor)
+        if (cursor !== null) await gate.promise
+        return page
+      },
+    })
+    renderScreen(<Download />, {
+      clients: {
+        gather: gated(inner),
+        foundry: new FakePortalClient('foundry', { summary: null }),
+        fairway: gated(fairwayInner),
+        arcade: new FakePortalClient('arcade', { summary: null }),
+      },
+    })
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Zip maken' }),
+    )
+    expect(
+      await within(row('Gather')).findByText('Bezig · maaltijden 2'),
+    ).toBeInTheDocument()
+    await userEvent.click(screen.getByRole('button', { name: 'Annuleren' }))
+    gate.resolve()
+    await screen.findByRole('status')
+  })
+
   it('offers retry or a zip without the app that failed', async () => {
     const downloads = captureDownloads()
     const zips = captureZips()

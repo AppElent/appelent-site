@@ -1,3 +1,4 @@
+import { ConvexError } from 'convex/values'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const query = vi.fn()
@@ -83,6 +84,51 @@ describe('createConvexPortalClient', () => {
     } finally {
       vi.useRealTimers()
     }
+  })
+
+  it.each([
+    ['Foundry', new ConvexError({ code: 'unauthenticated' })],
+    ['Gather', new ConvexError('Not authenticated')],
+  ])(
+    'asks Clerk for a fresh token once when %s says not signed in',
+    async (_app, refusal) => {
+      query
+        .mockRejectedValueOnce(refusal)
+        .mockResolvedValue({ contract: 1, lastActiveAt: null, counts: [] })
+      const tokens: (boolean | undefined)[] = []
+      const client = createConvexPortalClient(
+        'gather',
+        'https://x.convex.cloud',
+        async (fresh) => {
+          tokens.push(fresh)
+          return fresh ? 'fresh-jwt' : 'cached-jwt'
+        },
+      )
+      await expect(client.summary()).resolves.not.toBeNull()
+      expect(tokens).toEqual([false, true])
+      expect(setAuth).toHaveBeenLastCalledWith('fresh-jwt')
+    },
+  )
+
+  it('gives up after one refusal with a fresh token, and never retries other errors', async () => {
+    query.mockRejectedValue(new ConvexError({ code: 'unauthenticated' }))
+    let calls = 0
+    const client = createConvexPortalClient(
+      'foundry',
+      'https://x.convex.cloud',
+      async () => {
+        calls++
+        return 'jwt'
+      },
+    )
+    await expect(client.summary()).rejects.toBeInstanceOf(ConvexError)
+    expect(calls).toBe(2)
+
+    query.mockReset()
+    query.mockRejectedValue(new Error('Server error'))
+    calls = 0
+    await expect(client.summary()).rejects.toThrow('Server error')
+    expect(calls).toBe(1)
   })
 
   it('surfaces a missing accountPortal function as an error', async () => {
