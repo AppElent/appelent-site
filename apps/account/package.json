@@ -10,6 +10,7 @@
     "test": "vitest run",
     "smoke": "node scripts/smoke.ts",
     "deploy:staging": "node scripts/env.mjs exec staging --only github -- sh -c \"CLOUDFLARE_ENV=staging pnpm build && node scripts/guard-worker.ts appelent-account-staging && pnpm exec wrangler deploy\"",
+    "deploy:production": "node scripts/env.mjs exec production --only github -- sh -c \"pnpm build && node scripts/guard-worker.ts appelent-account && pnpm exec wrangler deploy\"",
     "env:check": "node scripts/env.mjs check",
     "env:plan": "node scripts/env.mjs plan",
     "env:apply": "node scripts/env.mjs apply",

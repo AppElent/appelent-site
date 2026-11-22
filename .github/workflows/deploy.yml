@@ -2,12 +2,13 @@ name: Deploy
 
 # Adapted from developer-home standards/deployments/templates/deploy.yml.
 # A merge to main: checks → staging (www-stg.appelent.nl) → smoke check, and
-# checks → account-staging (account-stg.appelent.nl, APP-481) → smoke check.
+# checks → account-staging (account-stg.appelent.nl, APP-481) → smoke check
+# → account-production (account.appelent.nl) → smoke check.
 # A manual "Run workflow" redeploys main the same way; any other ref fails.
 #
 # No Convex backend in phase 1, so no deploy key or `convex deploy`.
 #
-# PHASE 1 (APP-480): there is deliberately NO production job. appelent.nl
+# PHASE 1 (APP-480): there is deliberately NO production job for apps/www. appelent.nl
 # keeps its parked page until the cutover, which adds a `production` job
 # (needs: staging, environment: production, main only) together with the
 # appelent.nl routes in wrangler.jsonc, `pnpm launch:check` before it ships,
@@ -85,10 +86,10 @@ jobs:
       - name: Smoke check
         run: node scripts/smoke.ts "$SMOKE_URL" "$GITHUB_SHA"
 
-  # The account portal (apps/account, APP-481). Staging only: production
-  # (account.appelent.nl) is a later change with Eric's go. Its build values
-  # are GitHub Environment variables on `staging`, named as in
-  # apps/account/env.manifest.ts (`pnpm env:apply staging` sets them).
+  # The account portal (apps/account, APP-481). Its build values are GitHub
+  # Environment variables on `staging` and `production`, named as in
+  # apps/account/env.manifest.ts (`pnpm env:apply <environment>` sets them).
+  # Production ships only after staging passed its smoke check.
   account-staging:
     needs: checks
     runs-on: ubuntu-latest
@@ -134,6 +135,58 @@ jobs:
 
       # A wrong target would replace another Worker; a production route would
       # take over account.appelent.nl.
+      - name: Guard Worker name
+        run: node scripts/guard-worker.ts "$EXPECTED_WORKER"
+
+      - name: Deploy Worker
+        run: pnpm exec wrangler deploy
+
+      - name: Smoke check
+        run: node scripts/smoke.ts "$SMOKE_URL"
+
+  account-production:
+    needs: account-staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: https://account.appelent.nl
+    permissions: { contents: read }
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      VITE_CLERK_PUBLISHABLE_KEY: ${{ vars.VITE_CLERK_PUBLISHABLE_KEY }}
+      VITE_GATHER_CONVEX_URL: ${{ vars.VITE_GATHER_CONVEX_URL }}
+      VITE_FOUNDRY_CONVEX_URL: ${{ vars.VITE_FOUNDRY_CONVEX_URL }}
+      VITE_FAIRWAY_CONVEX_URL: ${{ vars.VITE_FAIRWAY_CONVEX_URL }}
+      VITE_ARCADE_CONVEX_URL: ${{ vars.VITE_ARCADE_CONVEX_URL }}
+      SMOKE_URL: ${{ vars.ACCOUNT_SMOKE_URL || 'https://account.appelent.nl' }}
+      EXPECTED_WORKER: appelent-account
+    defaults:
+      run:
+        working-directory: apps/account
+    steps:
+      - name: Guard ref
+        if: github.ref != 'refs/heads/main'
+        working-directory: .
+        run: |
+          echo "::error::Deploys run from main only (got ${GITHUB_REF})."
+          exit 1
+
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+        working-directory: .
+
+      # Every name in env.manifest.ts for production, present in this job.
+      - name: Check environment
+        run: node scripts/env.mjs check production --ci
+
+      - run: pnpm build
+
+      # A wrong target would replace another Worker.
       - name: Guard Worker name
         run: node scripts/guard-worker.ts "$EXPECTED_WORKER"
 

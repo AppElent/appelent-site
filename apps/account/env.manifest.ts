@@ -6,6 +6,13 @@
 // the only build values are the shared Clerk key and one public Convex URL per
 // app. Which deployment each URL points at follows the app's own manifest:
 //
+// | App (repo)                  | production (Infisical prod)       |
+// | --------------------------- | --------------------------------- |
+// | Foundry (AppElent/workouts) | fine-akita-444 (prod)             |
+// | Gather (AppElent/gather)    | limitless-bulldog-972 (prod)      |
+// | Fairway (AppElent/golf-app) | giddy-pelican-141 (prod)          |
+// | Arcade Club (AppElent/games)| chatty-ram-217 (prod)             |
+//
 // | App (repo)                  | staging (Infisical prod)          | local (Infisical dev)        |
 // | --------------------------- | --------------------------------- | ---------------------------- |
 // | Foundry (AppElent/workouts) | fearless-mouse-671 (staging web)  | colorless-sturgeon-704 (dev) |
@@ -18,7 +25,10 @@
 // the deployments that app's staging web uses. The Worker builds its
 // Content-Security-Policy from these same values.
 //
-// Production (account.appelent.nl) is out of scope for APP-481.
+// Staging and production both read Infisical prod. Gather and Fairway use one
+// deployment for both, so one key serves both. Foundry and Arcade Club have a
+// separate staging deployment, so production reads its own
+// `<app>-convex-url-production` key.
 
 export const ENV_CONFIG = {
   appName: 'account',
@@ -27,20 +37,26 @@ export const ENV_CONFIG = {
   github: { repository: 'AppElent/appelent-site' },
 }
 
-export const ENVIRONMENTS = ['local', 'staging'] as const
+export const ENVIRONMENTS = ['local', 'staging', 'production'] as const
 
-const WEB = ['local', 'staging']
-const DEPLOYED = ['staging']
+const WEB = ['local', 'staging', 'production']
+const DEPLOYED = ['staging', 'production']
+const BEFORE_PRODUCTION = ['local', 'staging']
 
-const convexUrl = (app: string, name: string) => ({
-  key: `${app}ConvexUrl`,
-  infisicalKey: `${app}-convex-url`,
-  description: `Public Convex URL of ${name}; see the table at the top of this file`,
+const convexUrl = (
+  app: string,
+  name: string,
+  environments: string[] = WEB,
+  suffix = '',
+) => ({
+  key: `${app}ConvexUrl${suffix ? 'Production' : ''}`,
+  infisicalKey: `${app}-convex-url${suffix}`,
+  description: `Public Convex URL of ${name}; see the tables at the top of this file`,
   secret: false,
   lands: {
     'vite-build': {
       name: `VITE_${app.toUpperCase()}_CONVEX_URL`,
-      environments: WEB,
+      environments,
     },
   },
 })
@@ -57,9 +73,11 @@ export const ENTRIES = [
     },
   },
   convexUrl('gather', 'Gather'),
-  convexUrl('foundry', 'Foundry (workouts)'),
+  convexUrl('foundry', 'Foundry (workouts)', BEFORE_PRODUCTION),
+  convexUrl('foundry', 'Foundry (workouts)', ['production'], '-production'),
   convexUrl('fairway', 'Fairway (golf-app)'),
-  convexUrl('arcade', 'Arcade Club (games)'),
+  convexUrl('arcade', 'Arcade Club (games)', BEFORE_PRODUCTION),
+  convexUrl('arcade', 'Arcade Club (games)', ['production'], '-production'),
   {
     key: 'cloudflareApiToken',
     infisicalKey: 'cloudflare-account-token',

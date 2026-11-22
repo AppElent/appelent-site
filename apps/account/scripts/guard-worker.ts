@@ -2,9 +2,8 @@
 //   node scripts/guard-worker.ts <expected-worker>
 // Run after `CLOUDFLARE_ENV=<env> pnpm build`. Fails when the built Worker
 // (dist/server/wrangler.json, what `wrangler deploy` ships) is not
-// <expected-worker>, when it routes account.appelent.nl, or when the source
-// production config has any route. Production is a later change (APP-481
-// ships staging only); remove the route checks in that change, not before.
+// <expected-worker>, or when its routes are not exactly that Worker's own
+// custom domain (a staging build must never take over account.appelent.nl).
 import { readFileSync } from 'node:fs'
 
 interface Route {
@@ -19,9 +18,9 @@ interface WorkerConfig {
   route?: Route | string
 }
 
-const PRODUCTION_HOST = 'account.appelent.nl'
 /** The only routes each deployable Worker may have. */
 const ALLOWED_ROUTES: Record<string, string[]> = {
+  'appelent-account': ['account.appelent.nl'],
   'appelent-account-staging': ['account-stg.appelent.nl'],
 }
 
@@ -49,11 +48,6 @@ try {
 if (built.name !== expected) {
   errors.push(`Built Worker is ${built.name}, expected ${expected}.`)
 }
-if (hosts(built).includes(PRODUCTION_HOST)) {
-  errors.push(
-    `The built Worker routes ${PRODUCTION_HOST}: production is not part of APP-481.`,
-  )
-}
 const allowed = ALLOWED_ROUTES[expected]
 const routes = [...(built.routes ?? []), ...(built.route ? [built.route] : [])]
 const exact =
@@ -75,18 +69,6 @@ if (built.workers_dev !== false || built.preview_urls !== false) {
     'The built Worker must set workers_dev and preview_urls to false.',
   )
 }
-// JSONC: no string in wrangler.jsonc contains `//`, so dropping comments is safe.
-const source = JSON.parse(
-  read('wrangler.jsonc')
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/^\s*\/\/.*$/gm, ''),
-) as WorkerConfig
-if (hosts(source).length > 0) {
-  errors.push(
-    'wrangler.jsonc gives production routes: production waits for its own change.',
-  )
-}
-
 if (errors.length) {
   for (const error of errors) console.error(`::error::${error}`)
   process.exit(1)
