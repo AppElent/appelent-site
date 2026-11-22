@@ -27,7 +27,11 @@ export class TokenRejected extends Error {
 /** Fetch for the SDK: a 401 becomes `TokenRejected`, everything else passes. */
 export const markTokenRejected: typeof fetch = async (input, init) => {
   const response = await globalThis.fetch(input, init)
-  if (response.status === 401) throw new TokenRejected(await response.text())
+  if (response.status === 401) {
+    // The status is enough: a body cut off mid-read is still a refusal.
+    const body = await response.text().catch(() => '')
+    throw new TokenRejected(body || 'Unauthorized')
+  }
   return response
 }
 

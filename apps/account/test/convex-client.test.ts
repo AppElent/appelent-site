@@ -219,9 +219,16 @@ describe('createConvexPortalClient', () => {
         .mockResolvedValueOnce(
           new Response('{"code":"Expired"}', { status: 401 }),
         )
+        .mockResolvedValueOnce({
+          status: 401,
+          text: () => Promise.reject(new Error('connection reset')),
+        })
         .mockResolvedValueOnce(new Response('{}', { status: 200 })),
     )
     try {
+      await expect(markTokenRejected('https://x')).rejects.toBeInstanceOf(
+        TokenRejected,
+      )
       await expect(markTokenRejected('https://x')).rejects.toBeInstanceOf(
         TokenRejected,
       )
