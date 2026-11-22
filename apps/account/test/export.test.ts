@@ -59,6 +59,17 @@ describe('exportApp', () => {
     expect(client.exportCalls).toHaveLength(1)
   })
 
+  it('answers a cancel while a page is still loading', async () => {
+    const controller = new AbortController()
+    const never: PortalClient = {
+      summary: async () => null,
+      exportPage: () => new Promise<ExportPage>(() => {}),
+    }
+    const pending = exportApp('gather', never, { signal: controller.signal })
+    controller.abort()
+    await expect(pending).rejects.toBeInstanceOf(ExportCancelled)
+  })
+
   it('fails on a repeated cursor instead of looping', async () => {
     const looping: PortalClient = {
       summary: async () => null,
@@ -109,9 +120,17 @@ describe('localDate', () => {
 describe('jsonValue', () => {
   it('writes int64 as a string and bytes as base64', () => {
     const json = JSON.stringify(
-      { n: 12345678901234567890n, b: new Uint8Array([104, 105]).buffer },
+      {
+        n: 12345678901234567890n,
+        b: new Uint8Array([104, 105]).buffer,
+        rows: [{ f: Number.NaN, g: Number.NEGATIVE_INFINITY, h: 1.5 }],
+      },
       jsonValue,
     )
-    expect(JSON.parse(json)).toEqual({ n: '12345678901234567890', b: 'aGk=' })
+    expect(JSON.parse(json)).toEqual({
+      n: '12345678901234567890',
+      b: 'aGk=',
+      rows: [{ f: 'NaN', g: '-Infinity', h: 1.5 }],
+    })
   })
 })

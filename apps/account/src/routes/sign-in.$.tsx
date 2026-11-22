@@ -14,15 +14,48 @@ export const Route = createFileRoute('/sign-in/$')({
   component: SignInPage,
 })
 
+const REDIRECT_KEY = 'ae-sign-in-redirect'
+
+/** The tab's pending return path; storage can be missing or throw. */
+const stored = {
+  get: () => {
+    try {
+      return sessionStorage.getItem(REDIRECT_KEY)
+    } catch {
+      return null
+    }
+  },
+  set: (value: string) => {
+    try {
+      sessionStorage.setItem(REDIRECT_KEY, value)
+    } catch {}
+  },
+  clear: () => {
+    try {
+      sessionStorage.removeItem(REDIRECT_KEY)
+    } catch {}
+  },
+}
+
 function SignInPage() {
   const search = Route.useSearch()
-  // Clerk's own steps (`/sign-in/factor-one`, ...) drop the query string, so
-  // keep the first value for the whole sign-in.
-  const [redirect] = useState(() => search.redirect ?? '/')
+  // Clerk's own steps (`/sign-in/factor-one`, the SSO callback) drop the
+  // query string, and a reload there starts this page again: keep the return
+  // path for the tab, validated again on the way out.
+  const [redirect] = useState(() => {
+    if (typeof window === 'undefined') return search.redirect ?? '/'
+    if (search.redirect !== undefined) {
+      stored.set(search.redirect)
+      return search.redirect
+    }
+    return safeRedirect(stored.get() ?? '/')
+  })
   const { isLoaded, isSignedIn } = useAuth()
   const router = useRouter()
   useEffect(() => {
-    if (isLoaded && isSignedIn) router.history.replace(redirect)
+    if (!isLoaded || !isSignedIn) return
+    stored.clear()
+    router.history.replace(redirect)
   }, [isLoaded, isSignedIn, redirect, router])
   return (
     <div id="root-shell">

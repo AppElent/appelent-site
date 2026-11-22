@@ -13,11 +13,17 @@ interface Route {
 }
 interface WorkerConfig {
   name?: string
+  workers_dev?: boolean
+  preview_urls?: boolean
   routes?: (Route | string)[]
   route?: Route | string
 }
 
 const PRODUCTION_HOST = 'account.appelent.nl'
+/** The only routes each deployable Worker may have. */
+const ALLOWED_ROUTES: Record<string, string[]> = {
+  'appelent-account-staging': ['account-stg.appelent.nl'],
+}
 
 const expected = process.argv[2]
 if (!expected) {
@@ -46,6 +52,27 @@ if (built.name !== expected) {
 if (hosts(built).includes(PRODUCTION_HOST)) {
   errors.push(
     `The built Worker routes ${PRODUCTION_HOST}: production is not part of APP-481.`,
+  )
+}
+const allowed = ALLOWED_ROUTES[expected]
+const routes = [...(built.routes ?? []), ...(built.route ? [built.route] : [])]
+const exact =
+  allowed !== undefined &&
+  routes.length === allowed.length &&
+  routes.every(
+    (route, i) =>
+      typeof route !== 'string' &&
+      route.custom_domain === true &&
+      route.pattern === allowed[i],
+  )
+if (!exact) {
+  errors.push(
+    `Built Worker routes ${JSON.stringify(routes)}, expected exactly the custom domain(s) ${JSON.stringify(allowed ?? [])}.`,
+  )
+}
+if (built.workers_dev !== false || built.preview_urls !== false) {
+  errors.push(
+    'The built Worker must set workers_dev and preview_urls to false.',
   )
 }
 // JSONC: no string in wrangler.jsonc contains `//`, so dropping comments is safe.

@@ -61,6 +61,30 @@ describe('createConvexPortalClient', () => {
     expect(query).toHaveBeenCalledWith(expect.anything(), { cursor: 'c1' })
   })
 
+  it('times out a token that never comes, and never calls late', async () => {
+    vi.useFakeTimers()
+    try {
+      let give: (token: string) => void = () => {}
+      const client = createConvexPortalClient(
+        'gather',
+        'https://x.convex.cloud',
+        () =>
+          new Promise<string>((resolve) => {
+            give = resolve
+          }),
+      )
+      const result = expect(client.summary()).rejects.toThrow('Timed out')
+      await vi.advanceTimersByTimeAsync(20_000)
+      await result
+      give('late-jwt')
+      await vi.advanceTimersByTimeAsync(0)
+      expect(setAuth).not.toHaveBeenCalled()
+      expect(query).not.toHaveBeenCalled()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('surfaces a missing accountPortal function as an error', async () => {
     query.mockRejectedValue(
       new Error("Could not find public function for 'accountPortal:summary'"),

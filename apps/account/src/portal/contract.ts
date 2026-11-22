@@ -54,8 +54,12 @@ export function parseSummary(value: unknown): Summary | null {
   if (!isRecord(value)) throw new ContractError('Summary is not an object')
   const contract = contractOf(value)
   const { lastActiveAt, counts } = value
-  if (lastActiveAt !== null && typeof lastActiveAt !== 'number') {
-    throw new ContractError('lastActiveAt is not a number or null')
+  if (
+    lastActiveAt !== null &&
+    (typeof lastActiveAt !== 'number' ||
+      Number.isNaN(new Date(lastActiveAt).getTime()))
+  ) {
+    throw new ContractError('lastActiveAt is not a timestamp or null')
   }
   if (!Array.isArray(counts)) throw new ContractError('counts is not a list')
   return {

@@ -24,6 +24,9 @@ export function SignInScreen({ redirect }: { redirect: string }) {
           routing="path"
           path="/sign-in"
           forceRedirectUrl={redirect}
+          // A social sign-in with no AppElent account must not turn into a
+          // sign-up here: accounts start in the apps.
+          transferable={false}
           fallback={
             <div className="card" style={{ width: '100%', minHeight: 420 }} />
           }

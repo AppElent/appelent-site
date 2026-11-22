@@ -17,6 +17,7 @@ describe('safeRedirect', () => {
     'javascript:alert(1)',
     '/sign-in',
     '/%09/evil.example',
+    '/.//evil.example',
     '/\t/evil.example',
     '/sign-in?redirect=%2F',
     '',

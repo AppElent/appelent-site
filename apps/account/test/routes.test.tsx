@@ -134,6 +134,22 @@ describe('routes', () => {
     )
   })
 
+  it('keeps the way back when a Clerk step reloads without it', async () => {
+    sessionStorage.removeItem('ae-sign-in-redirect')
+    const first = renderAt('/sign-in?redirect=%2Fexport')
+    await screen.findByText('clerk sign-in')
+    first.history.destroy?.()
+    document.body.innerHTML = ''
+    renderAt('/sign-in/factor-one')
+    await screen.findByText('clerk sign-in')
+    expect(signIn).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        forceRedirectUrl: '/export',
+        transferable: false,
+      }),
+    )
+  })
+
   it('sends a signed-in visitor on from sign-in', async () => {
     session.isSignedIn = true
     sessionStorage.setItem('portal-fake', 'new')

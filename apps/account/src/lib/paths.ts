@@ -29,7 +29,8 @@ export function safeRedirect(value: unknown): string {
   if (url.origin !== base || /[\t\n\r]/.test(decodeURIComponentSafe(value)))
     return '/'
   const path = `${url.pathname}${url.search}${url.hash}`
-  if (path.startsWith('/sign-in')) return '/'
+  // `/.//evil.example` normalizes to `//evil.example`.
+  if (path.startsWith('//') || path.startsWith('/sign-in')) return '/'
   return path
 }
 

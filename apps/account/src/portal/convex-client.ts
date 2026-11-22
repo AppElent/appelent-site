@@ -45,13 +45,23 @@ export function createConvexPortalClient(
   getToken: TokenSource,
 ): PortalClient {
   const client = new ConvexHttpClient(url, { logger: false })
-  async function call<T>(run: () => Promise<T>): Promise<T> {
-    const token = await getToken()
-    // Never call an app anonymously: every portal function resolves the
-    // caller from the token.
-    if (!token) throw new Error('No Clerk session token')
-    client.setAuth(token)
-    return withTimeout(run(), CALL_TIMEOUT_MS)
+  function call<T>(run: () => Promise<T>): Promise<T> {
+    // One deadline over the token and the query: a stalled token refresh is
+    // as unreachable as a stalled app, and a late token starts nothing.
+    let expired = false
+    const attempt = async () => {
+      const token = await getToken()
+      if (expired) throw new Error('Timed out')
+      // Never call an app anonymously: every portal function resolves the
+      // caller from the token.
+      if (!token) throw new Error('No Clerk session token')
+      client.setAuth(token)
+      return run()
+    }
+    return withTimeout(attempt(), CALL_TIMEOUT_MS).catch((error: unknown) => {
+      expired = true
+      throw error
+    })
   }
   return {
     async summary(): Promise<Summary | null> {

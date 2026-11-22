@@ -30,6 +30,12 @@ describe('parseSummary', () => {
     ['an unknown contract', { contract: 2, lastActiveAt: null, counts: [] }],
     ['a missing contract', { lastActiveAt: null, counts: [] }],
     ['a string date', { contract: 1, lastActiveAt: '2026-01-01', counts: [] }],
+    ['a NaN date', { contract: 1, lastActiveAt: Number.NaN, counts: [] }],
+    [
+      'an infinite date',
+      { contract: 1, lastActiveAt: Number.POSITIVE_INFINITY, counts: [] },
+    ],
+    ['a date out of range', { contract: 1, lastActiveAt: 1e20, counts: [] }],
     [
       'counts that are not a list',
       { contract: 1, lastActiveAt: null, counts: {} },

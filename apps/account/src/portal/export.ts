@@ -3,7 +3,7 @@
 // each app's own deployment.
 import { strToU8, zipSync } from 'fflate'
 import type { AppId } from './apps.ts'
-import type { PortalClient } from './contract.ts'
+import type { ExportPage, PortalClient } from './contract.ts'
 
 /** A runaway cursor never ends an export; this does. */
 export const MAX_PAGES = 10_000
@@ -31,6 +31,24 @@ export class ExportCancelled extends Error {
   }
 }
 
+function untilAborted<T>(promise: Promise<T>, signal?: AbortSignal) {
+  if (!signal) return promise
+  return new Promise<T>((resolve, reject) => {
+    const onAbort = () => reject(new ExportCancelled())
+    signal.addEventListener('abort', onAbort, { once: true })
+    promise.then(
+      (value) => {
+        signal.removeEventListener('abort', onAbort)
+        resolve(value)
+      },
+      (error: unknown) => {
+        signal.removeEventListener('abort', onAbort)
+        reject(error)
+      },
+    )
+  })
+}
+
 export async function exportApp(
   app: AppId,
   client: PortalClient,
@@ -47,9 +65,12 @@ export async function exportApp(
   let totalRows = 0
   for (let page = 0; ; page++) {
     if (page >= MAX_PAGES) throw new Error('Too many export pages')
-    // Cancelling stops after the current page, never mid-call.
     if (options.signal?.aborted) throw new ExportCancelled()
-    const result = await client.exportPage(cursor)
+    // Cancel answers at once; a page still in flight is ignored.
+    const result: ExportPage = await untilAborted(
+      client.exportPage(cursor),
+      options.signal,
+    )
     contract = result.contract
     let table: string | null = null
     for (const [name, rows] of Object.entries(result.tables)) {
@@ -91,6 +112,8 @@ export async function exportApp(
  */
 export function jsonValue(_key: string, value: unknown): unknown {
   if (typeof value === 'bigint') return value.toString()
+  // Convex stores NaN and ±Infinity; JSON would write them as null.
+  if (typeof value === 'number' && !Number.isFinite(value)) return String(value)
   if (value instanceof ArrayBuffer) {
     let binary = ''
     for (const byte of new Uint8Array(value))
