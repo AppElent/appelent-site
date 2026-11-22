@@ -70,6 +70,20 @@ describe('exportApp', () => {
     await expect(pending).rejects.toBeInstanceOf(ExportCancelled)
   })
 
+  it('answers a cancel raised while a page starts', async () => {
+    const controller = new AbortController()
+    const aborting: PortalClient = {
+      summary: async () => null,
+      exportPage: () => {
+        controller.abort()
+        return new Promise<ExportPage>(() => {})
+      },
+    }
+    await expect(
+      exportApp('gather', aborting, { signal: controller.signal }),
+    ).rejects.toBeInstanceOf(ExportCancelled)
+  })
+
   it('fails on a repeated cursor instead of looping', async () => {
     const looping: PortalClient = {
       summary: async () => null,

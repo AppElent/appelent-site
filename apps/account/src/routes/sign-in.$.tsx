@@ -39,14 +39,21 @@ const stored = {
 
 function SignInPage() {
   const search = Route.useSearch()
+  const { _splat: step } = Route.useParams()
   // Clerk's own steps (`/sign-in/factor-one`, the SSO callback) drop the
   // query string, and a reload there starts this page again: keep the return
-  // path for the tab, validated again on the way out.
+  // path for the tab, validated again on the way out. Only a Clerk step reads
+  // it back; `/sign-in` itself starts a fresh sign-in and forgets an
+  // abandoned one.
   const [redirect] = useState(() => {
     if (typeof window === 'undefined') return search.redirect ?? '/'
     if (search.redirect !== undefined) {
       stored.set(search.redirect)
       return search.redirect
+    }
+    if (!step) {
+      stored.clear()
+      return '/'
     }
     return safeRedirect(stored.get() ?? '/')
   })

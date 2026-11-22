@@ -150,6 +150,16 @@ describe('routes', () => {
     )
   })
 
+  it('forgets an abandoned way back on a fresh sign-in', async () => {
+    sessionStorage.setItem('ae-sign-in-redirect', '/export')
+    renderAt('/sign-in')
+    await screen.findByText('clerk sign-in')
+    expect(signIn).toHaveBeenLastCalledWith(
+      expect.objectContaining({ forceRedirectUrl: '/' }),
+    )
+    expect(sessionStorage.getItem('ae-sign-in-redirect')).toBeNull()
+  })
+
   it('sends a signed-in visitor on from sign-in', async () => {
     session.isSignedIn = true
     sessionStorage.setItem('portal-fake', 'new')

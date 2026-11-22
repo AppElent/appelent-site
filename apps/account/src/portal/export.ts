@@ -31,11 +31,25 @@ export class ExportCancelled extends Error {
   }
 }
 
-function untilAborted<T>(promise: Promise<T>, signal?: AbortSignal) {
-  if (!signal) return promise
+/** Runs `start`, but answers an abort at once, even one raised while starting. */
+function untilAborted<T>(start: () => Promise<T>, signal?: AbortSignal) {
+  if (!signal) return start()
   return new Promise<T>((resolve, reject) => {
     const onAbort = () => reject(new ExportCancelled())
     signal.addEventListener('abort', onAbort, { once: true })
+    let promise: Promise<T>
+    try {
+      promise = start()
+    } catch (error) {
+      signal.removeEventListener('abort', onAbort)
+      reject(error)
+      return
+    }
+    if (signal.aborted) {
+      signal.removeEventListener('abort', onAbort)
+      reject(new ExportCancelled())
+      return
+    }
     promise.then(
       (value) => {
         signal.removeEventListener('abort', onAbort)
@@ -68,7 +82,7 @@ export async function exportApp(
     if (options.signal?.aborted) throw new ExportCancelled()
     // Cancel answers at once; a page still in flight is ignored.
     const result: ExportPage = await untilAborted(
-      client.exportPage(cursor),
+      () => client.exportPage(cursor),
       options.signal,
     )
     contract = result.contract
