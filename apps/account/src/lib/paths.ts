@@ -17,8 +17,28 @@ export function safeRedirect(value: unknown): string {
   ) {
     return '/'
   }
-  if (value.startsWith('/sign-in')) return '/'
-  return value
+  // Browsers drop tabs and newlines when parsing (`/%09/evil.example` reads
+  // as `//evil.example`): resolve it and insist on this origin.
+  const base = 'https://account.invalid'
+  let url: URL
+  try {
+    url = new URL(value, base)
+  } catch {
+    return '/'
+  }
+  if (url.origin !== base || /[\t\n\r]/.test(decodeURIComponentSafe(value)))
+    return '/'
+  const path = `${url.pathname}${url.search}${url.hash}`
+  if (path.startsWith('/sign-in')) return '/'
+  return path
+}
+
+function decodeURIComponentSafe(value: string) {
+  try {
+    return decodeURIComponent(value)
+  } catch {
+    return value
+  }
 }
 
 /** The profile's route id, for typed links (`params: { _splat: '' }`). */
