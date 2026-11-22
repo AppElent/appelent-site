@@ -28,6 +28,9 @@ Light and dark follow the OS (`prefers-color-scheme`).
 | `teal-soft` | `#e2f4f2` | `#14302e` | Tinted bands and pills |
 | `action` / `on-action` | `#1c2333` / `#f4f6fb` | `#f4f6fb` / `#1c2333` | Primary button |
 | `focus-ring` | `#1d6f67` | `#7fd1c8` | 2px ring, 2px offset |
+| `warn-ink` | `#9a3412` | `#fdba8c` | Warning text: an unreachable app (portal) |
+| `warn-soft` | `#fdeee4` | `#3a2418` | Warning pills and panels |
+| `warn-line` | `#f0c4a8` | `#7a3e1d` | Warning panel borders |
 
 Type: Bricolage Grotesque 600 for display (64/64 hero desktop, 40/44 phone; 44/48 and 32/38 section
 titles; 28/34 app names), Inter for text (18/28 lead, 16/24 body, 14/20 small, 12/16 eyebrow uppercase

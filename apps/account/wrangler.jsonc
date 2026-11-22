@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // The account portal (account.appelent.nl): TanStack Start on a Worker.
+  // The build picks the Wrangler environment from CLOUDFLARE_ENV (developer-home
+  // standards/deployments.md) and writes dist/server/wrangler.json.
+  //
+  // APP-481 ships staging only. The top-level (production) config has NO routes
+  // on purpose: account.appelent.nl is a later change with Eric's go.
+  // test/wrangler.test.ts and scripts/guard-worker.ts fail if it gets one.
+  "name": "appelent-account",
+  "main": "@tanstack/react-start/server-entry",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+  "env": {
+    // What a merge to main deploys (.github/workflows/deploy.yml). A custom
+    // domain, because the production Clerk instance only signs in on
+    // appelent.nl hosts.
+    "staging": {
+      "name": "appelent-account-staging",
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [
+        { "pattern": "account-stg.appelent.nl", "custom_domain": true }
+      ]
+    }
+  }
+}
