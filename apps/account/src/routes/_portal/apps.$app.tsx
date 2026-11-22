@@ -8,6 +8,6 @@ export const Route = createFileRoute('/_portal/apps/$app')({
   },
   component: () => {
     const { app } = Route.useParams()
-    return isAppId(app) ? <AppPage app={app} /> : null
+    return isAppId(app) ? <AppPage key={app} app={app} /> : null
   },
 })

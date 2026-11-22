@@ -82,7 +82,11 @@ export function Download() {
       return next
     })
     const results = [...kept]
-    let failed = false
+    // A retry of one row must not save a zip while other rows still failed:
+    // their state is fixed for this run, so read it once here.
+    let failed = targets.some(
+      (app) => !list.includes(app) && runs[app]?.status === 'failed',
+    )
     for (const app of list) {
       const client = clients[app]
       setRun(app, { status: 'working', progress: null })

@@ -71,13 +71,33 @@ export async function exportApp(
   }
   if (options.signal?.aborted) throw new ExportCancelled()
   const exportedAt = (options.now?.() ?? new Date()).toISOString()
-  const json = JSON.stringify({ contract, app, exportedAt, tables }, null, 2)
+  const json = JSON.stringify(
+    { contract, app, exportedAt, tables },
+    jsonValue,
+    2,
+  )
   return {
     app,
     fileName: `${app}.json`,
     json,
     bytes: new TextEncoder().encode(json).byteLength,
   }
+}
+
+/**
+ * Convex values JSON cannot hold: an int64 arrives as a BigInt (which
+ * JSON.stringify throws on) and bytes as an ArrayBuffer (which it writes as
+ * `{}`). Write them as a decimal string and base64.
+ */
+export function jsonValue(_key: string, value: unknown): unknown {
+  if (typeof value === 'bigint') return value.toString()
+  if (value instanceof ArrayBuffer) {
+    let binary = ''
+    for (const byte of new Uint8Array(value))
+      binary += String.fromCharCode(byte)
+    return btoa(binary)
+  }
+  return value
 }
 
 export function buildZip(files: AppExport[]): Uint8Array {

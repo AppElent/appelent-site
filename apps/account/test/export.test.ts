@@ -5,6 +5,7 @@ import {
   buildZip,
   ExportCancelled,
   exportApp,
+  jsonValue,
   localDate,
 } from '../src/portal/export.ts'
 import { FakePortalClient } from '../src/portal/fake.ts'
@@ -102,5 +103,15 @@ describe('buildZip', () => {
 describe('localDate', () => {
   it('formats the local day', () => {
     expect(localDate(new Date(2026, 0, 5, 23, 30))).toBe('2026-01-05')
+  })
+})
+
+describe('jsonValue', () => {
+  it('writes int64 as a string and bytes as base64', () => {
+    const json = JSON.stringify(
+      { n: 12345678901234567890n, b: new Uint8Array([104, 105]).buffer },
+      jsonValue,
+    )
+    expect(JSON.parse(json)).toEqual({ n: '12345678901234567890', b: 'aGk=' })
   })
 })

@@ -200,6 +200,34 @@ describe('Download', () => {
     expect(await zips()).toEqual([['foundry.json', 'gather.json']])
   })
 
+  it('does not save a zip while another app still failed', async () => {
+    const zips = captureZips()
+    captureDownloads()
+    const foundry = used('foundry', { sets: 2 }, { failExportAtPage: 0 })
+    const fairway = used('fairway', { holeScores: 2 }, { failExportAtPage: 0 })
+    renderScreen(<Download />, {
+      clients: {
+        gather: used('gather', { recipes: 1 }),
+        foundry,
+        fairway,
+        arcade: new FakePortalClient('arcade', { summary: null }),
+      },
+    })
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Zip maken' }),
+    )
+    await screen.findByRole('alert')
+    foundry.heal()
+    await userEvent.click(
+      within(row('Foundry')).getByRole('button', { name: /^Opnieuw proberen/ }),
+    )
+    expect(
+      await screen.findByRole('button', { name: 'Downloaden zonder Fairway' }),
+    ).toBeInTheDocument()
+    expect(await zips()).toEqual([])
+    expect(within(row('Fairway')).getByText('Niet gelukt')).toBeInTheDocument()
+  })
+
   it('tries an unreachable app too, and names several failures', async () => {
     captureDownloads()
     renderScreen(<Download />, {
