@@ -24,6 +24,9 @@ const shipped: Record<AppId, string[]> = {
     'babyEvents',
     'tastings',
     'loyaltyCards',
+    'houseRecords',
+    'financeRecords',
+    'energyRecords',
   ],
   foundry: [
     'workoutSessions',
@@ -77,6 +80,15 @@ describe('count-key catalog', () => {
   it('maps export tables onto their count keys', () => {
     expect(countKeyForTable('gather', 'groups/thuis/mealEntries')).toBe('meals')
     expect(countKeyForTable('gather', 'groups/thuis/recipes')).toBe('recipes')
+    expect(countKeyForTable('gather', 'groups/thuis/loanParts')).toBe(
+      'houseRecords',
+    )
+    expect(countKeyForTable('gather', 'groups/thuis/holdings')).toBe(
+      'financeRecords',
+    )
+    expect(countKeyForTable('gather', 'groups/thuis/energyReadings')).toBe(
+      'energyRecords',
+    )
     expect(countKeyForTable('fairway', 'courses')).toBe('courseCopies')
     expect(countKeyForTable('fairway', 'userSettings')).toBe('settings')
     expect(countKeyForTable('arcade', 'sessionParticipants')).toBe('gameSeats')
