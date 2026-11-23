@@ -58,6 +58,9 @@ const nl = {
     open: (app: string) => `Open ${app}`,
     dataTitle: (app: string) => `Wat ${app} van je bewaart`,
     aboutDownload: 'Over de download',
+    connectedTitle: 'Verbonden apps',
+    connectedBody: (app: string) =>
+      `Gaf je Claude of een andere app toegang tot ${app}? Dat beheer je in die app zelf. In Claude: Instellingen › Connectors. Verbreek je daar de verbinding, dan blijven je gegevens in ${app} gewoon staan.`,
     privacy: (app: string) => `Privacybeleid van ${app}`,
     emptyTitle: (app: string) => `Je hebt ${app} nog niet gebruikt`,
     emptyBody: (app: string) =>
@@ -170,6 +173,9 @@ const en: Messages = {
     open: (app) => `Open ${app}`,
     dataTitle: (app) => `What ${app} keeps about you`,
     aboutDownload: 'About the download',
+    connectedTitle: 'Connected apps',
+    connectedBody: (app) =>
+      `Did you give Claude or another app access to ${app}? You manage that in that app. In Claude: Settings › Connectors. Disconnecting there leaves your data in ${app} as it is.`,
     privacy: (app) => `${app} privacy policy`,
     emptyTitle: (app) => `You have not used ${app} yet`,
     emptyBody: (app) =>

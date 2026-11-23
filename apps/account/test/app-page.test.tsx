@@ -140,4 +140,35 @@ describe('AppPage', () => {
     ).toBeInTheDocument()
     expect(screen.getByText('5,402')).toBeInTheDocument()
   })
+
+  it('says where to manage connected apps, only for apps with an MCP server', async () => {
+    const { unmount } = renderScreen(<AppPage app="foundry" />, {
+      clients: { foundry: usedFoundry() },
+    })
+    const connected = await screen.findByRole('region', {
+      name: 'Verbonden apps',
+    })
+    expect(
+      within(connected).getByText(/In Claude: Instellingen › Connectors/),
+    ).toBeInTheDocument()
+    unmount()
+
+    renderScreen(<AppPage app="fairway" />, {
+      clients: {
+        fairway: new FakePortalClient('fairway', {
+          summary: {
+            contract: 1,
+            lastActiveAt: Date.now(),
+            counts: [{ key: 'rounds', count: 3, more: false }],
+          },
+        }),
+      },
+    })
+    expect(
+      await screen.findByRole('heading', { name: 'Fairway', level: 1 }),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('region', { name: 'Verbonden apps' }),
+    ).not.toBeInTheDocument()
+  })
 })

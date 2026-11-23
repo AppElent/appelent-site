@@ -31,11 +31,18 @@ export interface AppInfo {
   tableKeys: Record<string, string>
   /** "Over de download" note on the app page. */
   note: Localized
+  /**
+   * Whether the app has an MCP server that Claude and other clients connect
+   * to through Clerk OAuth. Such an app page explains where to manage that
+   * connection (APP-632); the portal cannot list or revoke it.
+   */
+  connectedApps?: true
 }
 
 export const apps: Record<AppId, AppInfo> = {
   gather: {
     id: 'gather',
+    connectedApps: true,
     name: 'Gather',
     kind: { nl: 'Huishouden', en: 'Household' },
     icon: gatherIcon,
@@ -61,6 +68,7 @@ export const apps: Record<AppId, AppInfo> = {
   },
   foundry: {
     id: 'foundry',
+    connectedApps: true,
     name: 'Foundry',
     kind: { nl: 'Training', en: 'Training' },
     icon: foundryIcon,
