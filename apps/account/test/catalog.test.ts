@@ -119,4 +119,18 @@ describe('count-key catalog', () => {
       ),
     ).toBe('290 voedingsregels · 4 lichaamsmetingen')
   })
+
+  it('leaves a kind the app did not count out of the line', () => {
+    expect(
+      countsLine(
+        'foundry',
+        [
+          { key: 'routines', count: 0, more: true },
+          { key: 'bodyMetrics', count: 4, more: false },
+        ],
+        3,
+        'nl',
+      ),
+    ).toBe('4 lichaamsmetingen')
+  })
 })

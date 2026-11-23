@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { AppIcon } from '../components/Mark.tsx'
 import { useLocale, useMessages } from '../i18n/locale-context.tsx'
-import { formatCount, formatList, formatSize } from '../i18n/messages.ts'
+import {
+  formatCount,
+  formatList,
+  formatSize,
+  isUncounted,
+} from '../i18n/messages.ts'
 import {
   type AppId,
   appIds,
@@ -13,7 +18,6 @@ import {
 import type { Summary } from '../portal/contract.ts'
 import {
   type AppExport,
-  buildZip,
   ExportCancelled,
   exportApp,
   localDate,
@@ -21,6 +25,7 @@ import {
   saveFile,
 } from '../portal/export.ts'
 import { type SummaryState, usePortal } from '../portal/portal-context.tsx'
+import { zipExports } from '../portal/zip.ts'
 
 type RowRun =
   | { status: 'waiting' }
@@ -69,9 +74,9 @@ export function Download() {
   const setRun = (app: AppId, run: RowRun) =>
     setRuns((current) => ({ ...current, [app]: run }))
 
-  function finish(results: AppExport[]) {
+  async function finish(results: AppExport[]) {
     const name = t.fileName(localDate())
-    const data = buildZip(results)
+    const data = await zipExports(results)
     setZip({ name, data })
     saveFile(name, data, 'application/zip')
     setPhase('done')
@@ -125,7 +130,7 @@ export function Download() {
     }
     abort.current = null
     if (failed) setPhase('error')
-    else finish(results)
+    else await finish(results)
   }
 
   const done = () =>
@@ -166,7 +171,9 @@ export function Download() {
         text: t.working(
           label,
           formatCount(p.tableRows, false, locale),
-          count ? formatCount(count.count, count.more, locale) : null,
+          count && !isUncounted(count)
+            ? formatCount(count.count, count.more, locale)
+            : null,
         ),
       }
     }
@@ -309,7 +316,7 @@ export function Download() {
                 <button
                   type="button"
                   className="btn btn-quiet"
-                  onClick={() => finish(done())}
+                  onClick={() => void finish(done())}
                 >
                   {failedNames.length === 1
                     ? t.without(failedNames[0] ?? '')

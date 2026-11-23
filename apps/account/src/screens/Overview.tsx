@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { AppIcon, Chevron } from '../components/Mark.tsx'
 import { useLocale, useMessages } from '../i18n/locale-context.tsx'
-import { formatCount, formatDay } from '../i18n/messages.ts'
+import { formatCount, formatDay, isUncounted } from '../i18n/messages.ts'
 import { profileRoute } from '../lib/paths.ts'
 import {
   type AppId,
@@ -25,7 +25,9 @@ export function countsLine(
   n: number,
   locale: 'nl' | 'en',
 ) {
+  // An uncounted kind has no number to put in the line.
   return shownCounts(counts)
+    .filter((c) => !isUncounted(c))
     .slice(0, n)
     .map(({ key, count, more }) => {
       const label = countLabel(app, key, locale)

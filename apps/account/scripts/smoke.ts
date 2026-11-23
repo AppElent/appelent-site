@@ -1,7 +1,8 @@
 // Smoke-checks a running portal (developer-home standards/deployments.md):
-//   node scripts/smoke.ts https://account-stg.appelent.nl
+//   node scripts/smoke.ts https://account-stg.appelent.nl [expected-commit]
 // Signed-out checks only: every route renders in both languages, unknown paths
-// are 404s, and every page carries the strict CSP and security headers.
+// are 404s, and every page carries the strict CSP and security headers. With
+// a commit, /version.json must report it: the deploy is the build it made.
 // Retries while the edge catches up, then fails with every mismatch.
 
 export {}
@@ -58,7 +59,7 @@ function headerProblems(res: Response): string[] {
   return problems
 }
 
-async function run(origin: string): Promise<string[]> {
+async function run(origin: string, commit?: string): Promise<string[]> {
   const failures: string[] = []
   for (const check of checks) {
     const res = await fetch(origin + check.path, {
@@ -84,19 +85,30 @@ async function run(origin: string): Promise<string[]> {
     if (res.status !== 200) failures.push(`${path}: status ${res.status}`)
     else console.log(`ok 200 ${path}`)
   }
+  if (commit) {
+    const res = await fetch(`${origin}/version.json`, {
+      headers: { 'Cache-Control': 'no-cache' },
+    })
+    const reported = res.ok
+      ? ((await res.json()) as { commit?: string }).commit
+      : `HTTP ${res.status}`
+    if (reported !== commit)
+      failures.push(`/version.json: commit ${reported}, expected ${commit}`)
+    else console.log(`ok version ${commit}`)
+  }
   return failures
 }
 
-const [origin] = process.argv.slice(2)
+const [origin, commit] = process.argv.slice(2)
 if (!origin) {
-  console.error('Usage: node scripts/smoke.ts <origin>')
+  console.error('Usage: node scripts/smoke.ts <origin> [expected-commit]')
   process.exit(2)
 }
 
 let failures: string[] = []
 for (let attempt = 1; attempt <= 6; attempt++) {
   try {
-    failures = await run(origin.replace(/\/$/, ''))
+    failures = await run(origin.replace(/\/$/, ''), commit)
   } catch (error) {
     failures = [`${origin}: ${(error as Error).message}`]
   }
