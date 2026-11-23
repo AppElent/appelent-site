@@ -1,7 +1,7 @@
 // The maintainer's tool for the portal's "Wat is er nieuw" tab (APP-628).
 // The daily maintainer round runs it where developer-home's `changelog`
-// branch is readable; the steps are in developer-home's control-room-releases
-// README. From the repository root:
+// branch is readable; the steps are in content/whats-new/README.md (and the
+// maintainer round's control-room-releases notes). From the repository root:
 //
 //   pnpm whats-new pending <changelog.json> [--since YYYY-MM-DD]
 //       The user-facing rows no digest has handled yet, per app and ISO week,
