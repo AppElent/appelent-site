@@ -12,6 +12,7 @@ import {
 } from '../portal/apps.ts'
 import { exportApp, localDate, saveFile } from '../portal/export.ts'
 import { usePortal } from '../portal/portal-context.tsx'
+import { WhatsNew } from './WhatsNew.tsx'
 
 /** "Download <App>-gegevens": one JSON file for this app, via `exportPage`. */
 function DownloadButton({ app }: { app: AppId }) {
@@ -59,10 +60,37 @@ function DownloadButton({ app }: { app: AppId }) {
   )
 }
 
-export function AppPage({ app }: { app: AppId }) {
+export type AppTab = 'data' | 'news'
+
+/** "Jouw gegevens" and "Wat is er nieuw", as links: each tab has its own URL. */
+function AppTabs({ app, tab }: { app: AppId; tab: AppTab }) {
+  const t = useMessages().app
+  return (
+    <nav className="app-tabs" aria-label={t.tabsLabel(apps[app].name)}>
+      <Link
+        to="/apps/$app"
+        params={{ app }}
+        activeOptions={{ exact: true, includeSearch: false }}
+        aria-current={tab === 'data' ? 'page' : undefined}
+      >
+        {t.tabData}
+      </Link>
+      <Link
+        to="/apps/$app/whats-new"
+        params={{ app }}
+        activeOptions={{ includeSearch: false }}
+        aria-current={tab === 'news' ? 'page' : undefined}
+      >
+        {t.tabNews}
+      </Link>
+    </nav>
+  )
+}
+
+export function AppPage({ app, tab = 'data' }: { app: AppId; tab?: AppTab }) {
   const { app: t, home } = useMessages()
   const { locale } = useLocale()
-  const { summaries, reload } = usePortal()
+  const { summaries } = usePortal()
   const info = apps[app]
   const state = summaries[app]
   const summary = state.status === 'ready' ? state.summary : null
@@ -113,7 +141,9 @@ export function AppPage({ app }: { app: AppId }) {
             {statusLine}
           </p>
         </div>
-        {state.status === 'ready' ? (
+        {tab === 'news' ? (
+          <div className="actions">{openLink}</div>
+        ) : state.status === 'ready' ? (
           <div className="actions">
             {used ? <DownloadButton app={app} /> : null}
             {openLink}
@@ -121,6 +151,25 @@ export function AppPage({ app }: { app: AppId }) {
         ) : null}
       </div>
 
+      <AppTabs app={app} tab={tab} />
+
+      {tab === 'news' ? <WhatsNew app={app} /> : <DataTab app={app} />}
+    </>
+  )
+}
+
+/** What the app keeps, or why it cannot say: the app page's first tab. */
+function DataTab({ app }: { app: AppId }) {
+  const { app: t } = useMessages()
+  const { locale } = useLocale()
+  const { summaries, reload } = usePortal()
+  const info = apps[app]
+  const state = summaries[app]
+  const summary = state.status === 'ready' ? state.summary : null
+  const used = summary !== null
+  const unreachable = state.status === 'unreachable'
+  return (
+    <>
       {summary ? (
         <div className="split">
           <section

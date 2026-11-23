@@ -1,0 +1,45 @@
+{
+  "week": "2026-W48",
+  "stage": "web",
+  "since": "2026-11-23",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Een vernieuwde training",
+        "en": "A rebuilt workout screen"
+      },
+      "body": {
+        "nl": "Het trainingsscherm is opnieuw opgebouwd: je volgende set staat onderaan klaar, met je vorige keer ernaast, en de set-editor heeft grote cijfers.",
+        "en": "The workout screen is rebuilt: your next set waits at the bottom next to last time's numbers, and the set editor has large figures."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w48-session-lift.webp",
+          "width": 796,
+          "height": 856,
+          "alt": {
+            "nl": "De training met de volgende set onderaan",
+            "en": "The workout with the next set at the bottom"
+          }
+        },
+        {
+          "file": "2026-w48-set-editor.webp",
+          "width": 796,
+          "height": 856,
+          "alt": {
+            "nl": "De set-editor met gewicht en herhalingen",
+            "en": "The set editor with weight and reps"
+          }
+        }
+      ]
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Foutmeldingen bij inloggen en aanmelden zijn altijd Nederlands op een Nederlandse pagina.",
+      "en": "Sign-in and sign-up errors are always in Dutch on a Dutch page."
+    }
+  ]
+}

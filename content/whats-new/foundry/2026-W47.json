@@ -1,0 +1,163 @@
+{
+  "week": "2026-W47",
+  "stage": "web",
+  "since": "2026-11-22",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Nieuwe kleuren, licht en donker",
+        "en": "New colours, light and dark"
+      },
+      "body": {
+        "nl": "Foundry heeft een eigen kleurenpalet en volgt de lichte of donkere modus van je toestel.",
+        "en": "Foundry has its own palette and follows your device's light or dark mode."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-palette-today.webp",
+          "width": 646,
+          "height": 1400,
+          "alt": {
+            "nl": "Het dashboard in de lichte modus",
+            "en": "The dashboard in light mode"
+          }
+        },
+        {
+          "file": "2026-w47-palette-training.webp",
+          "width": 646,
+          "height": 1400,
+          "alt": {
+            "nl": "Een training in de donkere modus",
+            "en": "A workout in dark mode"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Rusttijd op je vergrendelscherm",
+        "en": "Rest timer on your Lock Screen"
+      },
+      "body": {
+        "nl": "Tijdens een training zie je de rusttijd en je volgende set op het vergrendelscherm en in het Dynamic Island.",
+        "en": "During a workout the rest countdown and your next set show on the Lock Screen and in the Dynamic Island."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-rest-lock.webp",
+          "width": 460,
+          "height": 998,
+          "alt": {
+            "nl": "Rusttijd en volgende set op het vergrendelscherm",
+            "en": "Rest countdown and next set on the Lock Screen"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Wachtwoord vergeten of wijzigen",
+        "en": "Forgot or change your password"
+      },
+      "body": {
+        "nl": "Vraag een code aan als je je wachtwoord kwijt bent, of wijzig het onder Account. Wachtwoordmanagers slaan je inlog nu overal goed op.",
+        "en": "Request a code when you have lost your password, or change it under Account. Password managers now save your login on every screen."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-reset-request.webp",
+          "width": 750,
+          "height": 1334,
+          "alt": {
+            "nl": "Een code aanvragen om je wachtwoord te herstellen",
+            "en": "Requesting a code to reset your password"
+          }
+        },
+        {
+          "file": "2026-w47-change-password.webp",
+          "width": 750,
+          "height": 1334,
+          "alt": {
+            "nl": "Je wachtwoord wijzigen",
+            "en": "Changing your password"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Kies wat je verwijdert",
+        "en": "Choose what to delete"
+      },
+      "body": {
+        "nl": "Verwijder alleen je Foundry-gegevens, of je hele AppElent-account met alle apps erbij.",
+        "en": "Delete only your Foundry data, or your whole AppElent account across every app."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-delete-choice.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "De keuze tussen Foundry-gegevens en je hele account",
+            "en": "The choice between Foundry data and your whole account"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Inloggen met een tweede stap",
+        "en": "Sign in with a second step"
+      },
+      "body": {
+        "nl": "Heb je tweestapsverificatie aan, dan vraagt Foundry na je wachtwoord om de code.",
+        "en": "With two-step verification on, Foundry asks for your code after your password."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Uitnodigingen openen in de app",
+        "en": "Invites open in the app"
+      },
+      "body": {
+        "nl": "Een link naar een groepstraining opent direct in de geïnstalleerde app, ook als je eerst moet inloggen.",
+        "en": "A link to a group workout opens straight in the installed app, even when you have to sign in first."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Het scoreformulier van een WOD is in het Nederlands.",
+      "en": "The WOD score form is in Dutch for Dutch users."
+    },
+    {
+      "nl": "De set-editor wordt niet meer leeg na slepen op het toetsenbord.",
+      "en": "The set editor no longer goes blank after a drag on the keypad."
+    },
+    {
+      "nl": "Een plank en andere houdingen log je in seconden.",
+      "en": "Plank and other holds are logged in seconds."
+    },
+    {
+      "nl": "Oefeningen blijven in je training als je ze groepeert.",
+      "en": "Exercises stay in your workout when you group them."
+    },
+    {
+      "nl": "De rusttimer loopt niet meer door in een nieuwe training.",
+      "en": "The rest timer no longer carries over into another workout."
+    },
+    {
+      "nl": "De offline-melding wacht even en bedekt de pagina niet meer.",
+      "en": "The offline banner waits a moment and no longer covers the page."
+    },
+    {
+      "nl": "Instellingen laat zien welke versie en update je hebt.",
+      "en": "Settings shows which version and update you run."
+    }
+  ]
+}

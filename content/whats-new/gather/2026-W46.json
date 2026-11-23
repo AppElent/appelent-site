@@ -1,0 +1,52 @@
+{
+  "week": "2026-W46",
+  "stage": "web",
+  "since": null,
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Klantenkaarten",
+        "en": "Loyalty cards"
+      },
+      "body": {
+        "nl": "Bewaar de klantenkaarten van je huishouden, scan ze met de camera en laat ze aan de kassa zien, met het logo van de winkel erbij.",
+        "en": "Keep your household's loyalty cards, scan them with the camera and show them at the till, with the store's logo."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Recepten zoeken op het web",
+        "en": "Find recipes on the web"
+      },
+      "body": {
+        "nl": "Zoek een recept op titel of label.",
+        "en": "Search a recipe by title or tag."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Download je gegevens",
+        "en": "Download your data"
+      },
+      "body": {
+        "nl": "Exporteer je gegevens als JSON, op het web onder Account en op de telefoon onder Instellingen.",
+        "en": "Export your data as JSON, on the web under Account and on the phone under Settings."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Een groep verwijderen en snel iets toevoegen werken zoals je verwacht.",
+      "en": "Deleting a group and quick add work as you expect."
+    },
+    {
+      "nl": "Bedragen staan overal in euro.",
+      "en": "Amounts show in euros everywhere."
+    }
+  ]
+}

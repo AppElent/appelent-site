@@ -1,0 +1,26 @@
+{
+  "week": "2026-W46",
+  "stage": "web",
+  "since": "2026-11-16",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Privacy en support",
+        "en": "Privacy and support"
+      },
+      "body": {
+        "nl": "Fairway heeft een privacybeleid en een supportpagina, zodat je weet wat er met je gegevens gebeurt en waar je terechtkunt.",
+        "en": "Fairway has a privacy policy and a support page, so you know what happens to your data and where to go."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Een ronde spelen gaat soepeler, met minder doodlopende stappen.",
+      "en": "Playing a round runs more smoothly, with fewer dead ends."
+    }
+  ]
+}

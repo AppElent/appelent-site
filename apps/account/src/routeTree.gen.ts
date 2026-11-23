@@ -16,6 +16,8 @@ import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
 import { Route as PortalAppsAppRouteImport } from './routes/_portal/apps.$app'
 import { Route as PortalProfielSplatRouteImport } from './routes/_portal/profiel.$'
 import { Route as PortalProfileSplatRouteImport } from './routes/_portal/profile.$'
+import { Route as PortalAppsAppIndexRouteImport } from './routes/_portal/apps.$app.index'
+import { Route as PortalAppsAppWhatsNewRouteImport } from './routes/_portal/apps.$app.whats-new'
 
 const PortalRoute = PortalRouteImport.update({
   id: '/_portal',
@@ -51,22 +53,35 @@ const PortalProfileSplatRoute = PortalProfileSplatRouteImport.update({
   path: '/profile/$',
   getParentRoute: () => PortalRoute,
 } as any)
+const PortalAppsAppIndexRoute = PortalAppsAppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PortalAppsAppRoute,
+} as any)
+const PortalAppsAppWhatsNewRoute = PortalAppsAppWhatsNewRouteImport.update({
+  id: '/whats-new',
+  path: '/whats-new',
+  getParentRoute: () => PortalAppsAppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PortalIndexRoute
   '/export': typeof PortalExportRoute
   '/sign-in/$': typeof SignInSplatRoute
-  '/apps/$app': typeof PortalAppsAppRoute
+  '/apps/$app': typeof PortalAppsAppRouteWithChildren
   '/profiel/$': typeof PortalProfielSplatRoute
   '/profile/$': typeof PortalProfileSplatRoute
+  '/apps/$app/whats-new': typeof PortalAppsAppWhatsNewRoute
+  '/apps/$app/': typeof PortalAppsAppIndexRoute
 }
 export interface FileRoutesByTo {
   '/export': typeof PortalExportRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/': typeof PortalIndexRoute
-  '/apps/$app': typeof PortalAppsAppRoute
   '/profiel/$': typeof PortalProfielSplatRoute
   '/profile/$': typeof PortalProfileSplatRoute
+  '/apps/$app/whats-new': typeof PortalAppsAppWhatsNewRoute
+  '/apps/$app': typeof PortalAppsAppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -74,17 +89,32 @@ export interface FileRoutesById {
   '/_portal/export': typeof PortalExportRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/_portal/': typeof PortalIndexRoute
-  '/_portal/apps/$app': typeof PortalAppsAppRoute
+  '/_portal/apps/$app': typeof PortalAppsAppRouteWithChildren
   '/_portal/profiel/$': typeof PortalProfielSplatRoute
   '/_portal/profile/$': typeof PortalProfileSplatRoute
+  '/_portal/apps/$app/whats-new': typeof PortalAppsAppWhatsNewRoute
+  '/_portal/apps/$app/': typeof PortalAppsAppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/export' | '/sign-in/$' | '/apps/$app' | '/profiel/$' | '/profile/$'
+    | '/'
+    | '/export'
+    | '/sign-in/$'
+    | '/apps/$app'
+    | '/profiel/$'
+    | '/profile/$'
+    | '/apps/$app/whats-new'
+    | '/apps/$app/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/export' | '/sign-in/$' | '/' | '/apps/$app' | '/profiel/$' | '/profile/$'
+    | '/export'
+    | '/sign-in/$'
+    | '/'
+    | '/profiel/$'
+    | '/profile/$'
+    | '/apps/$app/whats-new'
+    | '/apps/$app'
   id:
     | '__root__'
     | '/_portal'
@@ -94,6 +124,8 @@ export interface FileRouteTypes {
     | '/_portal/apps/$app'
     | '/_portal/profiel/$'
     | '/_portal/profile/$'
+    | '/_portal/apps/$app/whats-new'
+    | '/_portal/apps/$app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,13 +184,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalProfileSplatRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/_portal/apps/$app/': {
+      id: '/_portal/apps/$app/'
+      path: '/'
+      fullPath: '/apps/$app/'
+      preLoaderRoute: typeof PortalAppsAppIndexRouteImport
+      parentRoute: typeof PortalAppsAppRoute
+    }
+    '/_portal/apps/$app/whats-new': {
+      id: '/_portal/apps/$app/whats-new'
+      path: '/whats-new'
+      fullPath: '/apps/$app/whats-new'
+      preLoaderRoute: typeof PortalAppsAppWhatsNewRouteImport
+      parentRoute: typeof PortalAppsAppRoute
+    }
   }
 }
+
+interface PortalAppsAppRouteChildren {
+  PortalAppsAppWhatsNewRoute: typeof PortalAppsAppWhatsNewRoute
+  PortalAppsAppIndexRoute: typeof PortalAppsAppIndexRoute
+}
+
+const PortalAppsAppRouteChildren: PortalAppsAppRouteChildren = {
+  PortalAppsAppWhatsNewRoute: PortalAppsAppWhatsNewRoute,
+  PortalAppsAppIndexRoute: PortalAppsAppIndexRoute,
+}
+
+const PortalAppsAppRouteWithChildren = PortalAppsAppRoute._addFileChildren(
+  PortalAppsAppRouteChildren,
+)
 
 interface PortalRouteChildren {
   PortalExportRoute: typeof PortalExportRoute
   PortalIndexRoute: typeof PortalIndexRoute
-  PortalAppsAppRoute: typeof PortalAppsAppRoute
+  PortalAppsAppRoute: typeof PortalAppsAppRouteWithChildren
   PortalProfielSplatRoute: typeof PortalProfielSplatRoute
   PortalProfileSplatRoute: typeof PortalProfileSplatRoute
 }
@@ -166,7 +226,7 @@ interface PortalRouteChildren {
 const PortalRouteChildren: PortalRouteChildren = {
   PortalExportRoute: PortalExportRoute,
   PortalIndexRoute: PortalIndexRoute,
-  PortalAppsAppRoute: PortalAppsAppRoute,
+  PortalAppsAppRoute: PortalAppsAppRouteWithChildren,
   PortalProfielSplatRoute: PortalProfielSplatRoute,
   PortalProfileSplatRoute: PortalProfileSplatRoute,
 }

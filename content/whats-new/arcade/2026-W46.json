@@ -1,0 +1,101 @@
+{
+  "week": "2026-W46",
+  "stage": "web",
+  "since": null,
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Boerenbridge",
+        "en": "Boerenbridge"
+      },
+      "body": {
+        "nl": "Bied hoeveel slagen je haalt en zit er precies op. Voor 3 tot 7 spelers.",
+        "en": "Bid how many tricks you will take and hit it exactly. For 3 to 7 players."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Yatzy, het eerste dobbelspel",
+        "en": "Yatzy, the first dice game"
+      },
+      "body": {
+        "nl": "Gooi, houd vast en vul je kaart, op het web en in de app.",
+        "en": "Roll, hold and fill your card, on the web and in the app."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Eenentwintigen",
+        "en": "Eenentwintigen"
+      },
+      "body": {
+        "nl": "Iedereen speelt tegen de bank. Kom zo dicht mogelijk bij 21 zonder eroverheen te gaan.",
+        "en": "Everyone plays against the bank. Get as close to 21 as you can without going over."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Gin Rummy",
+        "en": "Gin Rummy"
+      },
+      "body": {
+        "nl": "Een kaartspel voor twee: maak combinaties en klop als je hand klaar is.",
+        "en": "A card game for two: make melds and knock when your hand is ready."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Hartenjagen",
+        "en": "Hartenjagen"
+      },
+      "body": {
+        "nl": "Ontwijk de harten en de schoppenvrouw. Het eerste slagenspel in Arcade Club.",
+        "en": "Avoid the hearts and the queen of spades. The first trick-taking game in Arcade Club."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Mau-Mau",
+        "en": "Mau-Mau"
+      },
+      "body": {
+        "nl": "Leg kaart op kaart en raak als eerste je hand kwijt.",
+        "en": "Play card on card and be the first to empty your hand."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Bij Pesten zet je de speciale kaarten aan of uit, en de deellink staat naast de QR-code.",
+      "en": "In Pesten you switch the special cards on or off, and the share link sits next to the QR code."
+    },
+    {
+      "nl": "Op het web kun je je account en gegevens verwijderen.",
+      "en": "On the web you can delete your account and data."
+    },
+    {
+      "nl": "Rasters van Sudoku en binaire puzzels zijn beter zichtbaar.",
+      "en": "Sudoku and binary puzzle grids are easier to see."
+    },
+    {
+      "nl": "Knoppen op de speltafel en bij backgammon vallen beter op.",
+      "en": "Card-table and backgammon controls stand out more."
+    },
+    {
+      "nl": "Lichte tekst, hints en invoervelden zijn beter leesbaar.",
+      "en": "Faint text, hints and fields are easier to read."
+    },
+    {
+      "nl": "Je kunt niet meer voor de stoel van een ander spelen.",
+      "en": "You can no longer act for someone else's seat."
+    }
+  ]
+}

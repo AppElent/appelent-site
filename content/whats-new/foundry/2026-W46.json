@@ -1,0 +1,53 @@
+{
+  "week": "2026-W46",
+  "stage": "web",
+  "since": null,
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Foundry in Claude",
+        "en": "Foundry in Claude"
+      },
+      "body": {
+        "nl": "Koppel Claude aan je Foundry-account. Claude kan je week, je voedingslog en de voortgang van je lifts dan laten zien als overzicht dat je kunt bekijken en aanpassen.",
+        "en": "Connect Claude to your Foundry account. Claude can then show your week, your food log and your lift progress as views you can look through and adjust."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Een rustige start voor nieuwe accounts",
+        "en": "A calm start for new accounts"
+      },
+      "body": {
+        "nl": "Een nieuw account krijgt een korte introductie: kies je doelen en log meteen je eerste training of maaltijd.",
+        "en": "A new account gets a short introduction: pick your goals and log your first workout or meal right away."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Aanmelden met de beveiligingscheck werkt weer.",
+      "en": "Signing up with the security check works again."
+    },
+    {
+      "nl": "Een geweigerd nieuw wachtwoord kun je meteen opnieuw proberen.",
+      "en": "You can retry a refused new password straight away."
+    },
+    {
+      "nl": "De grote titels van Profiel en Trainen schuiven in bij het scrollen.",
+      "en": "The large titles on Profile and Train collapse as you scroll."
+    },
+    {
+      "nl": "Schudden tijdens het typen laat de app niet meer vastlopen op iPhone.",
+      "en": "Shaking while typing no longer freezes the app on iPhone."
+    },
+    {
+      "nl": "Er is een supportpagina voor vragen en problemen.",
+      "en": "There is a support page for questions and problems."
+    }
+  ]
+}
