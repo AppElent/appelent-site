@@ -149,6 +149,20 @@ export function AppPage({ app }: { app: AppId }) {
               </h2>
               <p>{info.note[locale]}</p>
             </section>
+            {info.connectedApps ? (
+              <section aria-labelledby="connected-h" className="card card-pad">
+                <h2
+                  id="connected-h"
+                  className="card-title"
+                  style={{ fontSize: 16, lineHeight: '24px' }}
+                >
+                  {t.connectedTitle}
+                </h2>
+                <p className="muted" style={{ margin: 0, fontSize: 14 }}>
+                  {t.connectedBody(info.name)}
+                </p>
+              </section>
+            ) : null}
             <a
               className="link"
               href={privacyUrl(app)}
