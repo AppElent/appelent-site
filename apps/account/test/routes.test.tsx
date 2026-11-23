@@ -56,10 +56,14 @@ const { NotFoundPage } = await import('../src/screens/NotFoundPage.tsx')
 const component = (route: { options: { component?: unknown } }) =>
   route.options.component as RouteComponent
 
-function renderAt(path: string, locale: Locale = 'nl') {
+function renderAt(
+  path: string,
+  locale: Locale = 'nl',
+  setLocale: (locale: Locale) => void = () => {},
+) {
   const root = createRootRoute({
     component: () => (
-      <LocaleProvider value={{ locale, setLocale: () => {} }}>
+      <LocaleProvider value={{ locale, setLocale }}>
         <Outlet />
       </LocaleProvider>
     ),
@@ -276,6 +280,18 @@ describe('routes', () => {
     expect(
       screen.getByRole('heading', { name: 'Profile', level: 1 }),
     ).toBeInTheDocument()
+  })
+
+  it('offers NL | EN on sign-in', async () => {
+    const setLocale = vi.fn()
+    renderAt('/sign-in', 'nl', setLocale)
+    await screen.findByText('clerk sign-in')
+    expect(screen.getByRole('button', { name: 'NL' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
+    screen.getByRole('button', { name: 'EN' }).click()
+    expect(setLocale).toHaveBeenCalledWith('en')
   })
 
   it.each([

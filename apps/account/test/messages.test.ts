@@ -15,6 +15,13 @@ describe('formatters', () => {
     expect(formatCount(1000, true, 'nl')).toBe('1.000+')
   })
 
+  it('reads a count cut short as at least that many, or not counted at 0', () => {
+    expect(formatCount(120, true, 'en')).toBe('120+')
+    expect(formatCount(0, true, 'nl')).toBe('niet geteld')
+    expect(formatCount(0, true, 'en')).toBe('not counted')
+    expect(formatCount(0, false, 'en')).toBe('0')
+  })
+
   it('writes sizes in MB', () => {
     expect(formatSize(2_100_000, 'nl')).toBe('2,1 MB')
     expect(formatSize(2_100_000, 'en')).toBe('2.1 MB')

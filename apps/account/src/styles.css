@@ -210,7 +210,7 @@ textarea {
 }
 
 .lang-switch {
-  display: none;
+  display: flex;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 2px;
@@ -232,6 +232,27 @@ textarea {
 .lang-switch button[aria-pressed="true"] {
   color: var(--on-action);
   background: var(--action);
+}
+
+/* The language switch is on the phone too (APP-608). */
+@media (max-width: 767px) {
+  .header-end {
+    gap: 8px;
+  }
+}
+
+/* Below 420 px "Account" makes room for the switch and the avatar. */
+@media (max-width: 419px) {
+  .brand-sub {
+    display: none;
+  }
+}
+
+/* Sign-in has no header: the switch sits above the screen, on the right. */
+.signin-top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -16px;
 }
 
 .avatar-menu {
@@ -291,8 +312,7 @@ textarea {
 }
 
 @media (min-width: 768px) {
-  .tabs-desktop,
-  .lang-switch {
+  .tabs-desktop {
     display: flex;
   }
   .tabs-phone {

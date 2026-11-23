@@ -46,7 +46,8 @@ function Tabs({ className }: { className: string }) {
   )
 }
 
-function LanguageSwitch() {
+/** NL | EN, in the header and on sign-in. */
+export function LanguageSwitch() {
   const { locale, setLocale } = useLocale()
   const t = useMessages().shell
   const { pathname } = useLocation()

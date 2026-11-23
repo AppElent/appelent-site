@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { AppIcon } from '../components/Mark.tsx'
 import { useLocale, useMessages } from '../i18n/locale-context.tsx'
-import { formatCount, formatList, formatSize } from '../i18n/messages.ts'
+import {
+  formatCount,
+  formatList,
+  formatSize,
+  isUncounted,
+} from '../i18n/messages.ts'
 import {
   type AppId,
   appIds,
@@ -13,7 +18,6 @@ import {
 import type { Summary } from '../portal/contract.ts'
 import {
   type AppExport,
-  buildZip,
   ExportCancelled,
   exportApp,
   localDate,
@@ -21,6 +25,7 @@ import {
   saveFile,
 } from '../portal/export.ts'
 import { type SummaryState, usePortal } from '../portal/portal-context.tsx'
+import { zipExports } from '../portal/zip.ts'
 
 type RowRun =
   | { status: 'waiting' }
@@ -60,8 +65,18 @@ export function Download() {
   const [cancelled, setCancelled] = useState(false)
   const abort = useRef<AbortController | null>(null)
 
-  // Leaving the page stops the export at once.
-  useEffect(() => () => abort.current?.abort(), [])
+  // Leaving the page stops the export at once, and a zip still being built
+  // is not saved.
+  const mounted = useRef(true)
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+      abort.current?.abort()
+    }
+  }, [])
+  /** One zip at a time: a second click while it builds does nothing. */
+  const zipping = useRef(false)
 
   const settled = appIds.every((id) => summaries[id].status !== 'loading')
   const targets = appIds.filter((id) => isTarget(summaries[id]))
@@ -69,9 +84,20 @@ export function Download() {
   const setRun = (app: AppId, run: RowRun) =>
     setRuns((current) => ({ ...current, [app]: run }))
 
-  function finish(results: AppExport[]) {
+  async function finish(results: AppExport[]) {
+    if (zipping.current) return
+    zipping.current = true
+    // The zip builds in a Worker: keep the buttons that start another run or
+    // zip away until it is saved.
+    setPhase('working')
     const name = t.fileName(localDate())
-    const data = buildZip(results)
+    let data: Uint8Array
+    try {
+      data = await zipExports(results)
+    } finally {
+      zipping.current = false
+    }
+    if (!mounted.current) return
     setZip({ name, data })
     saveFile(name, data, 'application/zip')
     setPhase('done')
@@ -125,7 +151,7 @@ export function Download() {
     }
     abort.current = null
     if (failed) setPhase('error')
-    else finish(results)
+    else await finish(results)
   }
 
   const done = () =>
@@ -166,7 +192,9 @@ export function Download() {
         text: t.working(
           label,
           formatCount(p.tableRows, false, locale),
-          count ? formatCount(count.count, count.more, locale) : null,
+          count && !isUncounted(count)
+            ? formatCount(count.count, count.more, locale)
+            : null,
         ),
       }
     }
@@ -309,7 +337,7 @@ export function Download() {
                 <button
                   type="button"
                   className="btn btn-quiet"
-                  onClick={() => finish(done())}
+                  onClick={() => void finish(done())}
                 >
                   {failedNames.length === 1
                     ? t.without(failedNames[0] ?? '')

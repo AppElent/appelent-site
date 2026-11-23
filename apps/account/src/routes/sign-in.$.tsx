@@ -1,7 +1,7 @@
 import { useAuth } from '@clerk/react'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useEffect, useRef } from 'react'
-import { Footer } from '../components/Shell.tsx'
+import { Footer, LanguageSwitch } from '../components/Shell.tsx'
 import { safeRedirect } from '../lib/paths.ts'
 import { SignInScreen } from '../screens/Simple.tsx'
 
@@ -69,6 +69,9 @@ function SignInPage() {
   return (
     <div id="root-shell">
       <main className="main" id="main">
+        <div className="signin-top">
+          <LanguageSwitch />
+        </div>
         <SignInScreen redirect={redirect} />
       </main>
       <Footer />

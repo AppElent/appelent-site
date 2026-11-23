@@ -10,7 +10,7 @@ export interface Count {
   /** Stable camelCase kind of data (`recipes`, `sets`). */
   key: string
   count: number
-  /** True when `count` was capped: "1,000 or more". */
+  /** `count` is a floor: capped at 1,000, or cut short near the read limits. */
   more: boolean
 }
 

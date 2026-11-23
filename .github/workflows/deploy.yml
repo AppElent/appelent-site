@@ -142,7 +142,7 @@ jobs:
         run: pnpm exec wrangler deploy
 
       - name: Smoke check
-        run: node scripts/smoke.ts "$SMOKE_URL"
+        run: node scripts/smoke.ts "$SMOKE_URL" "$GITHUB_SHA"
 
   account-production:
     needs: account-staging
@@ -194,4 +194,4 @@ jobs:
         run: pnpm exec wrangler deploy
 
       - name: Smoke check
-        run: node scripts/smoke.ts "$SMOKE_URL"
+        run: node scripts/smoke.ts "$SMOKE_URL" "$GITHUB_SHA"

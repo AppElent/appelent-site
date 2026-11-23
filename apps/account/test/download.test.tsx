@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { unzipSync } from 'fflate'
 import { describe, expect, it, vi } from 'vitest'
@@ -252,6 +252,29 @@ describe('Download', () => {
       screen.getByRole('button', { name: 'Downloaden zonder Foundry' }),
     )
     expect(await zips()).toEqual([['fairway.json', 'gather.json']])
+    expect(downloads).toHaveLength(1)
+  })
+
+  it('builds one zip when "without" is clicked twice', async () => {
+    const downloads = captureDownloads()
+    renderScreen(<Download />, {
+      clients: {
+        gather: used('gather', { recipes: 3 }),
+        foundry: used('foundry', { sets: 6 }, { failExportAtPage: 1 }),
+        fairway: used('fairway', { rounds: 1 }),
+        arcade: new FakePortalClient('arcade', { summary: null }),
+      },
+    })
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Zip maken' }),
+    )
+    const without = await screen.findByRole('button', {
+      name: 'Downloaden zonder Foundry',
+    })
+    fireEvent.click(without)
+    fireEvent.click(without)
+    await waitFor(() => expect(downloads).toHaveLength(1))
+    await new Promise((resolve) => setTimeout(resolve, 20))
     expect(downloads).toHaveLength(1)
   })
 

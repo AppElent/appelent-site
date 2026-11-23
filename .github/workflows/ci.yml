@@ -64,4 +64,4 @@ jobs:
             curl -fsS -o /dev/null http://127.0.0.1:4481/sign-in && break
             sleep 1
           done
-          node scripts/smoke.ts http://127.0.0.1:4481 || { cat "$RUNNER_TEMP/account-preview.log"; exit 1; }
+          node scripts/smoke.ts http://127.0.0.1:4481 "$GITHUB_SHA" || { cat "$RUNNER_TEMP/account-preview.log"; exit 1; }

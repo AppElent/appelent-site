@@ -302,8 +302,22 @@ export const messages: Record<Locale, Messages> = { nl, en }
 
 const numberLocale: Record<Locale, string> = { nl: 'nl-NL', en: 'en-GB' }
 
-/** "5.402" / "5,402"; a capped count reads "1.000+". */
+const notCounted: Record<Locale, string> = {
+  nl: 'niet geteld',
+  en: 'not counted',
+}
+
+/** An app stopped before it counted any (`more` with 0): no number to show. */
+export const isUncounted = (c: { count: number; more: boolean }) =>
+  c.more && c.count === 0
+
+/**
+ * "5.402" / "5,402". A count with `more` is "at least this many": "1.000+",
+ * or "120+" when the app stopped short of its read limits. With nothing
+ * counted it reads "niet geteld" / "not counted".
+ */
 export function formatCount(count: number, more: boolean, locale: Locale) {
+  if (more && count === 0) return notCounted[locale]
   // `always`: nl-NL would otherwise leave 5402 ungrouped; the design shows 5.402.
   const grouped = new Intl.NumberFormat(numberLocale[locale], {
     useGrouping: 'always',
