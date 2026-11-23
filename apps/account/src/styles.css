@@ -234,14 +234,10 @@ textarea {
   background: var(--action);
 }
 
-/* The language switch is on the phone too (APP-608): narrower buttons keep
-   it beside the brand and the avatar at 390 px. */
+/* The language switch is on the phone too (APP-608). */
 @media (max-width: 767px) {
   .header-end {
     gap: 8px;
-  }
-  .lang-switch button {
-    min-width: 40px;
   }
 }
 

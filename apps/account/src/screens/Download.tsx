@@ -65,8 +65,18 @@ export function Download() {
   const [cancelled, setCancelled] = useState(false)
   const abort = useRef<AbortController | null>(null)
 
-  // Leaving the page stops the export at once.
-  useEffect(() => () => abort.current?.abort(), [])
+  // Leaving the page stops the export at once, and a zip still being built
+  // is not saved.
+  const mounted = useRef(true)
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+      abort.current?.abort()
+    }
+  }, [])
+  /** One zip at a time: a second click while it builds does nothing. */
+  const zipping = useRef(false)
 
   const settled = appIds.every((id) => summaries[id].status !== 'loading')
   const targets = appIds.filter((id) => isTarget(summaries[id]))
@@ -75,8 +85,19 @@ export function Download() {
     setRuns((current) => ({ ...current, [app]: run }))
 
   async function finish(results: AppExport[]) {
+    if (zipping.current) return
+    zipping.current = true
+    // The zip builds in a Worker: keep the buttons that start another run or
+    // zip away until it is saved.
+    setPhase('working')
     const name = t.fileName(localDate())
-    const data = await zipExports(results)
+    let data: Uint8Array
+    try {
+      data = await zipExports(results)
+    } finally {
+      zipping.current = false
+    }
+    if (!mounted.current) return
     setZip({ name, data })
     saveFile(name, data, 'application/zip')
     setPhase('done')
