@@ -39,6 +39,10 @@ export interface AppInfo {
   connectedApps?: true
 }
 
+/** `tableKeys` entries for several tables that count under one key. */
+const keyFor = (key: string, tables: string[]): Record<string, string> =>
+  Object.fromEntries(tables.map((table) => [table, key]))
+
 export const apps: Record<AppId, AppInfo> = {
   gather: {
     id: 'gather',
@@ -59,8 +63,42 @@ export const apps: Record<AppId, AppInfo> = {
       babyEvents: { nl: 'Babylogregels', en: 'Baby log entries' },
       tastings: { nl: 'Proefnotities', en: 'Tastings' },
       loyaltyCards: { nl: 'Klantenkaarten', en: 'Loyalty cards' },
+      houseRecords: { nl: 'Huisgegevens', en: 'Home records' },
+      financeRecords: { nl: 'Financiële gegevens', en: 'Finance records' },
+      energyRecords: { nl: 'Energiegegevens', en: 'Energy records' },
     },
-    tableKeys: { mealEntries: 'meals', plannedDinners: 'plannedMeals' },
+    tableKeys: {
+      mealEntries: 'meals',
+      plannedDinners: 'plannedMeals',
+      // House, Finance and Energy each count as one kind over their tables
+      // (APP-601).
+      ...keyFor('houseRecords', [
+        'houses',
+        'mortgageCalculations',
+        'loanParts',
+        'homeBuyingCosts',
+      ]),
+      ...keyFor('financeRecords', [
+        'recurringCosts',
+        'savingsGoals',
+        'splitScenarios',
+        'holdings',
+        'holdingTransactions',
+        'financeSettings',
+        'netWorthEntries',
+        'netWorthSnapshots',
+      ]),
+      ...keyFor('energyRecords', [
+        'energySites',
+        'energyContracts',
+        'energySources',
+        'energyAssets',
+        'energyChannels',
+        'energyReadings',
+        'energyIntervals',
+        'energyPriceFeeds',
+      ]),
+    },
     note: {
       nl: 'Je krijgt alles wat jij hebt gemaakt, als JSON. Wat anderen in je groepen zetten, blijft van hen en zit er niet in.',
       en: 'You get everything you created, as JSON. What others add to your groups stays theirs and is not included.',
