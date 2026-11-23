@@ -1,0 +1,37 @@
+{
+  "week": "2026-W45",
+  "stage": "web",
+  "since": null,
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Sets loggen vanuit één tabel",
+        "en": "Log sets from one table"
+      },
+      "body": {
+        "nl": "Je logt alle sets van een oefening in één overzicht en traint op een percentage van je 1RM; Foundry rekent het gewicht voor je uit.",
+        "en": "You log every set of an exercise in one table and can train at a percentage of your 1RM; Foundry works out the weight."
+      },
+      "screenshots": []
+    },
+    {
+      "title": {
+        "nl": "Eten invoeren met AI begrijpt echte maaltijden",
+        "en": "AI food entry understands real meals"
+      },
+      "body": {
+        "nl": "Typ wat je at zoals je het zou zeggen, ook met correcties als \"nee, de helft\". Foundry maakt er de juiste regels van.",
+        "en": "Type what you ate the way you would say it, corrections included, like \"no, half of that\". Foundry turns it into the right entries."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Zoeken met meerdere woorden in Open Food Facts vindt het juiste product.",
+      "en": "Searching Open Food Facts with several words finds the right product."
+    }
+  ]
+}

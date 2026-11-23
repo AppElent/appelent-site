@@ -1,0 +1,160 @@
+{
+  "week": "2026-W47",
+  "stage": "web",
+  "since": "2026-11-22",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Een donker thema",
+        "en": "A dark theme"
+      },
+      "body": {
+        "nl": "Fairway volgt de donkere modus van je toestel, ook tijdens een ronde.",
+        "en": "Fairway follows your device's dark mode, also during a round."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-dark-round.webp",
+          "width": 390,
+          "height": 844,
+          "alt": {
+            "nl": "Een ronde in het donkere thema",
+            "en": "A round in the dark theme"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Je account op de telefoon",
+        "en": "Your account on the phone"
+      },
+      "body": {
+        "nl": "Herstel een vergeten wachtwoord en wijzig je naam, e-mailadres en wachtwoord in de app.",
+        "en": "Reset a forgotten password and change your name, email address and password in the app."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-forgot.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Een code aanvragen voor een nieuw wachtwoord",
+            "en": "Requesting a code for a new password"
+          }
+        },
+        {
+          "file": "2026-w47-change-password.webp",
+          "width": 750,
+          "height": 1334,
+          "alt": {
+            "nl": "Je wachtwoord wijzigen",
+            "en": "Changing your password"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Kies wat je verwijdert",
+        "en": "Choose what to delete"
+      },
+      "body": {
+        "nl": "Verwijder alleen je Fairway-gegevens, of je hele AppElent-account met alle apps erbij.",
+        "en": "Delete only your Fairway data, or your whole AppElent account across every app."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-delete-choice.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "De keuze tussen Fairway-gegevens en je hele account",
+            "en": "The choice between Fairway data and your whole account"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Download je gegevens",
+        "en": "Download your data"
+      },
+      "body": {
+        "nl": "Exporteer je rondes, scores en banen als JSON, op het web en in de app.",
+        "en": "Export your rounds, scores and courses as JSON, on the web and in the app."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-export.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Exporteer mijn gegevens in het profiel",
+            "en": "Export my data in the profile"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Je ronde werkt ook offline",
+        "en": "Your round works offline too"
+      },
+      "body": {
+        "nl": "Zonder bereik zie je je lopende ronde uit een opgeslagen kopie. Zodra je weer verbinding hebt, gaan je scores mee.",
+        "en": "Without signal you see your round from a saved copy. Once you are back online, your scores go along."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-offline.webp",
+          "width": 603,
+          "height": 1309,
+          "alt": {
+            "nl": "Een hole met de melding dat je offline speelt",
+            "en": "A hole with the notice that you are playing offline"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Een nieuw app-icoon",
+        "en": "A new app icon"
+      },
+      "body": {
+        "nl": "Fairway heeft een eigen icoon, met donkere en getinte versies voor iOS.",
+        "en": "Fairway has its own icon, with dark and tinted versions for iOS."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Meldingen tonen ook tijdens het spelen en in vensters.",
+      "en": "Messages also show while you play and in sheets."
+    },
+    {
+      "nl": "Invoervelden en knoppen hebben een duidelijkere rand in de lichte modus.",
+      "en": "Fields and buttons have a clearer edge in light mode."
+    },
+    {
+      "nl": "Het donkere thema is rustiger en het inlogscherm toont een licht logo.",
+      "en": "The dark theme is calmer and the sign-in card shows a light logo."
+    },
+    {
+      "nl": "Een ronde starten gaat sneller.",
+      "en": "Starting a round is quicker."
+    },
+    {
+      "nl": "Uitloggen kan vanaf je profiel.",
+      "en": "You can sign out from your profile."
+    },
+    {
+      "nl": "Het toetsenbord schuift formulieren niet meer onder het scherm.",
+      "en": "The keyboard no longer pushes forms off screen."
+    }
+  ]
+}

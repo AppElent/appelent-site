@@ -11,7 +11,8 @@
     "dev": "pnpm --filter @appelent/www dev",
     "dev:account": "pnpm --filter @appelent/account dev",
     "deploy:staging": "pnpm --filter @appelent/www deploy:staging",
-    "deploy:account:staging": "pnpm --filter @appelent/account deploy:staging"
+    "deploy:account:staging": "pnpm --filter @appelent/account deploy:staging",
+    "whats-new": "node apps/account/scripts/whats-new.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.7"

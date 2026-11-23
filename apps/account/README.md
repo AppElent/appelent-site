@@ -23,6 +23,10 @@ your sign-in. Built from the approved design in
 - The download runs in the browser: each used app is exported page by page, then zipped
   (`fflate`) into `appelent-gegevens-<date>.zip` with one `<app>.json` per app. Per-app progress,
   cancel, retry per app, or "download without <app>". Nothing passes through the Worker.
+- Each app page has two tabs: **Jouw gegevens** (`/apps/<app>`) and **Wat is er nieuw**
+  (`/apps/<app>/whats-new`, APP-628), a weekly digest per app from
+  [`content/whats-new`](../../content/whats-new/README.md), bundled at build time. Its type,
+  version and from-date filters live in the query (`?type=new&version=1.1.0&from=2026-11-01`).
 - Dutch by default, English through the `lang` cookie (NL | EN switch). Light and dark follow the OS.
 
 ## Commands

@@ -1,0 +1,30 @@
+{
+  "week": "2026-W45",
+  "stage": "web",
+  "since": "2026-11-12",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Oefen elke hole vanaf de bank",
+        "en": "Practise any hole from the couch"
+      },
+      "body": {
+        "nl": "Speel een hole na zonder op de baan te staan. De tees van Welderen en de Oosterhoutse zijn verbeterd.",
+        "en": "Play a hole without being on the course. The tees at Welderen and Oosterhoutse are corrected."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "De achterste tee van een dogleg telt als op de hole.",
+      "en": "A dogleg's back tee counts as on the hole."
+    },
+    {
+      "nl": "Scores op het web gaan niet meer verloren.",
+      "en": "Scores on the web are no longer lost."
+    }
+  ]
+}

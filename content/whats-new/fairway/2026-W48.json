@@ -1,0 +1,36 @@
+{
+  "week": "2026-W48",
+  "stage": "web",
+  "since": "2026-11-23",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Schud om een probleem te melden",
+        "en": "Shake to report a problem"
+      },
+      "body": {
+        "nl": "Schud je telefoon of tik op Probleem melden om ons te laten weten wat er misging, met een screenshot erbij.",
+        "en": "Shake your phone or tap Report a problem to tell us what went wrong, screenshot included."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w48-shake.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Het venster om een probleem te melden",
+            "en": "The sheet to report a problem"
+          }
+        }
+      ]
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "\"Nog geen rondes\" staat onder de titel in plaats van onder de klok.",
+      "en": "\"No rounds yet\" shows below the title instead of under the clock."
+    }
+  ]
+}

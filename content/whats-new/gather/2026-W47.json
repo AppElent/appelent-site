@@ -1,0 +1,205 @@
+{
+  "week": "2026-W47",
+  "stage": "web",
+  "since": "2026-11-22",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Winkelmodus voor de boodschappen",
+        "en": "Shopping mode for groceries"
+      },
+      "body": {
+        "nl": "Grote regels, het scherm blijft aan en je vinkt af met één tik. De tabbalk verdwijnt zolang je winkelt.",
+        "en": "Large rows, the screen stays on and one tap checks an item off. The tab bar hides while you shop."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-shopping.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "De boodschappenlijst in winkelmodus",
+            "en": "The grocery list in shopping mode"
+          }
+        },
+        {
+          "file": "2026-w47-shopping-checked.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Afgevinkte boodschappen",
+            "en": "Checked-off groceries"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Een weekmenu met AI",
+        "en": "A week menu with AI"
+      },
+      "body": {
+        "nl": "Laat Gather een weekmenu voorstellen dat past bij jullie voorkeuren. Niet goed? Iets anders ruilt een maaltijd met één tik.",
+        "en": "Let Gather suggest a week menu that fits your preferences. Not right? Something else swaps a meal in one tap."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-week-plan.webp",
+          "width": 402,
+          "height": 872,
+          "alt": {
+            "nl": "Een voorstel voor het weekmenu",
+            "en": "A suggested week menu"
+          }
+        },
+        {
+          "file": "2026-w47-meal-swap.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Iets anders kiezen voor zaterdag",
+            "en": "Picking something else for Saturday"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Subtaken, herhalen en herinneringen",
+        "en": "Subtasks, repeats and reminders"
+      },
+      "body": {
+        "nl": "Splits een taak op in subtaken, laat hem herhalen en krijg een herinnering op het moment dat jij kiest.",
+        "en": "Split a task into subtasks, let it repeat and get a reminder at the time you choose."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-subtasks.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Een taak met subtaken",
+            "en": "A task with subtasks"
+          }
+        },
+        {
+          "file": "2026-w47-reminder.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Een herinnering instellen",
+            "en": "Setting a reminder"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Vandaag op het beginscherm",
+        "en": "Today on the home screen"
+      },
+      "body": {
+        "nl": "Het beginscherm laat zien wat er vandaag speelt: taken die te laat zijn, wat vandaag moet en wat je hebt vastgezet.",
+        "en": "The home screen shows what is on today: overdue tasks, what is due today and what you pinned."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-home-today.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Het beginscherm met Vandaag",
+            "en": "The home screen with Today"
+          }
+        },
+        {
+          "file": "2026-w47-home-today-dark.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Vandaag in de donkere modus",
+            "en": "Today in dark mode"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Energie: begin met je adres",
+        "en": "Energy: start with your address"
+      },
+      "body": {
+        "nl": "De eerste stap van de module Energie. Een groep voegt het adres van het huishouden toe; verbruik en kosten volgen.",
+        "en": "The first step of the Energy module. A group adds the household's address; usage and costs follow."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-energy-address.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Energie met het adres van het huishouden",
+            "en": "Energy with the household address"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Mensen uitnodigen voor je groep",
+        "en": "Invite people to your group"
+      },
+      "body": {
+        "nl": "Deel een uitnodigingscode vanaf je telefoon, of verlaat een groep als je er niet meer bij hoort.",
+        "en": "Share an invite code from your phone, or leave a group you no longer belong to."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-groups.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Je groepen met de uitnodigingscode",
+            "en": "Your groups with the invite code"
+          }
+        }
+      ]
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Boodschappenlijsten per winkel, elk met hun eigen volgorde van gangpaden.",
+      "en": "Grocery lists per store, each with its own aisle order."
+    },
+    {
+      "nl": "Gather stelt voor wat jullie vaak kopen en vult namen aan terwijl je typt.",
+      "en": "Gather suggests what you usually buy and completes names as you type."
+    },
+    {
+      "nl": "Inloggen met Apple en Microsoft, op het web en de telefoon.",
+      "en": "Sign in with Apple and Microsoft, on the web and the phone."
+    },
+    {
+      "nl": "Links zijn beter leesbaar in de lichte modus.",
+      "en": "Links are easier to read in light mode."
+    },
+    {
+      "nl": "Het scherm van een boodschap zegt nu \"item\", niet \"taak\".",
+      "en": "A grocery item screen now says \"item\", not \"task\"."
+    },
+    {
+      "nl": "Bij herschikken scrolt de lijst mee aan de randen.",
+      "en": "Reordering scrolls at the edges of the list."
+    },
+    {
+      "nl": "Het takenoverzicht laadt sneller.",
+      "en": "The tasks overview loads faster."
+    },
+    {
+      "nl": "Een scherm dat je direct opent heeft altijd een terugknop.",
+      "en": "A screen you open directly always has a back button."
+    }
+  ]
+}

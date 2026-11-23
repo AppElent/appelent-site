@@ -1,0 +1,21 @@
+{
+  "week": "2026-W45",
+  "stage": "web",
+  "since": null,
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Pesten en Jokeren",
+        "en": "Pesten and Jokeren"
+      },
+      "body": {
+        "nl": "De eerste kaartspellen van Arcade Club, op het web en in de iPhone-app.",
+        "en": "Arcade Club's first card games, on the web and in the iPhone app."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": []
+}

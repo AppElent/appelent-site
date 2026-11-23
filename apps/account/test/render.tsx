@@ -26,8 +26,10 @@ export function renderScreen(
   options: {
     clients: Partial<Record<AppId, PortalClient | null>>
     locale?: Locale
+    /** Where the memory router starts, with its query: `/?type=new`. */
+    path?: string
   },
-): RenderResult {
+): RenderResult & { router: { state: { location: { search: unknown } } } } {
   const clients: PortalClients = {
     gather: null,
     foundry: null,
@@ -53,10 +55,13 @@ export function renderScreen(
   })
   const router = createRouter({
     routeTree: root.addChildren([index]),
-    history: createMemoryHistory({ initialEntries: ['/'] }),
+    history: createMemoryHistory({ initialEntries: [options.path ?? '/'] }),
   })
   // The app registers its own router type; this one only renders `ui`.
-  return render(<RouterProvider router={router as never} />)
+  return {
+    ...render(<RouterProvider router={router as never} />),
+    router,
+  }
 }
 
 /** Records every file saveFile hands the browser. */

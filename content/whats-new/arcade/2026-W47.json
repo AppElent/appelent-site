@@ -1,0 +1,192 @@
+{
+  "week": "2026-W47",
+  "stage": "web",
+  "since": "2026-11-22",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Toepen en Klaverjassen",
+        "en": "Toepen and Klaverjassen"
+      },
+      "body": {
+        "nl": "Twee Nederlandse klassiekers erbij: Toepen met kloppen en de laatste slag, en Klaverjassen, het eerste spel in teams.",
+        "en": "Two Dutch classics join: Toepen with knocking and the last trick, and Klaverjassen, the first team game."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-toepen.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Een spel Toepen aan tafel",
+            "en": "A game of Toepen at the table"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Mexen, 10.000 en Blufpoker",
+        "en": "Mexen, 10,000 and Liar's Dice"
+      },
+      "body": {
+        "nl": "Drie nieuwe dobbelspellen, met levens, worplimieten en bluffen.",
+        "en": "Three new dice games, with lives, throw limits and bluffing."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-mexen.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Jouw beurt bij Mexen",
+            "en": "Your turn in Mexen"
+          }
+        },
+        {
+          "file": "2026-w47-liars-dice.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Een bod doen bij Blufpoker",
+            "en": "Making a bid in Liar's Dice"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Beat the Clock",
+        "en": "Beat the Clock"
+      },
+      "body": {
+        "nl": "Een partyspel in teams: omschrijf zo veel mogelijk woorden voordat de tijd op is.",
+        "en": "A team party game: describe as many words as you can before time runs out."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-beat-the-clock.webp",
+          "width": 691,
+          "height": 1400,
+          "alt": {
+            "nl": "Woorden omschrijven terwijl de klok loopt",
+            "en": "Describing words while the clock runs"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Scan een sudoku van papier",
+        "en": "Scan a paper sudoku"
+      },
+      "body": {
+        "nl": "Maak op je iPhone een foto van een sudoku uit de krant. Controleer het raster en speel hem in de app.",
+        "en": "Take a photo of a newspaper sudoku on your iPhone. Check the grid and play it in the app."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-scan-corners.webp",
+          "width": 460,
+          "height": 998,
+          "alt": {
+            "nl": "De hoeken van de puzzel aanwijzen",
+            "en": "Marking the corners of the puzzle"
+          }
+        },
+        {
+          "file": "2026-w47-scan-verify.webp",
+          "width": 460,
+          "height": 998,
+          "alt": {
+            "nl": "Het herkende raster controleren",
+            "en": "Checking the recognised grid"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Huisregels voor elk kaartspel",
+        "en": "House rules for every card game"
+      },
+      "body": {
+        "nl": "Stel per spel in met hoeveel spelers je speelt en welke regels gelden, zoals een maximum van zeven kaarten in je hand.",
+        "en": "Set the player count and the rules for each game, such as a seven-card hand limit."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-house-rules.webp",
+          "width": 750,
+          "height": 1334,
+          "alt": {
+            "nl": "Spelregels instellen voor Mau-Mau",
+            "en": "Setting the rules for Mau-Mau"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Je account in eigen hand",
+        "en": "Your account in your hands"
+      },
+      "body": {
+        "nl": "Download je gegevens, wijzig je naam en wachtwoord op de iPhone, en kies of je alleen Arcade Club of je hele account verwijdert.",
+        "en": "Download your data, change your name and password on iPhone, and choose whether to delete only Arcade Club or your whole account."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w47-data.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Het profiel met Download mijn gegevens",
+            "en": "The profile with Download my data"
+          }
+        },
+        {
+          "file": "2026-w47-delete-choice.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "De keuze wat je verwijdert",
+            "en": "The choice of what to delete"
+          }
+        }
+      ]
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Je krijgt je plek aan tafel terug op een ander toestel of na opnieuw inloggen.",
+      "en": "You get your seat back on another device or after signing in again."
+    },
+    {
+      "nl": "Puzzels uit de app staan ook op het web, en Verder spelen toont je spellen van andere toestellen.",
+      "en": "Puzzles from the app show on the web, and Continue lists your games from other devices."
+    },
+    {
+      "nl": "Uitnodigingslinks openen de app op het scherm Meedoen.",
+      "en": "Invite links open the app on the Join screen."
+    },
+    {
+      "nl": "Tik nog eens op een vakje om te wisselen tussen invullen en notities.",
+      "en": "Tap a selected cell again to switch between entry and notes."
+    },
+    {
+      "nl": "Knoppen voor troef breken woorden niet meer af op een telefoon.",
+      "en": "Trump buttons no longer split words on a phone."
+    },
+    {
+      "nl": "Een onbekend spel vraagt je de app bij te werken in plaats van te crashen.",
+      "en": "An unknown game asks you to update the app instead of crashing."
+    },
+    {
+      "nl": "Knoppen en randen op de accountpagina zijn beter leesbaar.",
+      "en": "Buttons and edges on the account page are easier to read."
+    }
+  ]
+}

@@ -6,6 +6,6 @@ packages:
 allowBuilds:
   esbuild: true # native binary (wrangler's bundler)
   workerd: true # downloads the Cloudflare Workers runtime binary
-  sharp: false # wrangler's optional image dependency; not needed to deploy
+  sharp: false # prebuilt binaries; no install script needed (wrangler, whats-new)
 
 minimumReleaseAge: 4320 # 3 days — blocks the worm/account-takeover window

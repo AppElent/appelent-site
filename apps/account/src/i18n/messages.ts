@@ -70,6 +70,41 @@ const nl = {
       'We konden deze app nu niet bereiken. Je gegevens zijn veilig; probeer het zo opnieuw.',
     retry: 'Opnieuw proberen',
     newTab: '(opent in een nieuw tabblad)',
+    tabsLabel: (app: string) => `${app}: onderdelen`,
+    tabData: 'Jouw gegevens',
+    tabNews: 'Wat is er nieuw',
+  },
+  news: {
+    show: 'Toon',
+    all: 'Alles',
+    new: 'Nieuw',
+    fixed: 'Opgelost',
+    version: 'Versie',
+    allVersions: 'Alle versies',
+    versionOption: (v: string, coming: boolean) =>
+      coming ? `${v} (komt nog)` : v,
+    from: 'Vanaf',
+    weekOf: (day: string) => `Week van ${day}`,
+    stage: {
+      web: (since: string | null) =>
+        since ? `Op het web sinds ${since}` : 'Op het web',
+      app: (since: string | null) =>
+        since ? `In de app sinds ${since}` : 'In de app',
+      store: (since: string | null) =>
+        since ? `In de App Store sinds ${since}` : 'In de App Store',
+    },
+    versionLine: (v: string, coming: boolean) =>
+      coming ? `versie ${v} · nog niet in de App Store` : `versie ${v}`,
+    newLabel: 'Nieuw',
+    fixedLabel: 'Opgelost en verbeterd',
+    changes: (n: number) => (n === 1 ? '1 wijziging' : `${n} wijzigingen`),
+    showWeek: 'Toon deze week',
+    hideWeek: 'Verberg deze week',
+    footnote:
+      'Alleen wat je als gebruiker merkt. Bijgewerkt elke dag; screenshots komen uit de wijziging zelf.',
+    empty: (app: string) => `Nog niets te melden over ${app}.`,
+    noMatch: 'Geen wijzigingen bij deze filters.',
+    clear: 'Filters wissen',
   },
   export: {
     title: 'Je gegevens downloaden',
@@ -185,6 +220,38 @@ const en: Messages = {
       'We could not reach this app right now. Your data is safe; try again in a moment.',
     retry: 'Try again',
     newTab: '(opens in a new tab)',
+    tabsLabel: (app) => `${app}: sections`,
+    tabData: 'Your data',
+    tabNews: "What's new",
+  },
+  news: {
+    show: 'Show',
+    all: 'All',
+    new: 'New',
+    fixed: 'Fixed',
+    version: 'Version',
+    allVersions: 'All versions',
+    versionOption: (v, coming) => (coming ? `${v} (coming)` : v),
+    from: 'From',
+    weekOf: (day) => `Week of ${day}`,
+    stage: {
+      web: (since) => (since ? `On the web since ${since}` : 'On the web'),
+      app: (since) => (since ? `In the app since ${since}` : 'In the app'),
+      store: (since) =>
+        since ? `In the App Store since ${since}` : 'In the App Store',
+    },
+    versionLine: (v, coming) =>
+      coming ? `version ${v} · not in the App Store yet` : `version ${v}`,
+    newLabel: 'New',
+    fixedLabel: 'Fixed and improved',
+    changes: (n) => (n === 1 ? '1 change' : `${n} changes`),
+    showWeek: 'Show this week',
+    hideWeek: 'Hide this week',
+    footnote:
+      'Only what you notice as a user. Updated every day; screenshots come from the change itself.',
+    empty: (app) => `Nothing to report about ${app} yet.`,
+    noMatch: 'No changes match these filters.',
+    clear: 'Clear filters',
   },
   export: {
     title: 'Download your data',
@@ -267,6 +334,29 @@ export function formatDay(epochMs: number, locale: Locale, now = Date.now()) {
     month: 'short',
     year: 'numeric',
   }).format(new Date(epochMs))
+}
+
+/** "16 november" / "16 November"; the year only when it is not this year. */
+export function formatWeekDay(day: string, locale: Locale, now = Date.now()) {
+  const date = new Date(`${day}T12:00:00Z`)
+  const thisYear = new Date(now).getUTCFullYear() === date.getUTCFullYear()
+  return new Intl.DateTimeFormat(numberLocale[locale], {
+    day: 'numeric',
+    month: 'long',
+    ...(thisYear ? {} : { year: 'numeric' }),
+    timeZone: 'UTC',
+  }).format(date)
+}
+
+/** "22 nov" / "22 Nov". */
+export function formatShortDay(day: string, locale: Locale) {
+  return new Intl.DateTimeFormat(numberLocale[locale], {
+    day: 'numeric',
+    month: 'short',
+    timeZone: 'UTC',
+  })
+    .format(new Date(`${day}T12:00:00Z`))
+    .replace('.', '')
 }
 
 /** "Gather, Foundry en Fairway". */

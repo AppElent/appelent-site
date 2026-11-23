@@ -1,0 +1,160 @@
+{
+  "week": "2026-W48",
+  "stage": "web",
+  "since": "2026-11-23",
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Energie: verbruik en kosten",
+        "en": "Energy: usage and costs"
+      },
+      "body": {
+        "nl": "Typ je meterstanden in en zie wat je huis per dag, maand en jaar verbruikte en kostte.",
+        "en": "Enter your meter readings and see what your home used and cost per day, month and year."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w48-energy-month.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Verbruik per dag in een maand",
+            "en": "Usage per day in a month"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Het web in de stijl van de app",
+        "en": "The web in the app's style"
+      },
+      "body": {
+        "nl": "De website heeft dezelfde kleuren en kaarten als de telefoon, en Start laat de dag van je groep zien.",
+        "en": "The website uses the phone's colours and cards, and Start shows your group's day."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w48-web-start.webp",
+          "width": 390,
+          "height": 846,
+          "alt": {
+            "nl": "Start op het web",
+            "en": "Start on the web"
+          }
+        },
+        {
+          "file": "2026-w48-web-recipes.webp",
+          "width": 187,
+          "height": 406,
+          "alt": {
+            "nl": "Recepten op het web in de donkere modus",
+            "en": "Recipes on the web in dark mode"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Zoeken met filters",
+        "en": "Search with filters"
+      },
+      "body": {
+        "nl": "Verfijn zoekresultaten op module, wie het toevoegde, wanneer en de status van een taak. Elke module heeft een eigen zoekknop.",
+        "en": "Narrow search results by module, who added it, when and task status. Every module has its own search button."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w48-search-filter.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Zoeken in taken met filters",
+            "en": "Searching tasks with filters"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Snel notities en afspraken toevoegen",
+        "en": "Quickly add notes and events"
+      },
+      "body": {
+        "nl": "Een nieuwe notitie of afspraak begin je in een invoerveld boven het toetsenbord, zodat je er snel een paar achter elkaar toevoegt.",
+        "en": "A new note or event starts in a composer above the keyboard, so you can add several in a row."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w48-note-composer.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Een notitie typen boven het toetsenbord",
+            "en": "Typing a note above the keyboard"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Instellingen per module",
+        "en": "Settings per module"
+      },
+      "body": {
+        "nl": "Taken, Boodschappen, Maaltijdplanner en Babylog hebben een tandwiel dat hun eigen instellingen opent.",
+        "en": "Tasks, Groceries, Meal planner and Baby log have a gear that opens their own settings."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w48-module-settings.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "De instellingen van Taken",
+            "en": "Task settings"
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "nl": "Schud om een probleem te melden",
+        "en": "Shake to report a problem"
+      },
+      "body": {
+        "nl": "Schud je telefoon of tik op Probleem melden om feedback te sturen.",
+        "en": "Shake your phone or tap Report a problem to send feedback."
+      },
+      "screenshots": []
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "Scrollen door de agenda volgt je vinger en schiet niet meer jaren door.",
+      "en": "Scrolling the agenda follows your finger instead of racing through years."
+    },
+    {
+      "nl": "Het invoerveld sleep je vanaf de hele kaart, en elk menu-item heeft een icoon.",
+      "en": "You drag the composer from anywhere on it, and every menu item has an icon."
+    },
+    {
+      "nl": "Met VoiceOver kun je items verplaatsen en hoor je waar ze terechtkomen.",
+      "en": "With VoiceOver you can move items and hear where they went."
+    },
+    {
+      "nl": "Het weekmenu noemt mensen bij hun voornaam.",
+      "en": "The week menu names people by their first name."
+    },
+    {
+      "nl": "Meer afkeuren worden herkend, zoals vissticks en hamlappen.",
+      "en": "More dislikes are recognised, such as fish fingers and pork steaks."
+    },
+    {
+      "nl": "Twee mensen die tegelijk kooktijden aanpassen houden allebei hun wijziging.",
+      "en": "Two people editing cooking times at once both keep their change."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "week": "2026-W48",
+  "stage": null,
+  "since": null,
+  "version": "1.1.0",
+  "unreleased": true,
+  "new": [
+    {
+      "title": {
+        "nl": "Naar je AppElent-account",
+        "en": "To your AppElent account"
+      },
+      "body": {
+        "nl": "Vanuit je accountinstellingen ga je met één tik naar je AppElent-account, waar je al je apps en gegevens beheert.",
+        "en": "From your account settings one tap takes you to your AppElent account, where you manage all your apps and data."
+      },
+      "screenshots": [
+        {
+          "file": "2026-w48-portal-link.webp",
+          "width": 645,
+          "height": 1400,
+          "alt": {
+            "nl": "Het profiel met Beheer je AppElent-account",
+            "en": "The profile with Manage your AppElent account"
+          }
+        }
+      ]
+    }
+  ],
+  "fixed": [
+    {
+      "nl": "De hele accountpagina en alle foutmeldingen zijn Nederlands op een Nederlandse pagina.",
+      "en": "The whole account page and every error message are in Dutch on a Dutch page."
+    },
+    {
+      "nl": "Na aanmelden of een nieuw wachtwoord kom je terug bij het spel waar je was.",
+      "en": "After signing up or resetting your password you return to the game you were on."
+    }
+  ]
+}
