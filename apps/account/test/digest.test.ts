@@ -143,6 +143,15 @@ describe('parseWeek', () => {
     )
   })
 
+  it('refuses the same line twice in a week', () => {
+    const w = week('2026-W47')
+    const { problems } = parseWeek(
+      { ...w, fixed: [...w.fixed, ...w.fixed] },
+      '2026-W47',
+    )
+    expect(problems).toEqual(['"Fixed 2026-W47": appears twice in the week'])
+  })
+
   it('refuses ids, links and addresses on the page', () => {
     expect(leaks('Fixed in APP-628')).toMatch(/issue id/)
     expect(leaks('See #149')).toMatch(/PR number/)

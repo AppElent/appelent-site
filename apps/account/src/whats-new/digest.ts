@@ -200,6 +200,13 @@ export function parseWeek(
       localized(line, `fixed[${i}]`, problems),
     ),
   }
+  // The page keys items by their English text.
+  const keys = [
+    ...digest.new.map((n) => n.title.en),
+    ...digest.fixed.map((f) => f.en),
+  ]
+  for (const key of new Set(keys.filter((k, i) => keys.indexOf(k) !== i)))
+    problems.push(`"${key}": appears twice in the week`)
   for (const text of textOf(digest)) {
     const leak = leaks(text)
     if (leak) problems.push(`"${text}": ${leak}`)

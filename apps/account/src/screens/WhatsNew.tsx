@@ -183,8 +183,8 @@ function Week({
       </div>
       {open ? (
         <div id={bodyId} className="stack">
-          {week.new.map((item, i) => (
-            <article key={`${i}-${item.title.en}`} className="card news-item">
+          {week.new.map((item) => (
+            <article key={item.title.en} className="card news-item">
               <div className="news-item-text">
                 <span className="news-label">{t.newLabel}</span>
                 <h3 className="news-item-title">{item.title[locale]}</h3>
@@ -216,8 +216,8 @@ function Week({
                 {t.fixedLabel}
               </span>
               <ul>
-                {week.fixed.map((line, i) => (
-                  <li key={`${i}-${line.en}`}>{line[locale]}</li>
+                {week.fixed.map((line) => (
+                  <li key={line.en}>{line[locale]}</li>
                 ))}
               </ul>
             </article>
