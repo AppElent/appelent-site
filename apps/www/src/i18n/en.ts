@@ -56,6 +56,7 @@ export const en = {
     footAppElent: 'AppElent',
     footContact: 'Contact',
     footAccount: 'Account',
+    footStatus: 'Status',
     copyright: '© 2026 AppElent',
   },
   home: {
@@ -248,6 +249,8 @@ export const en = {
     mailTitle: 'Email us',
     mailBody:
       'Mention the app, your device and what you did. A screenshot helps.',
+    statusBody: 'Is an app not working? Check for an outage on the',
+    statusLink: 'status page',
     faqTitle: 'Frequently asked questions',
     faq: {
       delete: {
