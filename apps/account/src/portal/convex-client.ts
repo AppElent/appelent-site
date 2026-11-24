@@ -37,19 +37,18 @@ export const markTokenRejected: typeof fetch = async (input, init) => {
 
 /**
  * An app saying the caller is not signed in: Foundry's `unauthenticated`
- * code, Gather's `Not authenticated`, or Convex's 401. A cached token can
- * expire between Clerk and the app, so this earns one retry with a fresh token.
+ * code, Gather's `Not authenticated` or keyed `groups:not-signed-in`, or
+ * Convex's 401. A cached token can expire between Clerk and the app, so this
+ * earns one retry with a fresh token.
  */
 export function isUnauthenticated(error: unknown): boolean {
   if (error instanceof TokenRejected) return true
   if (!(error instanceof ConvexError)) return false
   const data: unknown = error.data
   if (data === 'Not authenticated' || data === 'unauthenticated') return true
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    (data as { code?: unknown }).code === 'unauthenticated'
-  )
+  if (typeof data !== 'object' || data === null) return false
+  const { code, kind } = data as { code?: unknown; kind?: unknown }
+  return code === 'unauthenticated' || kind === 'groups:not-signed-in'
 }
 
 /** The `sub` claim of a JWT, without verifying it (the app does that). */

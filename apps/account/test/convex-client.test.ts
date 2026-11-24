@@ -16,6 +16,7 @@ vi.mock('convex/browser', () => ({
 
 const {
   createConvexPortalClient,
+  isUnauthenticated,
   markTokenRejected,
   ownTokens,
   TokenRejected,
@@ -100,6 +101,7 @@ describe('createConvexPortalClient', () => {
   it.each([
     ['Foundry', new ConvexError({ code: 'unauthenticated' })],
     ['Gather', new ConvexError('Not authenticated')],
+    ['Gather (keyed)', new ConvexError({ kind: 'groups:not-signed-in' })],
     ['Convex (401)', new TokenRejected('{"code":"InvalidAuthHeader"}')],
   ])(
     'asks Clerk for a fresh token once when %s says not signed in',
@@ -140,6 +142,12 @@ describe('createConvexPortalClient', () => {
     query.mockRejectedValue(new Error('Server error'))
     calls = 0
     await expect(client.summary()).rejects.toThrow('Server error')
+    expect(calls).toBe(1)
+
+    query.mockReset()
+    query.mockRejectedValue(new ConvexError({ kind: 'groups:not-found' }))
+    calls = 0
+    await expect(client.summary()).rejects.toBeInstanceOf(ConvexError)
     expect(calls).toBe(1)
   })
 
@@ -276,5 +284,27 @@ describe('createConvexPortalClient', () => {
     await expect(
       ownTokens(null, async () => jwtFor('user_a'))(),
     ).resolves.toBeNull()
+  })
+})
+
+describe('isUnauthenticated', () => {
+  it.each([
+    ['TokenRejected', new TokenRejected('Unauthorized')],
+    ['Gather string', new ConvexError('Not authenticated')],
+    ['unauthenticated string', new ConvexError('unauthenticated')],
+    ['Foundry code', new ConvexError({ code: 'unauthenticated' })],
+    ['Gather keyed refusal', new ConvexError({ kind: 'groups:not-signed-in' })],
+  ])('returns true for %s', (_label, error) => {
+    expect(isUnauthenticated(error)).toBe(true)
+  })
+
+  it.each([
+    ['an unrelated kind', new ConvexError({ kind: 'groups:not-found' })],
+    ['another code', new ConvexError({ code: 'forbidden' })],
+    ['another string', new ConvexError('Something else')],
+    ['null data', new ConvexError(null)],
+    ['a non-ConvexError', new Error('Not authenticated')],
+  ])('returns false for %s', (_label, error) => {
+    expect(isUnauthenticated(error)).toBe(false)
   })
 })
