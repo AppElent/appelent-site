@@ -184,7 +184,7 @@ describe('placeholders', () => {
       )
     if (pending.launchStatus) expect(home).toContain('PLACEHOLDER (item 2)')
     if (pending.privacy)
-      expect(render('privacy', 'en')).toContain('class="draft-note"')
+      expect(render('privacy', 'en')).toContain('PLACEHOLDER (item 3)')
   })
 
   it('carries no personal info on the home page', () => {

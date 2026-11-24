@@ -55,7 +55,6 @@ ${s.items ? html`<ul class="policy-list">${Object.values(s.items).map((item) => 
 ${paragraphs(s.outro)}
 </section>`,
 )}
-${pending.privacy ? html`<p class="draft-note">${t.draftNote}</p>` : ''}
 </div>
 </div>`
 

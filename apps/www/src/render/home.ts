@@ -72,6 +72,9 @@ ${apps.map((app) => {
 </div>
 </div>
 <p class="muted">${copy.apps[app.id].body}</p>
+<ul class="app-features">
+${Object.values(copy.apps[app.id].features).map((feature) => html`<li>${feature}</li>`)}
+</ul>
 <div class="app-actions">
 ${pending.launchStatus ? placeholderComment('item 2', `App Store status of ${app.name} (${app.appStore}); confirm in content/apps.ts`) : ''}${store}
 <a class="btn btn-outline" href="${app.web}">${t.openWeb}<span class="sr-only">: ${app.name}</span>${arrowIcon}</a>

@@ -24,16 +24,17 @@ From the repository root: `pnpm verify` (Biome, typecheck, tests), `pnpm build`,
 In this folder: `pnpm smoke <origin> [commit]` checks a running site; `pnpm launch:check` lists
 open placeholders and fails while any remain.
 
-## Before production (Eric confirms)
+## Content Eric confirmed (24 Nov 2026)
 
 The site carries no personal info (Eric, 22 Nov 2026): the home is a generic projects showcase. The
 items below live in [`src/content/owner.ts`](src/content/owner.ts) and
-[`src/content/apps.ts`](src/content/apps.ts). Each renders with a dashed outline and a
-`<!-- PLACEHOLDER (item n) -->` comment until its `pending` flag is false.
+[`src/content/apps.ts`](src/content/apps.ts). Setting a `pending` flag back to true renders the
+item with a dashed outline and a `<!-- PLACEHOLDER (item n) -->` comment, and `pnpm launch:check`
+then blocks the production deploy.
 
-1. Contact email (`owner.email`, today privacy@appelent.nl).
-2. App Store status per app: `appStore: 'live' | 'soon'` in `apps.ts`. Arcade Club is `soon`.
-3. Privacy text: the draft in the catalog's `privacy` merges the four app policies.
+1. Contact email: contact@appelent.nl.
+2. App Store status: no app is in the App Store yet, so every app shows "Binnenkort".
+3. Privacy text: the merged policy in the catalog's `privacy` is approved.
 
 ## Staging
 
@@ -55,16 +56,18 @@ One-time setup for the workflow (repository admin):
 
 By hand, signed in to Cloudflare: `pnpm deploy:staging` (build, guard, deploy).
 
-## Production (not in phase 1)
+## Production
 
-Nothing here routes `appelent.nl` or `www.appelent.nl`; the guard and `test/wrangler.test.ts` fail if
-anything does. The cutover is its own change, after Eric's go:
+A merge to `main` deploys staging first, then the `production` job: `pnpm launch:check`, build, the
+Worker-name guard (`appelent-www`), `wrangler deploy`, and the smoke check against
+`https://appelent.nl`. It uses the `production` GitHub Environment (the same Cloudflare token and
+account the account portal uses).
 
-1. `pnpm launch:check` passes.
-2. Add the `appelent.nl` and `www.appelent.nl` custom domains to the top-level config in
-   `wrangler.jsonc`, drop the phase-1 route check in `scripts/guard-worker.ts` and its test.
-3. Add a `production` job to `deploy.yml` (`needs: staging`, `environment: production`, main only,
-   `launch:check`, guard `appelent-www`, smoke `https://appelent.nl`).
-4. Move the apex DNS from the Vimexx parked page to the Worker, leaving MX, SPF and DKIM untouched.
-5. Retire developer-home `services/apex-favicon`; redirect each app's `/privacy` to
-   `https://appelent.nl/privacy#app-<id>`.
+The Worker runs on zone routes `appelent.nl/*` and `www.appelent.nl/*`, not custom domains: both
+hosts keep their existing proxied DNS records, which the Worker answers in front of; MX, SPF and DKIM
+are untouched. `www` 301s to the apex. To roll back, remove the two routes in the Cloudflare
+dashboard (Workers → appelent-www → Settings → Domains & Routes) and the parked page returns.
+
+Still open after the cutover: retire developer-home `services/apex-favicon` (its icon routes are more
+specific and keep winning, with the same icons), and redirect each app's `/privacy` to
+`https://appelent.nl/privacy#app-<id>` (APP-630).
