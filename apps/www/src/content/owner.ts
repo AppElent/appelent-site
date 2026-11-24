@@ -5,18 +5,18 @@
 // comment, and `pnpm launch:check` fails, which keeps it off production.
 
 export const owner = {
-  /** PLACEHOLDER (item 1): privacy@appelent.nl is the known default; Eric confirms. */
-  email: 'privacy@appelent.nl',
+  /** Eric confirmed 24 Nov 2026. */
+  email: 'contact@appelent.nl',
   github: 'https://github.com/AppElent',
 }
 
 export const pending = {
   /** Item 1: the contact email (`owner.email`) is confirmed. */
-  email: true,
+  email: false,
   /** Item 2: launch status per app (`apps.ts`, `appStore`) is confirmed. */
-  launchStatus: true,
+  launchStatus: false,
   /** Item 3: the merged privacy text (catalog `privacy`) is approved. */
-  privacy: true,
+  privacy: false,
 }
 
 export type PendingItem = keyof typeof pending

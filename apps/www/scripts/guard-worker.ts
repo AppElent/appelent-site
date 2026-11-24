@@ -1,9 +1,8 @@
 // Deploy guard (developer-home standards/deployments.md, "Guard Worker name"):
 //   node scripts/guard-worker.ts <environment> <expected-worker>
 // Fails when the Worker wrangler would deploy for <environment> is not
-// <expected-worker>, and, in phase 1 of APP-480, when any config block routes
-// appelent.nl or www.appelent.nl. Remove that second check in the production
-// cutover change, not before.
+// <expected-worker>, and when any env block other than production routes
+// appelent.nl or www.appelent.nl (a staging deploy must never take the apex).
 
 import {
   productionRouteViolations,
@@ -28,7 +27,7 @@ if (worker.name !== expected) {
 }
 for (const violation of productionRouteViolations(config)) {
   errors.push(
-    `wrangler.jsonc ${violation}: production hosts wait for the cutover (APP-480 phase 2).`,
+    `wrangler.jsonc ${violation}: only the production Worker may route a production host.`,
   )
 }
 if (errors.length) {

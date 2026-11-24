@@ -4,17 +4,23 @@
   // dist/ (pnpm build). Production is the top-level config and the staging
   // Worker is env.staging (developer-home standards/deployments.md).
   //
-  // PHASE 1 (APP-480): production has NO routes on purpose. appelent.nl still
-  // serves the Vimexx parked page, and the developer-home apex-favicon Worker
-  // owns the apex icon paths. Attaching appelent.nl and www.appelent.nl is the
-  // production cutover, a separate change after Eric's content and his go.
-  // scripts/guard-worker.ts and test/wrangler.test.ts fail while any config
-  // here routes a production host.
+  // Production (APP-480 cutover) runs on appelent.nl and www.appelent.nl as
+  // zone routes, not custom domains: both hosts already have proxied DNS
+  // records (the old Vimexx parked page), which a custom domain would refuse
+  // to replace. The Worker answers every request itself and never fetches that
+  // origin; www 301s to the apex. The developer-home apex-favicon Worker's
+  // more specific icon routes still win until it is retired; it serves the
+  // same icons. Only this top-level block may route a production host
+  // (scripts/guard-worker.ts, test/wrangler.test.ts).
   "name": "appelent-www",
   "main": "src/worker.ts",
   "compatibility_date": "2026-11-01",
   "workers_dev": false,
   "preview_urls": false,
+  "routes": [
+    { "pattern": "appelent.nl/*", "zone_name": "appelent.nl" },
+    { "pattern": "www.appelent.nl/*", "zone_name": "appelent.nl" }
+  ],
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",

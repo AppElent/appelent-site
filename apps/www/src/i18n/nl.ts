@@ -72,6 +72,13 @@ export const nl = {
     gather: {
       kind: 'Huishouden',
       body: 'Het huishouden samen: recepten, weekmenu, boodschappen en taken, gedeeld met je huisgenoten.',
+      features: {
+        recipes: 'Recepten bewaren of importeren via een webadres',
+        meals:
+          'Een weekmenu plannen en de ingrediënten in één keer op de boodschappenlijst zetten',
+        groceries: 'Boodschappenlijsten per winkel, die je samen afvinkt',
+        home: 'Taken, notities en een gedeelde agenda voor het hele huis',
+      },
       stores:
         'Groepen en hun leden, recepten (ook die je via een webadres importeert), weekmenu’s, boodschappen- en voorraadlijsten, taken, notities, agenda’s en afspraken, een babylogboek, huishoudfinanciën, proefnotities en foto’s.',
       notes: {
@@ -86,6 +93,13 @@ export const nl = {
     foundry: {
       kind: 'Training',
       body: 'Krachttraining en voeding bijhouden: sessies, schema’s, 1RM, hardlopen en fietsen.',
+      features: {
+        strength: 'Krachttraining per set loggen, met schema’s en je 1RM',
+        endurance: 'WOD’s, hardloop- en fietsritten in hetzelfde overzicht',
+        nutrition:
+          'Een voedingsdagboek met doelen en je eigen producten en recepten',
+        progress: 'Je voortgang per oefening en een overzicht van je week',
+      },
       stores:
         'Trainingen en sets, schema’s, WOD’s, 1RM en persoonlijke records, hardloop- en fietsritten, voedingsdagboek, voedingsdoelen, lichaamsmetingen en foto’s.',
       notes: {
@@ -98,6 +112,12 @@ export const nl = {
     fairway: {
       kind: 'Golf',
       body: 'Je golfronde op de baan: scores per hole, statistieken en je eigen banen.',
+      features: {
+        score: 'Per hole je score, putts, fairways en greens bijhouden',
+        distances: 'Afstanden tot de green via de gps van je telefoon',
+        stats: 'Statistieken en clubafstanden over al je rondes',
+        courses: 'Banen opzoeken en correcties insturen',
+      },
       stores:
         'Rondes met scores per hole, putts, fairways en greens, je handicap, thuisbaan en clubs, banen die je bewerkt, gastspelers die je toevoegt en correcties op banen die je instuurt.',
       notes: {
@@ -108,6 +128,12 @@ export const nl = {
     arcade: {
       kind: 'Spellen',
       body: 'Spellen met vrienden, aan tafel of op afstand: quiz, kaart- en dobbelspellen en schaak.',
+      features: {
+        quiz: 'Quiz- en woordspellen voor de hele groep',
+        cards: 'Kaartspellen zoals toepen en pesten',
+        dice: 'Dobbelspellen zoals mexen en blufpoker',
+        join: 'Meedoen met een QR-code; gasten hebben geen account nodig',
+      },
       stores:
         'Je spelersnaam, de kamers en spellen die je host of waar je aan meedoet, en je zetten en scores.',
       notes: {
@@ -124,10 +150,8 @@ export const nl = {
     title: 'Privacybeleid',
     lead: 'Eén privacybeleid voor alle apps: welke gegevens we bewaren, waarom, en hoe je ze inziet of verwijdert.',
     scope: 'Gather · Foundry · Fairway · Arcade Club · appelent.nl',
-    updated: 'Concept van 21 november 2026',
+    updated: 'Bijgewerkt op 24 november 2026',
     tocLabel: 'Inhoud',
-    draftNote:
-      'Concept. Deze tekst voegt de vier huidige app-beleiden samen en wacht op Erics goedkeuring voordat hij ze vervangt.',
     sections: {
       who: {
         anchor: 'wie',

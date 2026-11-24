@@ -62,7 +62,7 @@ export function workerFor(
   return env
 }
 
-/** Hosts that belong to the production cutover, not to phase 1. */
+/** Hosts only the production Worker (the top-level config) may route. */
 export const productionHosts = ['appelent.nl', 'www.appelent.nl']
 
 export function routedHosts(worker: Omit<WorkerConfig, 'env'>): string[] {
@@ -76,10 +76,9 @@ export function routedHosts(worker: Omit<WorkerConfig, 'env'>): string[] {
   })
 }
 
-/** Every config block (top level and each env) that routes a production host. */
+/** Every env block (staging and any other) that routes a production host. */
 export function productionRouteViolations(config: WorkerConfig): string[] {
   const blocks: [string, Omit<WorkerConfig, 'env'>][] = [
-    ['top level', config],
     ...Object.entries(config.env ?? {}).map(
       ([name, env]) =>
         [`env.${name}`, env] as [string, Omit<WorkerConfig, 'env'>],

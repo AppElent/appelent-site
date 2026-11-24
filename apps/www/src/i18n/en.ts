@@ -17,6 +17,8 @@ export interface PolicySection {
 export interface AppCopy {
   kind: string
   body: string
+  /** Home page: what you can do with the app, one short line each. */
+  features: Record<string, string>
   /** Privacy section 3: what the app keeps. */
   stores: string
   /** Privacy section 3: what is specific to this app. */
@@ -95,6 +97,13 @@ export const en = {
     gather: {
       kind: 'Household',
       body: 'Run the household together: recipes, meal plan, groceries and tasks, shared with the people you live with.',
+      features: {
+        recipes: 'Save recipes or import them from a web address',
+        meals:
+          'Plan the week’s meals and put every ingredient on the grocery list at once',
+        groceries: 'Grocery lists per store that you check off together',
+        home: 'Tasks, notes and a shared calendar for the whole household',
+      },
       stores:
         'Groups and their Members, recipes (also ones you import from a web address), meal plans, grocery and pantry lists, tasks, notes, calendars and events, a baby log, household finances, tastings and photos.',
       notes: {
@@ -109,6 +118,13 @@ export const en = {
     foundry: {
       kind: 'Training',
       body: 'Track strength training and nutrition: sessions, routines, 1RM, runs and rides.',
+      features: {
+        strength:
+          'Log strength training set by set, with routines and your 1RM',
+        endurance: 'WODs, runs and rides in the same overview',
+        nutrition: 'A food diary with goals and your own foods and recipes',
+        progress: 'Your progress per exercise and an overview of your week',
+      },
       stores:
         'Workouts and sets, routines, WODs, 1RM and personal records, runs and rides, food diary, nutrition goals, body measurements and photos.',
       notes: {
@@ -121,6 +137,12 @@ export const en = {
     fairway: {
       kind: 'Golf',
       body: 'Your golf round on the course: scores per hole, statistics and your own courses.',
+      features: {
+        score: 'Track score, putts, fairways and greens on every hole',
+        distances: 'Distances to the green from your phone’s GPS',
+        stats: 'Statistics and club distances across all your rounds',
+        courses: 'Look up courses and send in corrections',
+      },
       stores:
         'Rounds with scores per hole, putts, fairways and greens, your handicap index, home course and clubs, courses you edit, guest players you add and course corrections you send.',
       notes: {
@@ -131,6 +153,12 @@ export const en = {
     arcade: {
       kind: 'Games',
       body: 'Games with friends, at the table or apart: quizzes, card and dice games, and chess.',
+      features: {
+        quiz: 'Quiz and word games for the whole group',
+        cards: 'Card games such as Toepen and Pesten',
+        dice: 'Dice games such as Mexen and Liar’s Dice',
+        join: 'Join with a QR code; guests need no account',
+      },
       stores:
         'Your display name, the rooms and games you host or join, and your moves and scores.',
       notes: {
@@ -147,10 +175,8 @@ export const en = {
     title: 'Privacy policy',
     lead: 'One privacy policy for every app: what data we keep, why, and how you view or delete it.',
     scope: 'Gather · Foundry · Fairway · Arcade Club · appelent.nl',
-    updated: 'Draft of 21 November 2026',
+    updated: 'Updated 24 November 2026',
     tocLabel: 'Contents',
-    draftNote:
-      'Draft. This text merges the four current app policies and waits for Eric’s approval before it replaces them.',
     sections: {
       who: {
         anchor: 'who',

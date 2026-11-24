@@ -10,8 +10,8 @@ export interface App {
   web: string
   appStoreId: string
   /**
-   * LAUNCH STATUS — placeholder until Eric confirms which apps are public at
-   * launch (APP-480 open item 2). `live` shows Apple's App Store badge;
+   * LAUNCH STATUS. Eric confirmed 24 Nov 2026: no app is in the App Store
+   * yet, so every app is `soon`. `live` shows Apple's App Store badge;
    * `soon` shows the dashed "Binnenkort" / "Coming soon" state and no link.
    * Flip an app by changing this one value.
    */
@@ -24,21 +24,21 @@ export const apps: readonly App[] = [
     name: 'Gather',
     web: 'https://gather.appelent.nl',
     appStoreId: '6801454605',
-    appStore: 'live',
+    appStore: 'soon',
   },
   {
     id: 'foundry',
     name: 'Foundry',
     web: 'https://foundry.appelent.nl',
     appStoreId: '6811609419',
-    appStore: 'live',
+    appStore: 'soon',
   },
   {
     id: 'fairway',
     name: 'Fairway',
     web: 'https://fairway.appelent.nl',
     appStoreId: '6833832527',
-    appStore: 'live',
+    appStore: 'soon',
   },
   {
     id: 'arcade',

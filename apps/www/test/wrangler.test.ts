@@ -18,13 +18,15 @@ describe('wrangler.jsonc', () => {
     expect(staging.vars?.INDEXING).toBe('off')
   })
 
-  // PHASE 1 (APP-480): the production cutover replaces this test.
-  it('routes no production host anywhere yet', () => {
-    expect(routedHosts(workerFor(config, undefined))).toEqual([])
+  it('deploys production as appelent-www on the apex and www only', () => {
+    const production = workerFor(config, 'production')
+    expect(production.name).toBe('appelent-www')
+    expect(routedHosts(production)).toEqual(['appelent.nl', 'www.appelent.nl'])
+    expect(production.vars?.INDEXING).toBe('on')
     expect(productionRouteViolations(config)).toEqual([])
   })
 
-  it('catches a production host in any block', () => {
+  it('catches a production host outside the production block', () => {
     const bad: WorkerConfig = {
       name: 'x',
       routes: [{ pattern: 'appelent.nl/*', zone_name: 'appelent.nl' }],
@@ -36,7 +38,6 @@ describe('wrangler.jsonc', () => {
       },
     }
     expect(productionRouteViolations(bad)).toEqual([
-      'top level routes appelent.nl',
       'env.staging routes www.appelent.nl',
     ])
   })
