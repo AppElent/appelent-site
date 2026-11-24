@@ -24,6 +24,12 @@ export const notFoundPaths: Record<Locale, string> = {
 /** Where the Worker sends /account. */
 export const accountUrl = 'https://account.appelent.nl'
 
+/**
+ * The public status page (APP-631): UptimeRobot, one row per app for web and
+ * backend. Becomes https://status.appelent.nl once that custom domain exists.
+ */
+export const statusUrl = 'https://stats.uptimerobot.com/r6SahVpaDP'
+
 export function outputFile(path: string): string {
   if (path.endsWith('/')) return `${path.slice(1)}index.html`
   return `${path.slice(1)}.html`

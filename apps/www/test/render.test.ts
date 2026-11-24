@@ -5,7 +5,7 @@ import { type Locale, locales, messages } from '../src/i18n/index.ts'
 import { homePage } from '../src/render/home.ts'
 import { type AssetUrls, context } from '../src/render/layout.ts'
 import { notFoundPage, privacyPage, supportPage } from '../src/render/pages.ts'
-import { pagePaths } from '../src/routes.ts'
+import { pagePaths, statusUrl } from '../src/routes.ts'
 
 const assets: AssetUrls = {
   css: '/assets/styles.css',
@@ -145,6 +145,17 @@ describe.each(locales)('%s pages', (locale) => {
     const out = render('support', locale)
     expect(out).toContain(`href="mailto:${owner.email}"`)
     expect(out.split('class="faq-item"').length - 1).toBe(3)
+    expect(out).toContain(
+      `<a href="${statusUrl}">${copy.support.statusLink}</a>`,
+    )
+  })
+
+  it('links the status page from the footer', () => {
+    const out = render('home', locale)
+    const footer = out.slice(out.indexOf('<footer'))
+    expect(footer).toContain(
+      `<a href="${statusUrl}">${copy.shell.footStatus}</a>`,
+    )
   })
 
   it('renders the 404 page without alternates and noindex', () => {

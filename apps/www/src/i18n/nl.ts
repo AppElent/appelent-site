@@ -33,6 +33,7 @@ export const nl = {
     footAppElent: 'AppElent',
     footContact: 'Contact',
     footAccount: 'Account',
+    footStatus: 'Status',
     copyright: '© 2026 AppElent',
   },
   home: {
@@ -225,6 +226,8 @@ export const nl = {
     lead: 'Loop je ergens tegenaan of heb je een idee? Laat het weten.',
     mailTitle: 'Mail ons',
     mailBody: 'Noem de app, je toestel en wat je deed. Een screenshot helpt.',
+    statusBody: 'Werkt een app niet? Kijk of er een storing is op de',
+    statusLink: 'statuspagina',
     faqTitle: 'Veelgestelde vragen',
     faq: {
       delete: {

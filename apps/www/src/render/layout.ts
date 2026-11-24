@@ -6,6 +6,7 @@ import {
   origin,
   type PageId,
   pagePaths,
+  statusUrl,
   switchHref,
 } from '../routes.ts'
 import { type Html, html, placeholderComment } from './html.ts'
@@ -132,6 +133,7 @@ ${apps.map((app) => html`<a href="${app.web}">${app.name}</a>`)}
 <span class="footer-title">${copy.shell.footAppElent}</span>
 <a href="${pagePaths.privacy[locale]}">${copy.shell.navPrivacy}</a>
 <a href="${pagePaths.support[locale]}">${copy.shell.navSupport}</a>
+<a href="${statusUrl}">${copy.shell.footStatus}</a>
 <a href="${accountUrl}">${copy.shell.footAccount}</a>
 </nav>
 <div class="footer-col">

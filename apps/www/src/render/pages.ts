@@ -2,7 +2,7 @@ import { apps } from '../content/apps.ts'
 import { owner, pending } from '../content/owner.ts'
 import type { PolicySection } from '../i18n/en.ts'
 import { fmt } from '../i18n/index.ts'
-import { pagePaths } from '../routes.ts'
+import { pagePaths, statusUrl } from '../routes.ts'
 import { type Html, html, placeholderComment } from './html.ts'
 import { document, emailLink, type PageContext } from './layout.ts'
 
@@ -79,6 +79,7 @@ export function supportPage(ctx: PageContext): string {
 <h2 id="mail-title" class="section-title">${t.mailTitle}</h2>
 <p class="muted">${t.mailBody}</p>
 ${emailLink(owner.email, 'btn btn-action')}
+<p class="muted">${t.statusBody} <a href="${statusUrl}">${t.statusLink}</a>.</p>
 </section>
 <section class="faq" aria-labelledby="faq-title">
 <h2 id="faq-title" class="section-title">${t.faqTitle}</h2>
