@@ -26,9 +26,11 @@ export const accountUrl = 'https://account.appelent.nl'
 
 /**
  * The public status page (APP-631): UptimeRobot, one row per app for web and
- * backend. Becomes https://status.appelent.nl once that custom domain exists.
+ * backend. A Cloudflare redirect rule sends status.appelent.nl (302) to
+ * https://stats.uptimerobot.com/r6SahVpaDP, since the free plan has no custom
+ * domain.
  */
-export const statusUrl = 'https://stats.uptimerobot.com/r6SahVpaDP'
+export const statusUrl = 'https://status.appelent.nl'
 
 export function outputFile(path: string): string {
   if (path.endsWith('/')) return `${path.slice(1)}index.html`
