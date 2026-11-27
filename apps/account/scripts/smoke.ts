@@ -22,6 +22,14 @@ const checks: Check[] = [
     status: 200,
     contains: '<html lang="en"',
   },
+  // An app passes its language (APP-673): it wins over the cookie.
+  { path: '/sign-in?lang=en', status: 200, contains: '<html lang="en"' },
+  {
+    path: '/sign-in?lang=nl',
+    cookie: 'lang=en',
+    status: 200,
+    contains: '<html lang="nl"',
+  },
   { path: '/', status: 200 },
   { path: '/export', status: 200 },
   { path: '/apps/gather', status: 200 },

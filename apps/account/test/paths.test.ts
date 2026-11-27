@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { localeCookieValue, localeFromCookie } from '../src/i18n/core.ts'
+import {
+  initialLocale,
+  localeCookieValue,
+  localeFromCookie,
+} from '../src/i18n/core.ts'
 import { profilePath, safeRedirect } from '../src/lib/paths.ts'
 
 describe('safeRedirect', () => {
@@ -40,6 +44,29 @@ describe('locale', () => {
     expect(localeFromCookie('a=1; lang=en')).toBe('en')
     expect(localeFromCookie('lang=fr')).toBe('nl')
     expect(localeFromCookie(undefined)).toBe('nl')
+  })
+
+  it("follows an app's ?lang over the cookie on first load", () => {
+    expect(initialLocale('en', 'lang=nl')).toEqual({
+      locale: 'en',
+      fromQuery: true,
+    })
+    expect(initialLocale('nl', 'lang=en')).toEqual({
+      locale: 'nl',
+      fromQuery: true,
+    })
+  })
+
+  it('falls back to the cookie when ?lang is missing or unknown', () => {
+    expect(initialLocale(undefined, 'lang=en')).toEqual({
+      locale: 'en',
+      fromQuery: false,
+    })
+    expect(initialLocale('fr', undefined)).toEqual({
+      locale: 'nl',
+      fromQuery: false,
+    })
+    expect(initialLocale(['en'], undefined).fromQuery).toBe(false)
   })
 
   it('writes a first-party cookie', () => {
