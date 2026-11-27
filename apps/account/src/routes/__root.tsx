@@ -7,9 +7,9 @@ import {
 } from '@tanstack/react-router'
 import { createIsomorphicFn } from '@tanstack/react-start'
 import { getRequestHeader } from '@tanstack/react-start/server'
-import { type ReactNode, useMemo, useState } from 'react'
+import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import { clerkPublishableKey, convexUrls } from '../config.ts'
-import { type Locale, localeFromCookie } from '../i18n/core.ts'
+import { initialLocale, type Locale } from '../i18n/core.ts'
 import { LocaleProvider, persistLocale } from '../i18n/locale-context.tsx'
 import { messages } from '../i18n/messages.ts'
 import { clerkAppearance, clerkLocalization } from '../lib/clerk-theme.ts'
@@ -22,12 +22,16 @@ import {
 import { NotFoundPage } from '../screens/NotFoundPage.tsx'
 import appCss from '../styles.css?url'
 
-const readLocale = createIsomorphicFn()
-  .server(() => localeFromCookie(getRequestHeader('cookie')))
-  .client(() => localeFromCookie(document.cookie))
+const readCookie = createIsomorphicFn()
+  .server(() => getRequestHeader('cookie'))
+  .client(() => document.cookie)
 
 export const Route = createRootRoute({
-  loader: () => ({ locale: readLocale() }),
+  loader: ({ location }) =>
+    initialLocale(
+      (location.search as Record<string, unknown>).lang,
+      readCookie(),
+    ),
   headers: ({ ssr }) => {
     const nonce = ssr?.nonce
     if (!nonce) return securityHeaders
@@ -63,8 +67,16 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: ReactNode }) {
-  const initial = Route.useLoaderData().locale
+  const { locale: initial, fromQuery } = Route.useLoaderData()
   const [locale, setLocaleState] = useState<Locale>(initial)
+  // An app's `?lang` is remembered like a switch choice, so the next page
+  // (and the next visit without `?lang`) keeps the app's language. Once per
+  // document: a later client navigation back to a `?lang` URL (the return
+  // from sign-in, back/forward) must not undo a language the user picked.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: first load only
+  useEffect(() => {
+    if (fromQuery) persistLocale(initial)
+  }, [])
   const nonce = useRouter().options.ssr?.nonce
   const value = useMemo(
     () => ({

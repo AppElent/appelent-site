@@ -27,7 +27,10 @@ your sign-in. Built from the approved design in
   (`/apps/<app>/whats-new`, APP-628), a weekly digest per app from
   [`content/whats-new`](../../content/whats-new/README.md), bundled at build time. Its type,
   version and from-date filters live in the query (`?type=new&version=1.1.0&from=2026-11-01`).
-- Dutch by default, English through the `lang` cookie (NL | EN switch). Light and dark follow the OS.
+- Dutch by default, English through the `lang` cookie (NL | EN switch). An app that opens the
+  portal passes its language as `?lang=en|nl` (APP-673): it wins over the cookie on that load and is
+  saved to the cookie. An in-app browser does not share the app's Clerk session, so the portal asks
+  to sign in again there; a sign-in handoff is out of scope. Light and dark follow the OS.
 
 ## Commands
 
