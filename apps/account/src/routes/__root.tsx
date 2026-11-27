@@ -70,10 +70,13 @@ function RootDocument({ children }: { children: ReactNode }) {
   const { locale: initial, fromQuery } = Route.useLoaderData()
   const [locale, setLocaleState] = useState<Locale>(initial)
   // An app's `?lang` is remembered like a switch choice, so the next page
-  // (and the next visit without `?lang`) keeps the app's language.
+  // (and the next visit without `?lang`) keeps the app's language. Once per
+  // document: a later client navigation back to a `?lang` URL (the return
+  // from sign-in, back/forward) must not undo a language the user picked.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: first load only
   useEffect(() => {
     if (fromQuery) persistLocale(initial)
-  }, [fromQuery, initial])
+  }, [])
   const nonce = useRouter().options.ssr?.nonce
   const value = useMemo(
     () => ({
