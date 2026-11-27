@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Verwijderen</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+button{font:inherit;border:0;background:none;padding:0;cursor:pointer;color:inherit}
+</style>
+</helmet>
+<div style="width: {{w}}px; min-height: {{h}}px; box-sizing: border-box; background: {{c.surface}}; color: {{c.ink}}; font-family: Inter, ui-sans-serif, system-ui, sans-serif; font-size: 16px; line-height: 24px; display: flex; flex-direction: column; position: relative">
+  <header style="border-bottom: 1px solid {{c.line}}; background: {{c.raised}}">
+    <div style="max-width: 1184px; margin: 0 auto; padding: 0 {{gutter}}px; height: 64px; display: flex; align-items: center; gap: 10px">
+      <svg width="32" height="32" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#1c2333"></rect><path d="M256 104 L376 408 H322 L296 336 H216 L190 408 H136 Z M232 290 H280 L256 222 Z" fill="#f4f6fb"></path><circle cx="388" cy="132" r="34" fill="#7fd1c8"></circle></svg>
+      <span style="font-family: 'Bricolage Grotesque', Inter, sans-serif; font-weight: 600; font-size: 20px">AppElent</span>
+      <span style="font-size: 14px; color: {{c.muted}}; border-left: 1px solid {{c.line}}; padding-left: 10px">{{t.account}}</span>
+    </div>
+  </header>
+
+  <main style="max-width: 760px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: {{padTop}}px {{gutter}}px 64px; display: flex; flex-direction: column; gap: 24px">
+    <sc-if value="{{hasBack}}" hint-placeholder-val="{{ true }}">
+      <a href="#" style="align-self: flex-start; min-height: 44px; display: flex; align-items: center; gap: 6px; color: {{c.tealInk}}; font-weight: 600; font-size: 15px; text-decoration: none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>{{back}}
+      </a>
+    </sc-if>
+    <sc-if value="{{hasSteps}}" hint-placeholder-val="{{ false }}">
+      <ol aria-label="{{t.stepsLabel}}" style="margin: 0; padding: 0; list-style: none; display: flex; gap: 8px; flex-wrap: wrap">
+        <sc-for list="{{steps}}" as="s" hint-placeholder-count="3">
+          <li aria-current="{{s.current}}" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: {{s.fg}}"><span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 999px; background: {{s.bg}}; color: {{s.dotFg}}; display: flex; align-items: center; justify-content: center; font-size: 13px">{{s.n}}</span>{{s.label}}<span aria-hidden="true" style="color: {{c.line}}; padding: 0 4px">{{s.sep}}</span></li>
+        </sc-for>
+      </ol>
+    </sc-if>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-size: {{h1}}px; line-height: 1.15; font-weight: 600; text-wrap: balance">{{title}}</h1>
+      <p style="margin: 0; color: {{c.muted}}; text-wrap: pretty">{{lead}}</p>
+    </div>
+
+    <sc-for list="{{blocks}}" as="b" hint-placeholder-count="2">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <!-- Note -->
+        <sc-if value="{{b.isNote}}" hint-placeholder-val="{{ false }}">
+          <div role="note" style="display: flex; gap: 12px; padding: 16px 18px; border-radius: 16px; background: {{b.bg}}; border: 1px solid {{b.line}}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{b.fg}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top: 2px"><path d="{{b.icon}}"></path></svg>
+            <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600; color: {{b.fg}}">{{b.title}}</span><span style="font-size: 14px; line-height: 20px">{{b.text}}</span></span>
+          </div>
+        </sc-if>
+        <!-- App rows -->
+        <sc-if value="{{b.isApps}}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{b.hasHead}}" hint-placeholder-val="{{ false }}"><h2 style="margin: 0; font-size: 18px; line-height: 26px; font-weight: 600">{{b.head}}</h2></sc-if>
+          <ul style="margin: 0; padding: 0; list-style: none; background: {{c.raised}}; border: 1px solid {{c.line}}; border-radius: 22px; overflow: hidden">
+            <sc-for list="{{b.rows}}" as="r" hint-placeholder-count="4">
+              <li style="display: flex; gap: 14px; align-items: {{r.align}}; padding: 16px 20px; border-top: {{r.top}}; flex-wrap: wrap">
+                <span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 10px; background: {{r.iconBg}}; color: {{r.iconFg}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'Bricolage Grotesque', Inter, sans-serif; font-size: 18px">{{r.glyph}}</span>
+                <span style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column">
+                  <span style="font-weight: 600">{{r.name}}</span>
+                  <span style="font-size: 14px; line-height: 20px; color: {{r.subFg}}">{{r.sub}}</span>
+                </span>
+                <span role="status" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: {{r.stFg}}; white-space: nowrap">
+                  <sc-if value="{{r.spin}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9"></path></svg></sc-if>
+                  <sc-if value="{{r.ok}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if>
+                  <sc-if value="{{r.warn}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg></sc-if>
+                  {{r.status}}
+                </span>
+                <sc-if value="{{r.hasFix}}" hint-placeholder-val="{{ false }}">
+                  <a href="#" style="flex-basis: 100%; margin-left: 54px; min-height: 44px; display: flex; align-items: center; color: {{c.tealInk}}; font-weight: 600; font-size: 15px">{{r.fix}}</a>
+                </sc-if>
+              </li>
+            </sc-for>
+          </ul>
+          <sc-if value="{{b.hasFoot}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; padding: 0 4px; font-size: 14px; line-height: 20px; color: {{c.muted}}">{{b.foot}}</p></sc-if>
+        </sc-if>
+        <!-- Check -->
+        <sc-if value="{{b.isCheck}}" hint-placeholder-val="{{ false }}">
+          <label style="display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 14px; border: 1px solid {{c.line}}; background: {{c.raised}}; cursor: pointer">
+            <input type="checkbox" checked="{{b.on}}" style="width: 20px; height: 20px; margin: 2px 0 0; accent-color: {{c.danger}}">
+            <span style="font-size: 15px; line-height: 22px">{{b.text}}</span>
+          </label>
+        </sc-if>
+        <!-- Actions -->
+        <sc-if value="{{b.isActions}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; flex-direction: {{dir}}">
+            <button disabled="{{b.disabled}}" style="min-height: 48px; padding: 0 22px; border-radius: 14px; font-weight: 600; font-size: 15px; background: {{b.bg}}; color: {{b.fg}}; text-align: center">{{b.primary}}</button>
+            <sc-if value="{{b.hasSecondary}}" hint-placeholder-val="{{ true }}">
+              <a href="#" style="min-height: 48px; padding: 0 22px; border-radius: 14px; font-weight: 600; font-size: 15px; border: 1px solid {{c.line}}; color: {{c.ink}}; display: flex; align-items: center; justify-content: center; text-decoration: none">{{b.secondary}}</a>
+            </sc-if>
+          </div>
+          <sc-if value="{{b.hasFoot}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 14px; line-height: 20px; color: {{c.muted}}">{{b.foot}}</p></sc-if>
+        </sc-if>
+      </div>
+    </sc-for>
+  </main>
+
+  <!-- Clerk reverification, shown as its own dialog -->
+  <sc-if value="{{hasReverify}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; inset: 0; background: rgba(13,16,24,.5)"></div>
+    <div role="dialog" aria-label="{{t.reTitle}}" style="position: absolute; left: 50%; top: 140px; width: {{dialogW}}px; margin-left: -{{dialogHalf}}px; box-sizing: border-box; padding: 28px; border-radius: 22px; background: {{c.raised}}; box-shadow: 0 24px 64px rgba(0,0,0,.3); display: flex; flex-direction: column; gap: 16px">
+      <h2 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 600">{{t.reTitle}}</h2>
+      <p style="margin: 0; font-size: 15px; line-height: 22px; color: {{c.muted}}">{{t.reText}}</p>
+      <label for="code" style="font-size: 14px; font-weight: 600">{{t.reLabel}}</label>
+      <input id="code" value="48 21 07" inputmode="numeric" style="height: 48px; border-radius: 12px; border: 2px solid {{c.focus}}; padding: 0 14px; font: inherit; font-size: 20px; letter-spacing: 6px; background: {{c.surface}}; color: {{c.ink}}">
+      <button style="min-height: 48px; border-radius: 14px; background: {{c.action}}; color: {{c.onAction}}; font-weight: 600; text-align: center">{{t.reGo}}</button>
+      <span style="font-size: 13px; color: {{c.muted}}">{{t.reFoot}}</span>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"screen":{"editor":"enum","options":["app","appBlocked","appConfirm","all","allBlocked","allReverify","allProgress","allRetry","done"],"default":"all"},"theme":{"editor":"enum","options":["light","dark"],"default":"light"},"lang":{"editor":"enum","options":["nl","en"],"default":"nl"},"size":{"editor":"enum","options":["desktop","phone"],"default":"desktop"},"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const screen = this.props.screen ?? 'all';
+    const theme = this.props.theme ?? 'light';
+    const en = (this.props.lang ?? 'nl') === 'en';
+    const phone = (this.props.size ?? 'desktop') === 'phone';
+    const L = (nl, e) => (en ? e : nl);
+    const C = {
+      light: { surface: '#f6f7fb', raised: '#ffffff', sunk: '#eceff6', line: '#dde2ec', ink: '#1c2333', muted: '#55607a', tealInk: '#1d6f67', tealSoft: '#e2f4f2', action: '#1c2333', onAction: '#f4f6fb', focus: '#1d6f67', warnInk: '#9a3412', warnSoft: '#fdeee4', warnLine: '#f0c4a8', danger: '#a4262c', onDanger: '#ffffff', disabledBg: '#e3e6ee', disabledFg: '#6b7590' },
+      dark: { surface: '#12161f', raised: '#1c2333', sunk: '#0d1018', line: '#2c3549', ink: '#f4f6fb', muted: '#a7b1c6', tealInk: '#7fd1c8', tealSoft: '#14302e', action: '#f4f6fb', onAction: '#1c2333', focus: '#7fd1c8', warnInk: '#fdba8c', warnSoft: '#3a2418', warnLine: '#7a3e1d', danger: '#f2a0a4', onDanger: '#2a0c0e', disabledBg: '#262e42', disabledFg: '#8c96ad' }
+    };
+    const c = C[theme];
+    const icons = { info: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 16v-4M12 8h.01', warn: 'M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z', lock: 'M6 11h12v10H6zM8 11V7a4 4 0 0 1 8 0v4' };
+    const t = {
+      account: L('Account', 'Account'), stepsLabel: L('Stappen', 'Steps'),
+      reTitle: L('Bevestig dat jij het bent', 'Confirm it’s you'),
+      reText: L('We hebben een code gestuurd naar j•••@voorbeeld.nl. Zo weten we zeker dat niemand anders je account verwijdert.', 'We sent a code to j•••@voorbeeld.nl. That way we know nobody else deletes your account.'),
+      reLabel: L('Code', 'Code'), reGo: L('Bevestig', 'Confirm'), reFoot: L('Of bevestig met je wachtwoord of passkey.', 'Or confirm with your password or passkey.')
+    };
+    const apps = {
+      gather: { name: 'Gather', glyph: 'G', iconBg: 'linear-gradient(135deg,#4fb39a,#2a7d73)', iconFg: '#ffffff', holds: L('2 huishoudens, 418 taken, 36 recepten, 212 foto’s', '2 households, 418 tasks, 36 recipes, 212 photos') },
+      foundry: { name: 'Foundry', glyph: 'F', iconBg: '#141a10', iconFg: '#c8f04a', holds: L('184 trainingen, 1.920 eetregels', '184 workouts, 1,920 food entries') },
+      fairway: { name: 'Fairway', glyph: 'W', iconBg: 'linear-gradient(135deg,#2fa25a,#14693a)', iconFg: '#eaffd8', holds: L('22 rondes, 3 eigen banen', '22 rounds, 3 own courses') },
+      arcade: { name: 'Arcade Club', glyph: 'A', iconBg: '#11131c', iconFg: '#5ad1f0', holds: L('Nog niet gebruikt', 'Not used yet') },
+      apple: { name: L('Inloggen met Apple', 'Sign in with Apple'), glyph: '', iconBg: c.sunk, iconFg: c.ink, holds: L('De koppeling met je Apple ID wordt ingetrokken', 'The link with your Apple ID is revoked') }
+    };
+    const st = {
+      none: { status: '', stFg: c.muted },
+      ok: { status: L('Kan', 'Ready'), stFg: c.tealInk, ok: true },
+      done: { status: L('Verwijderd', 'Deleted'), stFg: c.tealInk, ok: true },
+      busy: { status: L('Bezig…', 'Working…'), stFg: c.ink, spin: true },
+      wait: { status: L('Wacht', 'Waiting'), stFg: c.muted },
+      blocked: { status: L('Eerst regelen', 'Sort out first'), stFg: c.warnInk, warn: true },
+      failed: { status: L('Mislukt', 'Failed'), stFg: c.warnInk, warn: true }
+    };
+    const row = (key, s, o = {}) => ({ ...apps[key], name: apps[key].name, glyph: apps[key].glyph, sub: o.sub ?? apps[key].holds, subFg: o.subFg ?? c.muted, ok: false, spin: false, warn: false, ...st[s], hasFix: !!o.fix, fix: o.fix ?? '', align: o.fix ? 'flex-start' : 'center' });
+    const apps4 = (rows) => rows.map((r, i) => ({ ...r, top: i === 0 ? '0' : '1px solid ' + c.line }));
+    const appsBlock = (head, rows, foot) => ({ isApps: true, hasHead: !!head, head: head ?? '', rows: apps4(rows), hasFoot: !!foot, foot: foot ?? '' });
+    const note = (title, text, tone) => ({ isNote: true, title, text, bg: tone === 'warn' ? c.warnSoft : c.tealSoft, line: tone === 'warn' ? c.warnLine : 'transparent', fg: tone === 'warn' ? c.warnInk : c.tealInk, icon: tone === 'warn' ? icons.warn : icons.info });
+    const actions = (primary, o = {}) => ({ isActions: true, primary, disabled: o.disabled ? 'true' : null, bg: o.disabled ? c.disabledBg : (o.danger ? c.danger : c.action), fg: o.disabled ? c.disabledFg : (o.danger ? c.onDanger : c.onAction), hasSecondary: !!o.secondary, secondary: o.secondary ?? '', hasFoot: !!o.foot, foot: o.foot ?? '' });
+    const check = (text, on) => ({ isCheck: true, text, on: on ? 'true' : null });
+    const stepNames = [L('Controleren', 'Check'), L('Bevestigen', 'Confirm'), L('Verwijderen', 'Delete')];
+    const stepsAt = (k) => stepNames.map((label, i) => ({ n: i < k ? '✓' : i + 1, label, current: i === k ? 'step' : null, sep: i < 2 ? '›' : '', fg: i <= k ? c.ink : c.muted, bg: i < k ? c.tealInk : (i === k ? c.action : c.sunk), dotFg: i <= k ? c.onAction : c.muted }));
+
+    let title = '', lead = '', blocks = [], hasBack = true, back = L('Terug naar Gather', 'Back to Gather'), steps = null, reverify = false;
+    const blocker = L('Je bent de enige beheerder van Familie Jansen, met 3 andere leden.', 'You are the only admin of Familie Jansen, which has 3 other members.');
+    const fixGather = L('Maak iemand anders beheerder in Gather', 'Make someone else admin in Gather');
+
+    if (screen === 'app' || screen === 'appConfirm') {
+      title = L('Gegevens van Gather verwijderen', 'Delete your Gather data');
+      lead = L('Alleen Gather. Je AppElent-account en je andere apps blijven zoals ze zijn; je kunt Gather later opnieuw beginnen.', 'Gather only. Your AppElent account and your other apps stay as they are; you can start Gather again later.');
+      blocks = [
+        appsBlock(L('Wat er weggaat', 'What goes'), [row('gather', screen === 'app' ? 'ok' : 'none')], L('Huishoudens waar anderen in zitten blijven voor hen bestaan; jij verdwijnt als lid. Een huishouden met alleen jou gaat helemaal weg.', 'Households with other people stay for them; you leave as a member. A household with only you goes entirely.')),
+        { ...note(L('Eerst downloaden?', 'Download first?'), L('Je kunt alles van Gather eerst als zip ophalen onder Downloaden.', 'You can get everything from Gather as a zip under Download first.')) }
+      ];
+      if (screen === 'appConfirm') blocks.push(check(L('Ik begrijp dat dit niet ongedaan kan worden gemaakt.', 'I understand this cannot be undone.'), true), actions(L('Verwijder mijn Gather-gegevens', 'Delete my Gather data'), { danger: true, secondary: L('Annuleer', 'Cancel') }));
+      else blocks.push(check(L('Ik begrijp dat dit niet ongedaan kan worden gemaakt.', 'I understand this cannot be undone.'), false), actions(L('Verwijder mijn Gather-gegevens', 'Delete my Gather data'), { disabled: true, secondary: L('Annuleer', 'Cancel'), foot: L('Vink eerst het vakje aan.', 'Tick the box first.') }));
+    } else if (screen === 'appBlocked') {
+      title = L('Gegevens van Gather verwijderen', 'Delete your Gather data');
+      lead = L('Dit kan nog niet: Gather vraagt eerst één ding.', 'Not yet: Gather needs one thing first.');
+      blocks = [appsBlock(null, [row('gather', 'blocked', { sub: blocker, subFg: c.ink, fix: fixGather })]), actions(L('Verwijder mijn Gather-gegevens', 'Delete my Gather data'), { disabled: true, secondary: L('Terug', 'Back'), foot: L('Daarna kom je hier terug; de controle loopt opnieuw.', 'Then come back here; the check runs again.') })];
+    } else if (screen === 'all' || screen === 'allBlocked') {
+      back = L('Terug naar overzicht', 'Back to overview'); steps = stepsAt(0);
+      title = L('Je hele AppElent-account verwijderen', 'Delete your whole AppElent account');
+      lead = L('Dit wist je account en je gegevens in elke app. Daarna kun je met dit e-mailadres opnieuw beginnen, maar zonder je oude gegevens.', 'This erases your account and your data in every app. You can start again with this email address afterwards, but without your old data.');
+      const blocked = screen === 'allBlocked';
+      blocks = [
+        appsBlock(L('Wat er weggaat', 'What goes'), [row('gather', blocked ? 'blocked' : 'ok', blocked ? { sub: blocker, subFg: c.ink, fix: fixGather } : {}), row('foundry', 'ok'), row('fairway', 'ok'), row('arcade', 'ok'), row('apple', 'ok')],
+          L('Elke app controleert zelf of het kan. Een gedeeld huishouden blijft voor de anderen.', 'Each app checks for itself whether it can. A shared household stays for the others.')),
+        note(L('Eerst downloaden?', 'Download first?'), L('Haal je gegevens van alle apps op als één zip, onder Downloaden.', 'Get the data of every app as one zip, under Download.')),
+        blocked ? actions(L('Verder', 'Continue'), { disabled: true, secondary: L('Annuleer', 'Cancel'), foot: L('Eerst Gather regelen. Daarna kom je hier terug.', 'Sort out Gather first. Then come back here.') })
+                : actions(L('Verder', 'Continue'), { secondary: L('Annuleer', 'Cancel') })
+      ];
+    } else if (screen === 'allReverify') {
+      back = L('Terug', 'Back'); steps = stepsAt(1); reverify = true;
+      title = L('Laatste controle', 'Last check'); lead = L('Typ de code om te bevestigen. Daarna begint het verwijderen meteen.', 'Enter the code to confirm. Deleting starts right after.');
+      blocks = [check(L('Ik begrijp dat mijn account en mijn gegevens in alle apps weggaan en dat dit niet ongedaan kan worden gemaakt.', 'I understand that my account and my data in every app go, and that this cannot be undone.'), true), actions(L('Verwijder mijn account', 'Delete my account'), { danger: true, secondary: L('Annuleer', 'Cancel') })];
+    } else if (screen === 'allProgress' || screen === 'allRetry') {
+      hasBack = false; steps = stepsAt(2);
+      const retry = screen === 'allRetry';
+      title = retry ? L('Eén app lukte nog niet', 'One app didn’t work yet') : L('Je account wordt verwijderd', 'Your account is being deleted');
+      lead = retry ? L('Je account bestaat nog, zodat je het opnieuw kunt proberen. De rest is al weg.', 'Your account still exists, so you can try again. The rest is already gone.') : L('Laat dit venster open. Het duurt meestal minder dan een minuut.', 'Keep this window open. It usually takes less than a minute.');
+      blocks = [appsBlock(null, [row('apple', 'done'), row('gather', 'done', { sub: L('Klaar', 'Done') }), row('foundry', retry ? 'failed' : 'busy', retry ? { sub: L('Foundry was niet bereikbaar.', 'Foundry could not be reached.'), subFg: c.ink } : { sub: L('Trainingen en eetregels', 'Workouts and food entries') }), row('fairway', retry ? 'done' : 'wait', { sub: retry ? L('Klaar', 'Done') : apps.fairway.holds }), row('arcade', retry ? 'done' : 'wait', { sub: retry ? L('Klaar', 'Done') : apps.arcade.holds })],
+        L('Als laatste gaat je AppElent-account zelf weg. Elke app ruimt daarna ook nog op als vangnet.', 'Last, your AppElent account itself goes. Each app also cleans up afterwards, as a safety net.'))];
+      if (retry) blocks.push(actions(L('Probeer opnieuw', 'Try again'), { danger: true, secondary: L('Later', 'Later'), foot: L('Ga je later verder, dan ruimt Foundry je gegevens alsnog op zodra je account weg is.', 'If you continue later, Foundry still cleans up your data once your account is gone.') }));
+    } else if (screen === 'done') {
+      hasBack = false;
+      title = L('Je account is verwijderd', 'Your account is deleted');
+      lead = L('Je gegevens in Gather, Foundry, Fairway en Arcade Club zijn weg, net als de koppeling met je Apple ID. Je bent uitgelogd.', 'Your data in Gather, Foundry, Fairway and Arcade Club is gone, as is the link with your Apple ID. You are signed out.');
+      blocks = [note(L('Nog een app op je telefoon?', 'Still an app on your phone?'), L('Verwijder die ook van je telefoon. Openen kan geen kwaad: hij vraagt je opnieuw in te loggen.', 'Remove it from your phone too. Opening it does no harm: it asks you to sign in again.')), actions(L('Naar appelent.nl', 'To appelent.nl'), {})];
+    }
+    const w = phone ? 390 : 1280;
+    return {
+      c, t, w, h: phone ? 1400 : 1100, gutter: phone ? 16 : 48, padTop: phone ? 16 : 40, h1: phone ? 30 : 40, dir: phone ? 'column' : 'row',
+      title, lead, blocks, hasBack, back, hasSteps: !!steps, steps: steps ?? [], hasReverify: reverify,
+      dialogW: phone ? 358 : 440, dialogHalf: phone ? 179 : 220
+    };
+  }
+}
+</script>
+</body>
+</html>
